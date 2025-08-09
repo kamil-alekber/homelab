@@ -2,21 +2,88 @@ apiVersion: k0sctl.k0sproject.io/v1beta1
 kind: Cluster
 metadata:
   name: k0s-cluster
-  user: admin
 spec:
   hosts:
-  - ssh:
-      address: 10.0.0.1
-      user: root
-      port: 22
-      keyPath: null
-    role: controller
-  - ssh:
-      address: 10.0.0.2
-      user: root
-      port: 22
-      keyPath: null
-    role: worker
+    - ssh:
+        address: 192.168.8.100
+        user: root
+        port: 22
+        keyPath: ~/.ssh/id_rsa
+      role: controller
+    - ssh:
+        address: 192.168.8.101
+        user: root
+        port: 22
+        keyPath: ~/.ssh/id_rsa
+      role: worker
+    - ssh:
+        address: 192.168.8.102
+        user: root
+        port: 22
+        keyPath: ~/.ssh/id_rsa
+      role: worker
+    - ssh:
+        address: 192.168.8.103
+        user: root
+        port: 22
+        keyPath: ~/.ssh/id_rsa
+      role: worker
+    - ssh:
+        address: 192.168.8.104
+        user: root
+        port: 22
+        keyPath: ~/.ssh/id_rsa
+      role: worker
+  k0s:
+    version: v1.30.2+k0s.0 # adjust as desired
+    config:
+      apiVersion: k0s.k0sproject.io/v1beta1
+      kind: ClusterConfig
+      metadata:
+        name: k0s
+      spec:
+        extensions:
+          helm:
+            repositories:
+              - name: traefik
+                url: https://helm.traefik.io/traefik
+              - name: metallb
+                url: https://metallb.github.io/metallb
+              - name: cert-manager
+                url: https://charts.jetstack.io
+              - name: argocd
+                url: https://argoproj.github.io/argo-helm
+            charts:
+              - name: cert-manager
+                chartname: jetstack/cert-manager
+                version: v1.18.2
+                namespace: cert-manager
+                values: |
+                  installCRDs: true
+              - name: argocd
+                chartname: argocd/argo-cd
+                version: 8.2.7
+                namespace: argocd
+              - name: traefik
+                chartname: traefik/traefik
+                version: 37.0.0
+                namespace: traefik-system
+                values: |
+                  service:
+                    enabled: true
+                    type: LoadBalancer
+                    externalIPs: [192.168.8.20]
+              - name: metallb
+                chartname: metallb/metallb
+                version: 0.15.2
+                namespace: metallb-system
+                values: |
+                  configInline:
+                    address-pools:
+                      - name: generic-cluster-pool
+                        protocol: layer2
+                        addresses:
+                          - 192.168.8.20-192.168.8.30
   options:
     wait:
       enabled: true
@@ -38,8 +105,3 @@ spec:
       taint: k0sctl.k0sproject.io/evict=true
       effect: NoExecute
       controllerWorkers: false
-extensions: 
-  helm: 
-    repositories:
-    - name: traefik
-      url: https://helm.traefik.io/traefik

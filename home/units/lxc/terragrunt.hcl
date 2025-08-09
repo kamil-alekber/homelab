@@ -8,10 +8,10 @@ terraform {
 
 inputs = {
   desired_count     = values.desired_count
-
-  target_node       = values.target_node
-  host_prefix       = values.host_prefix
-  ipv4_ip_start     = values.ipv4_ip_start
-  ssh_public_keys   = values.ssh_public_keys
-  os_type           = "debian"
+  target_node       = "node-1"
+  host_prefix       = "k0s"
+  ipv4_ip_start     = 100
+  ssh_public_keys   = "~/.ssh/id_rsa"
+  memory            = 4096
+  cpu               = 4
 }
