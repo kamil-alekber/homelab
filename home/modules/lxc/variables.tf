@@ -102,28 +102,10 @@ variable "vlan_tag" {
   default     = 0
 }
 
-variable "ipv4_address" {
-  description = "Defaults to DHCP, for static IPv4 address set CIDR."
+variable "ipv4_network" {
+  description = "IPv4 network in CIDR format, e.g. `192.168.8.0/24`."
   type        = string
-  default     = "dhcp"
-}
-
-variable "ipv4_gateway" {
-  description = "Defaults to DHCP, for static IPv4 gateway set IP address."
-  type        = string
-  default     = null
-}
-
-variable "ipv6_address" {
-  description = "Defaults to DHCP, for static IPv6 address set CIDR."
-  type        = string
-  default     = "dhcp"
-}
-
-variable "ipv6_gateway" {
-  description = "Defaults to DHCP, for static IPv6 gateway set IP address."
-  type        = string
-  default     = null
+  default     = "192.168.8"
 }
 
 variable "dns_domain" {

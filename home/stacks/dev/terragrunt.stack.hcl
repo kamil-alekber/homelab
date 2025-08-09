@@ -1,4 +1,4 @@
-unit "lxc" {
+unit "lxc-containers" {
   source = "../../units/lxc"
   path   = "lxc"
 

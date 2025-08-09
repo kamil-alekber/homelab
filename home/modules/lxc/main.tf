@@ -20,9 +20,12 @@ resource "proxmox_lxc" "basic" {
     name   = var.vnic_name
     bridge = var.vnic_bridge
     tag    = var.vlan_tag
-    ip     = var.ipv4_address
-    gw     = var.ipv4_gateway
-    ip6    = var.ipv6_address
-    gw6    = var.ipv6_gateway
+
+    ip     = "${var.ipv4_network}.${count.index+1}/24"
+    gw     = "${var.ipv4_network}.1"
+    
+    # ip6    = "${var.ipv6_network}:${count.index+1}/64"
+    # gw6    = "${var.ipv6_network}.1"
   }
+
 }
