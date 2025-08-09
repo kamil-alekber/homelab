@@ -14,5 +14,5 @@ inputs = {
   ipv4_address      = "192.168.8.101/24"
   ipv4_gateway      = "192.168.8.1"
 
-  desired_count     = 2
+  desired_count     = values.desired_count
 }
