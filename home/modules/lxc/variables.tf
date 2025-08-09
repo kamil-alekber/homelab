@@ -125,3 +125,14 @@ variable "dns_server" {
   type        = string
   default     = null
 }
+
+variable "user_ssh_key_public" {
+  description = "Public SSH Key for LXC user."
+  default     = null
+  type        = string
+  sensitive   = true
+  validation {
+    condition     = can(regex("(?i)PRIVATE", var.user_ssh_key_public)) == false
+    error_message = "Error: Private SSH Key."
+  }
+}
