@@ -11,14 +11,14 @@ variable "desired_count" {
 # REQUIRED VARIABLES
 # ---------------------------------------------------------------------------------------------------------------------
 
-variable "hostname" {
-  description = "The hostname of the VM"
+variable "host_prefix" {
+  description = "The hostname prefix for the LXC containers"
   type        = string
 }
 
 
 variable "target_node" {
-  description = "The Proxmox node to create the VM on"
+  description = "The Proxmox node to create the LXC on"
   type        = string
 }
 
@@ -27,7 +27,7 @@ variable "target_node" {
 # ---------------------------------------------------------------------------------------------------------------------
 
 variable "password" {
-  description = "The password for the root user of the VM"
+  description = "The password for the root user of the LXC"
   type        = string
   default     = "goodlife"
 }
@@ -91,7 +91,7 @@ variable "vnic_name" {
 }
 
 variable "vnic_bridge" {
-  description = "Networking adapter bridge, e.g. `vmbr0`."
+  description = "Networking adapter bridge, e.g. `LXCbr0`."
   type        = string
   default     = "vmbr0"
 }

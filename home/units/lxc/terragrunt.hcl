@@ -7,8 +7,8 @@ terraform {
 }
 
 inputs = {
-  hostname          = "k0s-node-1"
-  target_node       = "node-1"
+  target_node       = values.target_node
+  host_prefix       = values.host_prefix
 
   desired_count     = values.desired_count
 }
