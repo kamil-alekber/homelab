@@ -1,4 +1,4 @@
 output "network_info" {
-  value = proxmox_lxc.basic[*].network.ip
+  value = [for vm in proxmox_lxc.basic : vm.network[0].ip]
   sensitive = false
 }
