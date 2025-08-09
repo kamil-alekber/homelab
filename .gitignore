@@ -1,0 +1,4 @@
+.terragrunt-local-state/
+.terragrunt-cache/
+.terragrunt-stack/
+root.hcl
