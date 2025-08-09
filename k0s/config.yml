@@ -61,6 +61,12 @@ spec:
         keyPath: ~/.ssh/id_rsa
       role: controller
     - ssh:
+        address: 192.168.8.102
+        user: root
+        port: 22
+        keyPath: ~/.ssh/id_rsa
+      role: worker
+    - ssh:
         address: 192.168.8.103
         user: root
         port: 22
@@ -68,12 +74,6 @@ spec:
       role: worker
     - ssh:
         address: 192.168.8.104
-        user: root
-        port: 22
-        keyPath: ~/.ssh/id_rsa
-      role: worker
-    - ssh:
-        address: 192.168.8.105
         user: root
         port: 22
         keyPath: ~/.ssh/id_rsa

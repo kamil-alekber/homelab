@@ -54,7 +54,7 @@ variable "rootfs_size" {
 variable "ostemplate" {
   description = "The OS template to use for the LXC container"
   type        = string
-  default     = "local:vztmpl/alpine-3.21-default_20241217_amd64.tar.xz"
+  default     = "local:vztmpl/debian-12-turnkey-core_18.1-1_amd64.tar.gz"
   
 }
 
