@@ -13,4 +13,5 @@ inputs = {
   host_prefix       = values.host_prefix
   ipv4_ip_start     = values.ipv4_ip_start
   ssh_public_keys   = values.ssh_public_keys
+  os_type           = "debian"
 }

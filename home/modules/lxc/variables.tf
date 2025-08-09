@@ -136,3 +136,14 @@ variable "user_ssh_key_public" {
     error_message = "Error: Private SSH Key."
   }
 }
+
+
+variable "os_type" {
+  description = "Container OS specific setup, uses setup scripts in `/usr/share/lxc/config/<ostype>.common.conf`."
+  type        = string
+  default     = "unmanaged"
+  validation {
+    condition     = contains(["alpine", "archlinux", "centos", "debian", "devuan", "fedora", "gentoo", "nixos", "opensuse", "ubuntu", "unmanaged"], var.os_type)
+    error_message = "Invalid OS type setting."
+  }
+}
