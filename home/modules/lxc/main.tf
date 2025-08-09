@@ -1,4 +1,4 @@
-resource "proxmox_lxc" "basic-[count.index]" {
+resource "proxmox_lxc" "basic" {
   count = var.desired_count
 
   target_node  = var.target_node
