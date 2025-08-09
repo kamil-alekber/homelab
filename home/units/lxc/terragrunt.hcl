@@ -13,5 +13,6 @@ inputs = {
   ipv4_ip_start     = 100
   ssh_public_keys   = "~/.ssh/id_rsa"
   memory            = 4096
-  cpu               = 4
+  cores             = 4
+  swap              = 1024
 }
