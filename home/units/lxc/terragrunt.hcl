@@ -7,8 +7,9 @@ terraform {
 }
 
 inputs = {
+  desired_count     = values.desired_count
+
   target_node       = values.target_node
   host_prefix       = values.host_prefix
-
-  desired_count     = values.desired_count
+  ipv4_ip_start     = values.ipv4_ip_start
 }

@@ -103,9 +103,15 @@ variable "vlan_tag" {
 }
 
 variable "ipv4_network" {
-  description = "IPv4 network in CIDR format, e.g. `192.168.8.0/24`."
+  description = "IPv4 network part e.g. `192.168.8`."
   type        = string
   default     = "192.168.8"
+}
+
+variable "ipv4_ip_start" {
+  description = "IPv4 IP start part e.g. `100`."
+  type        = number
+  default     = 100
 }
 
 variable "dns_domain" {

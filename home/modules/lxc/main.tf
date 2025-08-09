@@ -2,7 +2,7 @@ resource "proxmox_lxc" "basic" {
   count = var.desired_count
 
   target_node  = var.target_node
-  hostname     = "${var.host_prefix}-${count.index + 1}"
+  hostname     = "${var.host_prefix}-${count.index}"
   ostemplate   = var.ostemplate
   password     = var.password
   unprivileged = var.unprivileged
@@ -21,7 +21,7 @@ resource "proxmox_lxc" "basic" {
     bridge = var.vnic_bridge
     tag    = var.vlan_tag
 
-    ip     = "${var.ipv4_network}.${count.index+1}/24"
+    ip     = "${var.ipv4_network}.${var.ipv4_ip_start + count.index}/24"
     gw     = "${var.ipv4_network}.1"
     
     # ip6    = "${var.ipv6_network}:${count.index+1}/64"
