@@ -2,7 +2,7 @@ resource "proxmox_lxc" "basic" {
   count = var.desired_count
 
   target_node  = var.target_node
-  hostname     = "${host_prefix}-${count.index + 1}"
+  hostname     = "${var.host_prefix}-${count.index + 1}"
   ostemplate   = var.ostemplate
   password     = var.password
   unprivileged = var.unprivileged
