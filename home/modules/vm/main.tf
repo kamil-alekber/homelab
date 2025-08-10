@@ -10,7 +10,8 @@ resource "proxmox_vm_qemu" "vm" {
     target_node = var.target_node
     onboot      = var.onboot
     clone       = var.template
-
+    full_clone  = var.full_clone
+    
     network {
         id     = 0
         model  = "virtio"

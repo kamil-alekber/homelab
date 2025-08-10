@@ -7,7 +7,7 @@ terraform {
 }
 
 inputs = {
-  desired_count = 3
+  desired_count = values.desired_count
   host_prefix   = "k0s-node"
   target_node   = "node-1"
 
@@ -15,5 +15,6 @@ inputs = {
   ipv4_network  = "192.168.8"
   ipv4_ip_start = 100
   ipv4_cidr     = 24
+  template      = "alpine-template"
 }
 

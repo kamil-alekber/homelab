@@ -72,7 +72,14 @@ variable "tags" {
 variable "template" {
   description = "The template to clone the VM from"
   type        = string
-  default     = "talos-base"
+  default     = "alpine-template"
+}
+
+variable "full_clone" {
+  description = "Whether to use a full clone of the template (default: false)"
+  type        = bool
+  default     = true
+  
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
