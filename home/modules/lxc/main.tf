@@ -11,12 +11,6 @@ resource "proxmox_lxc" "basic" {
   swap         = var.swap
   start        = var.start
   ssh_public_keys = (var.user_ssh_key_public != null ? file("${var.user_ssh_key_public}") : null)
-  features  {
-    nesting = var.features.nesting
-    mount   = var.features.mount
-    fuse    = var.features.fuse
-    keyctl  = var.features.keyctl
-  }
 
   rootfs {
     storage = var.rootfs_storage
@@ -35,4 +29,11 @@ resource "proxmox_lxc" "basic" {
     # gw6    = "${var.ipv6_network}.1"
   }
 
+
+  features  {
+      nesting = var.nesting
+      mount   = var.mount
+      fuse    = var.fuse
+      keyctl  = var.keyctl
+  }
 }
