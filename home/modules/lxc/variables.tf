@@ -147,3 +147,14 @@ variable "os_type" {
     error_message = "Invalid OS type setting."
   }
 }
+
+variable "features" {
+  description = "LXC features to enable, e.g. `nesting=1`."
+  type       = map(any)
+  default     = {
+    nesting = true
+    mount   = "nfs;cifs"
+    fuse    = false
+    keyctl  = true
+  }
+}

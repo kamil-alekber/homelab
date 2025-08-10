@@ -11,6 +11,7 @@ resource "proxmox_lxc" "basic" {
   swap         = var.swap
   start        = var.start
   ssh_public_keys = (var.user_ssh_key_public != null ? file("${var.user_ssh_key_public}") : null)
+  features     = var.features
 
   rootfs {
     storage = var.rootfs_storage
