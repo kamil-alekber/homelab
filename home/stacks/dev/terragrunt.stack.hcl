@@ -8,3 +8,12 @@ unit "k0s-containers" {
   }
 }
 
+unit "k0s-vm" {
+  source = "../../units/vm"
+  path   = "vm"
+
+  values = {
+    version       = "HEAD"
+  }
+}
+

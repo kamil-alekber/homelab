@@ -1,0 +1,72 @@
+---
+# Update package cache (apt or apk)
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  when: ansible_facts.pkg_mgr == 'apt'
+
+- name: Update apk cache (noop, ensured by apk add) & install openssh on Alpine
+  apk:
+    name: openssh
+    state: present
+    update_cache: yes
+  when: ansible_facts.pkg_mgr == 'apk'
+
+# Ensure openssh-server is installed on Debian/Ubuntu
+- name: Ensure openssh-server is installed (Debian/Ubuntu)
+  apt:
+    name: openssh-server
+    state: present
+  when: ansible_facts.pkg_mgr == 'apt'
+
+# Ensure openssh installed on Alpine (already handled above, kept for idempotence)
+- name: Ensure openssh is installed (Alpine)
+  apk:
+    name: openssh
+    state: present
+  when: ansible_facts.pkg_mgr == 'apk'
+
+- name: Read local public key
+  local_action: command cat {{ public_key_path }}
+  register: local_pubkey
+  changed_when: false
+
+- name: Ensure .ssh directory exists
+  file:
+    path: /root/.ssh
+    state: directory
+    mode: "0700"
+    owner: root
+    group: root
+
+- name: Add local public key to authorized_keys
+  authorized_key:
+    user: root
+    key: "{{ local_pubkey.stdout }}"
+    state: present
+    manage_dir: false
+
+- name: Harden sshd_config to allow key auth and disable password (password kept for now until confirmed)
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PasswordAuthentication"
+    line: "PasswordAuthentication no"
+    backup: yes
+  notify: Restart sshd
+
+- name: Ensure PubkeyAuthentication yes
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?PubkeyAuthentication"
+    line: "PubkeyAuthentication yes"
+    backup: yes
+  notify: Restart sshd
+
+- name: Ensure AuthorizedKeysFile present
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?AuthorizedKeysFile"
+    line: "AuthorizedKeysFile .ssh/authorized_keys"
+    backup: yes
+  notify: Restart sshd

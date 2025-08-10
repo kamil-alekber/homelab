@@ -7,8 +7,13 @@ terraform {
 }
 
 inputs = {
-  # Required inputs
-  name              = "k0s-node-1"
-  target_node       = "node-1"
+  desired_count = 3
+  host_prefix   = "k0s-node"
+  target_node   = "node-1"
+
+  # Optional static IP range start
+  ipv4_network  = "192.168.8"
+  ipv4_ip_start = 100
+  ipv4_cidr     = 24
 }
 

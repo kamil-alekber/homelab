@@ -15,4 +15,5 @@ inputs = {
   memory            = 4096
   cores             = 4
   swap              = 1024
+  ostemplate        = "local:vztmpl/alpine-3.21-default_20241217_amd64.tar.xz"
 }
