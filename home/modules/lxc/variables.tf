@@ -148,13 +148,26 @@ variable "os_type" {
   }
 }
 
-variable "features" {
-  description = "LXC features to enable, e.g. `nesting=1`."
-  type       = map(any)
-  default     = {
-    nesting = true
-    mount   = "nfs;cifs"
-    fuse    = false
-    keyctl  = true
-  }
+variable "nesting" {
+  description = "Enable nesting for the LXC container."
+  type        = bool
+  default     = true
+}
+
+variable "mount" {
+  description = "Enable mount for the LXC container."
+  type        = string
+  default     = "nfs;cifs"
+}
+
+variable "fuse" {
+  description = "Enable FUSE for the LXC container."
+  type        = bool
+  default     = false
+}
+
+variable "keyctl" {
+  description = "Enable keyctl for the LXC container."
+  type        = bool
+  default     = true
 }
