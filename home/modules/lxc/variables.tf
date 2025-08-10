@@ -153,21 +153,3 @@ variable "nesting" {
   type        = bool
   default     = true
 }
-
-variable "mount" {
-  description = "Enable mount for the LXC container."
-  type        = string
-  default     = "nfs;cifs"
-}
-
-variable "fuse" {
-  description = "Enable FUSE for the LXC container."
-  type        = bool
-  default     = false
-}
-
-variable "keyctl" {
-  description = "Enable keyctl for the LXC container."
-  type        = bool
-  default     = true
-}

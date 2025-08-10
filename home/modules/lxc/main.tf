@@ -32,8 +32,5 @@ resource "proxmox_lxc" "basic" {
 
   features  {
       nesting = var.nesting
-      mount   = var.mount
-      fuse    = var.fuse
-      keyctl  = var.keyctl
   }
 }
