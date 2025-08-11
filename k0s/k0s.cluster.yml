@@ -83,13 +83,6 @@ spec:
                 chartname: metallb/metallb
                 version: 0.15.2
                 namespace: metallb-system
-                values: |
-                  configInline:
-                    address-pools:
-                      - name: generic-cluster-pool
-                        protocol: layer2
-                        addresses:
-                          - 192.168.8.20-192.168.8.30
   options:
     wait:
       enabled: true
