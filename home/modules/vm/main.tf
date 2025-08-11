@@ -5,7 +5,6 @@ locals {
 resource "proxmox_vm_qemu" "vm" {
     count       = var.desired_count
 
-    vmid        = local.use_multi ? 0 : var.vmid
     name        = local.use_multi ? format("%s-%d", coalesce(var.host_prefix, var.name), count.index) : var.name
     target_node = var.target_node
     onboot      = var.onboot
@@ -18,7 +17,6 @@ resource "proxmox_vm_qemu" "vm" {
         bridge = "vmbr0"
     }
 
-    # Optional static IPv4 via cloud-init (ipconfig0)
     ipconfig0 = var.ipv4_network != null ? (
       local.use_multi ?
         format(
@@ -39,10 +37,4 @@ resource "proxmox_vm_qemu" "vm" {
       )
     ) : null
 
-    lifecycle {
-        ignore_changes = [
-            vmid,
-            network
-        ]
-    }
 }

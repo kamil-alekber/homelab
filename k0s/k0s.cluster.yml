@@ -9,7 +9,7 @@ spec:
         user: root
         port: 22
         keyPath: ~/.ssh/id_rsa
-      role: controller
+      role: controller+worker
     - ssh:
         address: 192.168.8.101
         user: root
@@ -34,6 +34,62 @@ spec:
         port: 22
         keyPath: ~/.ssh/id_rsa
       role: worker
+  k0s:
+    config:
+      apiVersion: k0s.k0sproject.io/v1beta1
+      kind: ClusterConfig
+      metadata:
+        name: k0s-cluster
+      spec:
+        extensions:
+          helm:
+            repositories:
+              - name: containeroo
+                url: https://charts.containeroo.ch
+              - name: traefik
+                url: https://helm.traefik.io/traefik
+              - name: metallb
+                url: https://metallb.github.io/metallb
+              - name: cert-manager
+                url: https://charts.jetstack.io
+              - name: argocd
+                url: https://argoproj.github.io/argo-helm
+            charts:
+              - name: local-path-provisioner
+                chartname: containeroo/local-path-provisioner
+                version: 0.0.33
+                namespace: local-path-storage
+              - name: cert-manager
+                chartname: jetstack/cert-manager
+                version: v1.18.2
+                namespace: cert-manager
+                values: |
+                  installCRDs: true
+              - name: argocd
+                chartname: argocd/argo-cd
+                version: 8.2.7
+                namespace: argocd
+              - name: traefik
+                chartname: traefik/traefik
+                version: 37.0.0
+                namespace: traefik-system
+                values: |
+                  service:
+                    enabled: true
+                    type: LoadBalancer
+                    # For MetalLB, prefer loadBalancerIP (static) or let it assign.
+                    loadBalancerIP: 192.168.8.20
+              - name: metallb
+                chartname: metallb/metallb
+                version: 0.15.2
+                namespace: metallb-system
+                values: |
+                  configInline:
+                    address-pools:
+                      - name: generic-cluster-pool
+                        protocol: layer2
+                        addresses:
+                          - 192.168.8.20-192.168.8.30
   options:
     wait:
       enabled: true

@@ -83,7 +83,7 @@ variable "full_clone" {
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
-# NETWORK (Static IP) - aligned with LXC style
+# NETWORK (Static IP)
 # ---------------------------------------------------------------------------------------------------------------------
 variable "ipv4_network" {
   description = "IPv4 network prefix without last octet e.g. 192.168.8. Leave null for DHCP."

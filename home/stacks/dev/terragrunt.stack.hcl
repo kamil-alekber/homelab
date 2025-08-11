@@ -4,6 +4,6 @@ unit "k0s-vm" {
 
   values = {
     version       = "HEAD"
-    desired_count = 5
+    desired_count = 2
   }
 }
