@@ -13,7 +13,6 @@ spec:
       releaseName: metallb
       values: |
         configInline:
-          config: |
             address-pools:
               - name: default
                 protocol: layer2
