@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metallb
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: metallb
+    repoURL: https://metallb.github.io/metallb
+    targetRevision: 0.15.2
+    helm:
+      releaseName: metallb
+      values: |
+        configInline:
+          config: |
+            address-pools:
+              - name: default
+                protocol: layer2
+                addresses:
+                  - 192.168.8.20-192.168.8.30
+  destination:
+    name: in-cluster
+    namespace: metallb
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: false
+      selfHeal: true
