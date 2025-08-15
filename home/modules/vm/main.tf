@@ -1,40 +1,62 @@
-locals {
-  use_multi = var.desired_count > 1
+data "local_file" "ssh_public_key" {
+  filename = pathexpand(var.ssh_public_key)
 }
 
-resource "proxmox_vm_qemu" "vm" {
-    count       = var.desired_count
+resource "proxmox_virtual_environment_vm" "ubuntu_vm" {
+  count = var.desired_count
 
-    name        = local.use_multi ? format("%s-%d", coalesce(var.host_prefix, var.name), count.index) : var.name
-    target_node = var.target_node
-    onboot      = var.onboot
-    clone       = var.template
-    full_clone  = var.full_clone
-    
-    network {
-        id     = 0
-        model  = "virtio"
-        bridge = "vmbr0"
+  name            = format("%s-%d", var.host_prefix, count.index + 1)
+  node_name       = var.target_node
+  stop_on_destroy = true
+
+  cpu {
+    cores = var.cores
+    type  = "x86-64-v2-AES"
+  }
+
+  memory {
+    dedicated = var.memory
+    floating  = var.memory # set equal to dedicated to enable ballooning
+  }
+
+
+  initialization {
+    ip_config {
+      ipv4 {
+        address = format(
+          "%s/%s",
+          cidrhost(var.network_address, var.ip_start_range + count.index),
+          split("/", var.network_address)[1]
+        )
+        gateway = cidrhost(var.network_address, 1)
+      }
     }
 
-    ipconfig0 = var.ipv4_network != null ? (
-      local.use_multi ?
-        format(
-          "ip=%s.%d/%d,gw=%s",
-          var.ipv4_network,
-          var.ipv4_ip_start + count.index,
-          var.ipv4_cidr,
-          coalesce(var.ipv4_gateway, format("%s.1", var.ipv4_network))
-        ) : (
-        var.ipv4_ip != null ?
-          format(
-            "ip=%s.%d/%d,gw=%s",
-            var.ipv4_network,
-            var.ipv4_ip,
-            var.ipv4_cidr,
-            coalesce(var.ipv4_gateway, format("%s.1", var.ipv4_network))
-          ) : null
-      )
-    ) : null
+    user_account {
+      username = var.ssh_username
+      keys     = [trimspace(data.local_file.ssh_public_key.content)]
+    }
+  }
 
+  disk {
+    datastore_id = "local-lvm"
+    import_from  = proxmox_virtual_environment_download_file.ubuntu_cloud_image.id
+    interface    = "virtio0"
+    iothread     = true
+    discard      = "on"
+    size         = 20
+  }
+
+  network_device {
+    bridge = "vmbr0"
+  }
+}
+
+resource "proxmox_virtual_environment_download_file" "ubuntu_cloud_image" {
+  content_type = "import"
+  datastore_id = "templates"
+  node_name    = "node-1"
+  url          = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
+  # need to rename the file to *.qcow2 to indicate the actual file format for import
+  file_name = "jammy-server-cloudimg-amd64.qcow2"
 }
