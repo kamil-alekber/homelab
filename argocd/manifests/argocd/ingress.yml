@@ -1,0 +1,28 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd
+  namespace: argocd
+  annotations:
+    gethomepage.dev/href: "https://argo.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Declarative GitOps tool for k8s"
+    gethomepage.dev/group: DevOps
+    gethomepage.dev/icon: argo-cd.svg
+    gethomepage.dev/name: ArgoCD
+    gethomepage.dev/pod-selector: "app.kubernetes.io/name=argocd-server"
+    gethomepage.dev/widget.type: "argocd"
+    gethomepage.dev/widget.url: "https://argo.clusterlab.cc"
+    gethomepage.dev/widget.key: "argocdapikey"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`argo.azure.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: argocd-server
+          port: 443
+          serversTransport: argocd
+  tls:
+    secretName: argocd-tls
