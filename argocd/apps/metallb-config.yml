@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/kamil-alekber/homelab
-    path: manifests/metallb
+    path: argocd/manifests/metallb
     targetRevision: HEAD
   destination:
     name: in-cluster
