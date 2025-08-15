@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-config
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/kamil-alekber/homelab
+    path: argocd/manifests/cert-manager
+    targetRevision: HEAD
+  destination:
+    name: in-cluster
+    namespace: cert-manager
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
