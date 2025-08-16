@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: community-chart
+  name: n8n
   namespace: argocd
 spec:
   project: default
