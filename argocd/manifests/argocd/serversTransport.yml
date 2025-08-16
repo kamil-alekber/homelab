@@ -1,9 +1,0 @@
-apiVersion: traefik.io/v1alpha1
-kind: ServersTransport
-metadata:
-  name: argocd
-  namespace: argocd
-
-spec:
-  serverName: argocd.localhost
-  insecureSkipVerify: true
