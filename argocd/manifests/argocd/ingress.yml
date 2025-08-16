@@ -25,4 +25,4 @@ spec:
           port: 443
           serversTransport: argocd
   tls:
-    secretName: argocd-tls
+    secretName: argot-clusterlab-cc

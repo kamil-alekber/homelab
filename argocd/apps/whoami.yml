@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/kamil-alekber/azure-manifests
-    path: whoami
+    repoURL: https://github.com/kamil-alekber/homelab
+    path: argocd/apps/whoami
     targetRevision: HEAD
   destination:
     name: in-cluster

@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: whoami
+  namespace: whoami
+  annotations:
+    gethomepage.dev/href: "http://whoami.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Simple request/response service for testing purposes."
+    gethomepage.dev/group: Testing
+    gethomepage.dev/icon: bytestash.svg
+    gethomepage.dev/name: Whoami
+    gethomepage.dev/pod-selector: "app=whoami"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`whoami.azure.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: whoami
+          port: 80
+  tls:
+    secretName: whoami-clusterlab-cc-tls
