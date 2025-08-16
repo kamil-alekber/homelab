@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    chart: community-charts
-    repoURL: https://community-charts.github.io/helm-charts
-    targetRevision: 1.14.1
+    chart: n8n
+    repoURL: 8gears.container-registry.com/library
+    targetRevision: 1.0.10
     helm:
       releaseName: n8n
       values: |
