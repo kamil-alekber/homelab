@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: csi-driver-smb
+  namespace: argocd
+spec:
+  project: default
+  source:
+    chart: csi-driver-smb
+    repoURL: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
+    targetRevision: v1.18.0
+    helm:
+      releaseName: csi-driver-smb
+  destination:
+    name: in-cluster
+    namespace: kube-system
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
