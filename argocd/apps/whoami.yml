@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/kamil-alekber/homelab
-    path: argocd/apps/whoami
+    path: argocd/manifests/whoami
     targetRevision: HEAD
   destination:
     name: in-cluster
