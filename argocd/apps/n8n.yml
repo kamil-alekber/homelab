@@ -5,14 +5,17 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    chart: n8n
-    repoURL: 8gears.container-registry.com/library
-    targetRevision: 1.0.10
-    helm:
-      releaseName: n8n
-      values: |
-        # Add your values here
+  sources:
+    - chart: n8n
+      repoURL: 8gears.container-registry.com/library
+      targetRevision: 1.0.10
+      helm:
+        releaseName: n8n
+        values: |
+          # Add your values here
+    - repoURL: https://github.com/kamil-alekber/homelab
+      path: argocd/manifests/n8n
+      targetRevision: HEAD
   destination:
     name: in-cluster
     namespace: n8n
