@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - config.yml
   - ingress.yml
-  - serversTransport.yml
   - tls.certificate.yml
