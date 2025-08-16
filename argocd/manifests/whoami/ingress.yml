@@ -16,7 +16,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`whoami.azure.clusterlab.cc`)
+    - match: Host(`whoami.clusterlab.cc`)
       kind: Rule
       services:
         - name: whoami
