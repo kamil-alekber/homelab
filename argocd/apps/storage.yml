@@ -11,6 +11,14 @@ spec:
     targetRevision: v1.18.0
     helm:
       releaseName: csi-driver-smb
+      values: |
+        controller:
+          replicas: 1
+        node:
+          maxUnavailable: 1
+        image:
+          baseRepo: registry.k8s.io
+
   destination:
     name: in-cluster
     namespace: kube-system
