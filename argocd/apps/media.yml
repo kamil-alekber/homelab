@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: media
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    repoURL: https://github.com/kamil-alekber/homelab
+    path: argocd/manifests/media-services
+    targetRevision: HEAD
+    directory:
+      recurse: true
+  destination:
+    name: in-cluster
+    namespace: media
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
+    automated:
+      prune: true
+      selfHeal: true

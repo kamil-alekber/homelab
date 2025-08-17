@@ -1,0 +1,29 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jellystat
+  namespace: media-system
+  annotations:
+    gethomepage.dev/href: "https://jellystat.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Statistics and analytics for Jellyfin media server."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/jellystat.png
+    gethomepage.dev/name: Jellystat
+    gethomepage.dev/pod-selector: "app=jellystat"
+    gethomepage.dev/widget.type: "jellystat"
+    gethomepage.dev/widget.url: "https://jellystat.clusterlab.cc"
+    gethomepage.dev/widget.key: "b918a080-e2a3-4c7a-8b0e-26b107d6fbe5"
+    gethomepage.dev/widget.days: "30"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`jellystat.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: jellystat
+          port: 80
+  tls:
+    secretName: jellystat-clusterlab-cc-tls

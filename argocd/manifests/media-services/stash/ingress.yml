@@ -1,0 +1,29 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: stash
+  namespace: media-system
+  annotations:
+    gethomepage.dev/href: "http://stash.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "An organizer for your media collection"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: stash.png
+    gethomepage.dev/name: Stash
+    gethomepage.dev/pod-selector: "app=stash"
+    gethomepage.dev/widget.type: "stash"
+    gethomepage.dev/widget.url: "https://stash.clusterlab.cc"
+    gethomepage.dev/widget.key: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJhZG1pbiIsInN1YiI6IkFQSUtleSIsImlhdCI6MTc1MzE2NzA1MH0.OEJpP0Af6ehwNsV3NwZ5SoL4Wynr8D5C5p71rBOk6UM"
+    # ["scenes", "scenesPlayed", "playCount", "playDuration", "sceneSize", "sceneDuration", "images", "imageSize", "galleries", "performers", "studios", "movies", "tags", "oCount"]
+    gethomepage.dev/widget.fields: "scenes,sceneSize,playCount"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`stash.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: stash
+          port: 80
+  tls:
+    secretName: stash-clusterlab-cc-tls

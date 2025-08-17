@@ -6,11 +6,14 @@ metadata:
 spec:
   project: default
   source:
-    chart: csi-driver-smb
-    repoURL: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
-    targetRevision: v1.18.0
-    helm:
-      releaseName: csi-driver-smb
+    - chart: csi-driver-smb
+      repoURL: https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
+      targetRevision: v1.18.0
+      helm:
+        releaseName: csi-driver-smb
+    - repoURL: https://github.com/kamil-alekber/homelab
+      path: argocd/manifests/smb-share
+      targetRevision: HEAD
   destination:
     name: in-cluster
     namespace: kube-system

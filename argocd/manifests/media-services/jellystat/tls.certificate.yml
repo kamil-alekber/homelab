@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: jellystat-clusterlab-cc
+  namespace: media-system
+spec:
+  secretName: jellystat-clusterlab-cc-tls
+  dnsNames:
+    - jellystat.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

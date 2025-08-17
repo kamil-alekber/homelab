@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+  namespace: media-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qbittorrent
+  template:
+    metadata:
+      labels:
+        app: qbittorrent
+    spec:
+      containers:
+        - name: qbittorrent
+          image: linuxserver/qbittorrent:latest
+          ports:
+            - containerPort: 8080
+
+          volumeMounts:
+            - mountPath: /data/torrents
+              name: qbittorrent-data
+              subPath: torrents
+            - mountPath: /config
+              name: qbittorrent-data
+              subPath: config/qbittorrent
+      volumes:
+        - name: qbittorrent-data
+          persistentVolumeClaim:
+            claimName: smb-pvc

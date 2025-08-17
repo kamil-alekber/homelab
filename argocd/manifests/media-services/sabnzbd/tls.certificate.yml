@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: sabnzbd-clusterlab-cc
+  namespace: media-system
+spec:
+  secretName: sabnzbd-clusterlab-cc-tls
+  dnsNames:
+    - sabnzbd.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

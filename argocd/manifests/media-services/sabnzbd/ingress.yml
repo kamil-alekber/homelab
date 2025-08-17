@@ -1,0 +1,27 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sabnzbd
+  namespace: media-system
+  annotations:
+    gethomepage.dev/href: "https://sabnzbd.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "SABnzbd newsgroup downloader."
+    gethomepage.dev/group: P2P
+    gethomepage.dev/icon: sabnzbd.png
+    gethomepage.dev/name: sabnzbd
+    gethomepage.dev/pod-selector: "app=sabnzbd"
+    gethomepage.dev/widget.type: "sabnzbd"
+    gethomepage.dev/widget.url: "https://sabnzbd.clusterlab.cc"
+    gethomepage.dev/widget.key: "65e169d234854bffa3f10f700f8161c2"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`sabnzbd.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: sabnzbd
+          port: 80
+  tls:
+    secretName: sabnzbd-clusterlab-cc-tls

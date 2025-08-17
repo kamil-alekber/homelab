@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: prowlarr-clusterlab-cc
+  namespace: media-system
+spec:
+  secretName: prowlarr-clusterlab-cc-tls
+  dnsNames:
+    - prowlarr.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

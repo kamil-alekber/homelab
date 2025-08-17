@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellystat
+  namespace: media-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellystat
+  template:
+    metadata:
+      labels:
+        app: jellystat
+    spec:
+      containers:
+        - name: jellystat
+          image: cyfershepard/jellystat:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secrets
+                  key: postgres-password
+            - name: POSTGRES_IP
+              value: "jellystat-db"
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secrets
+                  key: jwt-secret
+            - name: TZ
+              value: "Asia/Almaty"
+          volumeMounts:
+            - name: jellystat-data
+              subPath: config/jellystat
+              mountPath: /app/backend/backup-data
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+      volumes:
+        - name: jellystat-data
+          hostPath:
+            path: /var/lib/jellystat
+            type: DirectoryOrCreate
+
+      initContainers:
+        - name: wait-for-db
+          image: busybox:1.35
+          command:
+            [
+              "sh",
+              "-c",
+              "until nc -z jellystat-db 5432; do echo waiting for db; sleep 2; done;",
+            ]

@@ -1,0 +1,27 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jellyseerr
+  namespace: media-system
+  annotations:
+    gethomepage.dev/href: "https://jellyseerr.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Request management and media discovery tool."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: jellyseerr.png
+    gethomepage.dev/name: jellyseerr
+    gethomepage.dev/pod-selector: "app=jellyseerr"
+    gethomepage.dev/widget.type: "jellyseerr"
+    gethomepage.dev/widget.url: "https://jellyseerr.clusterlab.cc"
+    gethomepage.dev/widget.key: "MTc1MzE4NjA1OTY0NDYyYjQxYWI1LTg1MGYtNDkyZS05YjFmLTNlYmYxZWYxOTExMQ=="
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`jellyseerr.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: jellyseerr
+          port: 80
+  tls:
+    secretName: jellyseerr-clusterlab-cc-tls

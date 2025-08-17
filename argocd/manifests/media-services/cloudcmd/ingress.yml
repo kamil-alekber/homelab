@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: cloudcmd
+  namespace: media-system
+  annotations:
+    gethomepage.dev/href: "https://files.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Web-based file manager with console and editor"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/cloud-commander.png
+    gethomepage.dev/name: CloudCMD
+    gethomepage.dev/pod-selector: "app=cloudcmd"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`files.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: cloudcmd
+          port: 80
+  tls:
+    secretName: cloudcmd-tls

@@ -1,0 +1,27 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: prowlarr
+  namespace: media-system
+  annotations:
+    gethomepage.dev/href: "http://prowlarr.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Prowlarr - Indexer Manager for Usenet and BitTorrent."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: prowlarr.png
+    gethomepage.dev/name: prowlarr
+    gethomepage.dev/pod-selector: "app=prowlarr"
+    gethomepage.dev/widget.type: "prowlarr"
+    gethomepage.dev/widget.url: "https://prowlarr.clusterlab.cc"
+    gethomepage.dev/widget.key: "e9e3752c4a2b43ca9cbc1f09ebd4e9ed"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`prowlarr.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: prowlarr
+          port: 80
+  tls:
+    secretName: prowlarr-clusterlab-cc-tls

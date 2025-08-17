@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sabnzbd
+  namespace: media-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sabnzbd
+  template:
+    metadata:
+      labels:
+        app: sabnzbd
+    spec:
+      containers:
+        - name: sabnzbd
+          image: lscr.io/linuxserver/sabnzbd:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "Asia/Almaty"
+          volumeMounts:
+            - mountPath: /config
+              name: sabnzbd-config
+
+            - mountPath: /incomplete-downloads
+              name: sabnzbd-data
+              subPath: usenet/incomplete
+
+            - mountPath: /downloads
+              name: sabnzbd-data
+              subPath: usenet/complete
+
+            - mountPath: /data/media
+              name: sabnzbd-data
+              subPath: usenet
+
+      volumes:
+        - name: sabnzbd-data
+          persistentVolumeClaim:
+            claimName: smb-pvc
+
+        - name: sabnzbd-config
+          hostPath:
+            path: /var/lib/sabnzbd/config
+            type: DirectoryOrCreate

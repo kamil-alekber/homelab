@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stash
+  namespace: media-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stash
+  template:
+    metadata:
+      labels:
+        app: stash
+    spec:
+      containers:
+        - name: stash
+          image: stashapp/stash:latest
+          ports:
+            - containerPort: 9999
+          env:
+            - name: STASH_STASH
+              value: "/data/"
+            - name: STASH_GENERATED
+              value: "/generated/"
+            - name: STASH_METADATA
+              value: "/metadata/"
+            - name: STASH_CACHE
+              value: "/cache/"
+            - name: STASH_PORT
+              value: "9999"
+          volumeMounts:
+            - mountPath: /data
+              name: stash-data
+
+            - mountPath: /root/.stash
+              name: stash-config
+              subPath: stash/config
+            - mountPath: /metadata
+              name: stash-config
+              subPath: stash/metadata
+            - mountPath: /cache
+              name: stash-config
+              subPath: stash/cache
+            - mountPath: /blobs
+              name: stash-config
+              subPath: stash/blobs
+            - mountPath: /generated
+              name: stash-config
+              subPath: stash/generated
+      volumes:
+        - name: stash-data
+          persistentVolumeClaim:
+            claimName: smb-pvc
+        - name: stash-config
+          hostPath:
+            path: /var/lib
+            type: DirectoryOrCreate

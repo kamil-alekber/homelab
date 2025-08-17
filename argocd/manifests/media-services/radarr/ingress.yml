@@ -1,0 +1,27 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: radarr
+  namespace: media-system
+  annotations:
+    gethomepage.dev/href: "http://radarr.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Movie collection manager."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: radarr.png
+    gethomepage.dev/name: radarr
+    gethomepage.dev/pod-selector: "app=radarr"
+    gethomepage.dev/widget.type: "radarr"
+    gethomepage.dev/widget.url: "https://radarr.clusterlab.cc"
+    gethomepage.dev/widget.key: "a7294475c680495aa73a5441c9cbe34d"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`radarr.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: radarr
+          port: 80
+  tls:
+    secretName: radarr-clusterlab-cc-tls

@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudcmd
+  namespace: media-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudcmd
+  template:
+    metadata:
+      labels:
+        app: cloudcmd
+    spec:
+      containers:
+        - name: cloudcmd
+          image: coderaiser/cloudcmd
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - name: fs-volume
+              mountPath: /mnt/fs
+      volumes:
+        - name: fs-volume
+          persistentVolumeClaim:
+            claimName: smb-pvc
