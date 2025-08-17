@@ -10,7 +10,7 @@ spec:
       path: argocd/manifests/external-dns
       targetRevision: HEAD
     - chart: external-dns
-      repoURL: https://charts.bitnami.com/bitnami/external-dns
+      repoURL: https://charts.bitnami.com/bitnami
       targetRevision: 9.0.3
       helm:
         releaseName: external-dns
