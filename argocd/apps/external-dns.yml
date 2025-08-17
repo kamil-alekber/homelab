@@ -9,8 +9,8 @@ spec:
     - repoURL: https://github.com/kamil-alekber/homelab
       path: argocd/manifests/external-dns
       targetRevision: HEAD
-    - chart: bitnami
-      repoURL: https://charts.bitnami.com/bitnami
+    - chart: external-dns
+      repoURL: https://charts.bitnami.com/bitnami/external-dns
       targetRevision: 9.0.3
       helm:
         releaseName: external-dns
