@@ -20,7 +20,7 @@ spec:
             webhook-provider-url: http://localhost:8888
           sidecars:
             - name: adguard-webhook
-              image: ghcr.io/muhlba91/external-dns-provider-adguard:$RELEASE_VERSION
+              image: ghcr.io/muhlba91/external-dns-provider-adguard:9.0.1
               ports:
                 - containerPort: 8888
                   name: http
