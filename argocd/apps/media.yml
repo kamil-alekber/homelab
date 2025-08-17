@@ -13,7 +13,7 @@ spec:
       recurse: true
   destination:
     name: in-cluster
-    namespace: media
+    namespace: media-system
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
