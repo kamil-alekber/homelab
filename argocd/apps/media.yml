@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  sources:
+  source:
     repoURL: https://github.com/kamil-alekber/homelab
     path: argocd/manifests/media-services
     targetRevision: HEAD
