@@ -49,7 +49,6 @@ spec:
 
             - name: jellyfin-data
               mountPath: /media
-              subPath: media
       volumes:
         - name: jellyfin-config
           hostPath:

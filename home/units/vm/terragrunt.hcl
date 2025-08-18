@@ -11,6 +11,7 @@ inputs = {
   desired_count = 5
   host_prefix   = "k0s-node"
   target_node   = "node-1"
+  memory        = 4096
 
 }
 
