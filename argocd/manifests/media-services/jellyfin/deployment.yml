@@ -60,4 +60,4 @@ spec:
             type: DirectoryOrCreate
         - name: jellyfin-data
           persistentVolumeClaim:
-            claimName: smb-pvc
+            claimName: smb-pvc-jellyfin
