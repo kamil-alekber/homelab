@@ -8,9 +8,13 @@ parameters:
   csi.storage.k8s.io/node-stage-secret-name: "smb-secret"
   csi.storage.k8s.io/node-stage-secret-namespace: "smb-share"
 mountOptions:
-  - dir_mode=2774
-  - file_mode=0664
-  - uid=1000
-  - gid=997
+  - dir_mode=0755
+  - file_mode=0644
+  - uid=0
+  - gid=0
   - vers=3.0
+  - cache=none
+  - nobrl
+  - nosharesock
+  - actimeo=30
 reclaimPolicy: Delete
