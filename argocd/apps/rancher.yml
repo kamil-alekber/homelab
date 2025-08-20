@@ -16,6 +16,7 @@ spec:
           bootstrapPassword: 95782641
           ingress: 
             ingressClassName: "traefik"
+            pathType: Prefix
             extraAnnotations: 
               traefik.ingress.kubernetes.io/router.entrypoints: websecure
               traefik.ingress.kubernetes.io/router.tls: true
