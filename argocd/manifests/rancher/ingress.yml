@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: n8n-ingress
-  namespace: n8n
+  name: rancher-ingress
+  namespace: cattle-system
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
@@ -20,6 +20,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: n8n
+                name: rancher
                 port:
                   number: 80
