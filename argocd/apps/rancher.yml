@@ -5,17 +5,23 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    chart: rancher
-    repoURL: https://releases.rancher.com/server-charts/latest
-    targetRevision: 2.0.13
-    helm:
-      releaseName: rancher
-      values: |
-        hostname: rancher.clusterlab.cc
-        bootstrapPassword: 95782641
-        ingress: 
-          enabled: false
+  sources:
+    - chart: rancher
+      repoURL: https://releases.rancher.com/server-charts/latest
+      targetRevision: 2.0.13
+      helm:
+        releaseName: rancher
+        values: |
+          hostname: rancher.clusterlab.cc
+          bootstrapPassword: 95782641
+          ingress: 
+            extraAnnotations: 
+              traefik.ingress.kubernetes.io/router.entrypoints: websecure
+              traefik.ingress.kubernetes.io/router.tls: true
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+            tls:
+              source: secret
+              secretName: tls-rancher-ingress
   destination:
     name: in-cluster
     namespace: cattle-system
