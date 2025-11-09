@@ -37,7 +37,7 @@
         # Samba storage node
         storage-01 = { name, nodes, pkgs, ... }: {
           deployment = {
-            targetHost = "192.168.1.20"; # Change to your IP
+            targetHost = "192.168.8.221"; # Change to your IP
             targetUser = "root";
             targetPort = 22;
             tags = [ "storage" ];
@@ -59,7 +59,7 @@
             targetHost = "192.168.1.21"; # Change to your IP
             targetUser = "root";
             targetPort = 22;
-            tags = [ "k3s", "k3s-server" ];
+            tags = [ "k3s" "k3s-server" ];
           };
 
           imports = [
@@ -77,7 +77,7 @@
             targetHost = "192.168.1.22"; # Change to your IP
             targetUser = "root";
             targetPort = 22;
-            tags = [ "k3s", "k3s-agent" ];
+            tags = [ "k3s" "k3s-agent" ];
           };
 
           imports = [
@@ -98,7 +98,7 @@
             targetHost = "192.168.1.23"; # Change to your IP
             targetUser = "root";
             targetPort = 22;
-            tags = [ "k3s", "k3s-agent" ];
+            tags = [ "k3s" "k3s-agent" ];
           };
 
           imports = [

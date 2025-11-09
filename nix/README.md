@@ -31,7 +31,7 @@ The homelab consists of 4 nodes:
 Edit `flake.nix` and update the `targetHost` values for each node:
 
 ```nix
-storage-01.deployment.targetHost = "192.168.1.20";  # Your actual IP
+storage-01.deployment.targetHost = "192.168.8.221";  # Your actual IP
 k3s-server-01.deployment.targetHost = "192.168.1.21";
 k3s-agent-01.deployment.targetHost = "192.168.1.22";
 k3s-agent-02.deployment.targetHost = "192.168.1.23";
