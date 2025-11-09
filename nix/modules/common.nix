@@ -18,6 +18,11 @@
   networking.useDHCP = lib.mkDefault false;
   networking.firewall.enable = true;
 
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/2f14a941-4301-4a71-a9b2-591625c386b7";
+          fsType = "ext4";
+    };
+
   services.openssh = {
     enable = true;
     settings = {
