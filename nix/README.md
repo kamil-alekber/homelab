@@ -32,9 +32,9 @@ Edit `flake.nix` and update the `targetHost` values for each node:
 
 ```nix
 storage-01.deployment.targetHost = "192.168.8.221";  # Your actual IP
-k3s-server-01.deployment.targetHost = "192.168.1.21";
-k3s-agent-01.deployment.targetHost = "192.168.1.22";
-k3s-agent-02.deployment.targetHost = "192.168.1.23";
+k3s-server-01.deployment.targetHost = "192.168.8.21";
+k3s-agent-01.deployment.targetHost = "192.168.8.22";
+k3s-agent-02.deployment.targetHost = "192.168.8.23";
 ```
 
 ### 2. Configure SSH Keys
@@ -145,7 +145,7 @@ colmena introspect
    ```bash
    ssh root@k3s-server-01 cat /etc/rancher/k3s/k3s.yaml > kubeconfig.yml
    # Update the server address in kubeconfig.yml
-   sed -i 's/127.0.0.1/192.168.1.21/g' kubeconfig.yml
+   sed -i 's/127.0.0.1/192.168.8.21/g' kubeconfig.yml
    ```
 
 2. **Check cluster status**:

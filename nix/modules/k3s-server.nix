@@ -19,7 +19,7 @@
       "--disable=servicelb" # Using MetalLB instead
       "--write-kubeconfig-mode=644"
       "--tls-san=${config.networking.hostName}"
-      "--tls-san=192.168.1.248"  # k3s-server-01 IP
+      "--tls-san=192.168.8.248"  # k3s-server-01 IP
       "--tls-san=k3s-server-01.local"
       "--node-label=node-role.kubernetes.io/control-plane=true"
     ];
@@ -78,8 +78,8 @@
   # Copy kubeconfig for external access
   # The kubeconfig will be accessible at /etc/rancher/k3s/k3s.yaml
   # To use it externally:
-  # 1. Copy from server: scp root@192.168.1.248:/etc/rancher/k3s/k3s.yaml ~/.kube/homelab-config
-  # 2. Update server IP: sed -i 's/127.0.0.1/192.168.1.248/g' ~/.kube/homelab-config
+  # 1. Copy from server: scp root@192.168.8.248:/etc/rancher/k3s/k3s.yaml ~/.kube/homelab-config
+  # 2. Update server IP: sed -i 's/127.0.0.1/192.168.8.248/g' ~/.kube/homelab-config
   # 3. Use: export KUBECONFIG=~/.kube/homelab-config
   
   systemd.services."k3s-export-kubeconfig" = {
@@ -101,7 +101,7 @@
       if [ -f /etc/rancher/k3s/k3s.yaml ]; then
         # Create a copy with external IP
         cp /etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/k3s-external.yaml
-        ${pkgs.gnused}/bin/sed -i 's/127.0.0.1:6443/192.168.1.248:6443/g' /etc/rancher/k3s/k3s-external.yaml
+        ${pkgs.gnused}/bin/sed -i 's/127.0.0.1:6443/192.168.8.248:6443/g' /etc/rancher/k3s/k3s-external.yaml
         chmod 644 /etc/rancher/k3s/k3s-external.yaml
         echo "Kubeconfig exported to /etc/rancher/k3s/k3s-external.yaml"
       fi
