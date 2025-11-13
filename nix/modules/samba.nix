@@ -112,11 +112,11 @@
 
   # File system configuration
   # Uncomment and adjust based on your storage setup
-  # fileSystems."/storage" = {
-  #   device = "/dev/disk/by-uuid/YOUR-UUID-HERE";
-  #   fsType = "ext4";
-  #   options = [ "defaults" "noatime" ];
-  # };
+  fileSystems."/storage" = {
+    device = "/dev/disk/by-uuid/98afcbf6-dfb5-4a8c-93e8-86fcd2e07c6c";
+    fsType = "ext4";
+    options = [ "defaults" "noatime" ];
+  };
 
   # Enable periodic TRIM for SSDs (if applicable)
   # services.fstrim.enable = true;
