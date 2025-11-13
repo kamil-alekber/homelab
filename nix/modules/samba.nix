@@ -1,5 +1,16 @@
 { config, pkgs, lib, ... }:
 
+# WARNING: This module contains hardcoded credentials for demonstration purposes.
+# In production environments:
+# 1. Use NixOps secrets or agenix for encrypted secrets
+# 2. Store passwords in external secret management (Vault, 1Password, etc.)
+# 3. Never commit actual passwords to version control
+# 4. Use strong, randomly generated passwords
+#
+# Current demo credentials:
+# - Samba user: samba
+# - Samba password: 95782641 (CHANGE THIS!)
+
 {
   # Networking configuration for Samba
   networking.firewall.allowedTCPPorts = [ 139 445 2049 111 ];
@@ -93,6 +104,28 @@
 
   users.groups.samba = {};
 
+  # Set Samba password for the user
+  # Password: 95782641
+  # Run manually after deployment: smbpasswd -a samba (then enter password)
+  # Or use this service to set it automatically:
+  systemd.services."samba-set-password" = {
+    description = "Set Samba user password";
+    after = [ "samba-smbd.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      # Check if password is already set
+      if ! pdbedit -L samba &>/dev/null; then
+        # Set Samba password non-interactively
+        echo "95782641" | ${pkgs.samba}/bin/smbpasswd -a -s samba
+        echo "Samba password set for user samba"
+      fi
+    '';
+  };
+
   # NFS server (optional, for K8s integration)
   services.nfs.server = {
     enable = true;
@@ -100,6 +133,10 @@
       /storage/k8s-volumes 192.168.8.0/24(rw,sync,no_subtree_check,no_root_squash)
     '';
   };
+
+  # Ensure NFS starts after storage directories are set up
+  systemd.services.nfs-server.after = [ "setup-storage-dirs.service" ];
+  systemd.services.nfs-server.requires = [ "setup-storage-dirs.service" ];
 
   # File system configuration - must be defined BEFORE tmpfiles
   fileSystems."/storage" = {

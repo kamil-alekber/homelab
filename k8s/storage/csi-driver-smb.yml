@@ -1,0 +1,36 @@
+---
+# SMB CSI Driver Installation
+# This driver enables mounting SMB/CIFS shares as Kubernetes volumes
+# Source: https://github.com/kubernetes-csi/csi-driver-smb
+
+# Deploy using Helm:
+# helm repo add csi-driver-smb https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
+# helm install csi-driver-smb csi-driver-smb/csi-driver-smb --namespace kube-system --version v1.13.0
+
+# Or apply directly:
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kube-system
+---
+# Apply the SMB CSI driver manifests
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/deploy/v1.13.0/rbac-csi-smb-controller.yaml
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/deploy/v1.13.0/csi-smb-driverinfo.yaml
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/deploy/v1.13.0/csi-smb-controller.yaml
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/deploy/v1.13.0/csi-smb-node.yaml
+
+---
+# Alternative: NFS CSI Driver (if using NFS instead of SMB)
+# helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
+# helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --version v4.5.0
+
+# Or apply directly:
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/deploy/v4.5.0/rbac-csi-nfs-controller.yaml
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/deploy/v4.5.0/csi-nfs-driverinfo.yaml
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/deploy/v4.5.0/csi-nfs-controller.yaml
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/deploy/v4.5.0/csi-nfs-node.yaml
+
+---
+# Verify installation:
+# kubectl get csidrivers
+# Expected output should show: smb.csi.k8s.io and/or nfs.csi.k8s.io

@@ -24,7 +24,7 @@ spec:
     readOnly: false
     volumeHandle: samba-media-volume
     volumeAttributes:
-      source: "//storage-01/media"  # Update to match your storage node IP or hostname
+      source: "//192.168.8.221/media"  # storage-01 IP address
     nodeStageSecretRef:
       name: samba-credentials
       namespace: storage
@@ -54,37 +54,7 @@ spec:
     readOnly: false
     volumeHandle: samba-shared-volume
     volumeAttributes:
-      source: "//storage-01/shared"
-    nodeStageSecretRef:
-      name: samba-credentials
-      namespace: storage
----
-# Alternative: PV using CIFS directly (without CSI driver)
-# Use this if you don't have SMB CSI driver installed
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: samba-media-pv-cifs
-spec:
-  capacity:
-    storage: 1Ti
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: samba-cifs
-  mountOptions:
-    - vers=3.0
-    - dir_mode=0777
-    - file_mode=0666
-    - uid=1000
-    - gid=1000
-    - nobrl
-  csi:
-    driver: cifs.csi.k8s.io
-    readOnly: false
-    volumeHandle: samba-media-cifs
-    volumeAttributes:
-      source: "//192.168.1.20/media"  # Update with your storage-01 IP
+      source: "//192.168.8.221/shared"  # storage-01 IP address
     nodeStageSecretRef:
       name: samba-credentials
       namespace: storage

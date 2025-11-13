@@ -25,14 +25,15 @@ The storage setup provides:
 Install the SMB CSI driver for better SMB/CIFS support:
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/deploy/install-driver.sh
-```
+# See csi-driver-smb.yml for detailed installation instructions
 
-Or with Helm:
-
-```bash
+# Using Helm (recommended):
 helm repo add csi-driver-smb https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
-helm install csi-driver-smb csi-driver-smb/csi-driver-smb --namespace kube-system
+helm install csi-driver-smb csi-driver-smb/csi-driver-smb --namespace kube-system --version v1.13.0
+
+# Verify installation:
+kubectl get csidrivers
+# Should show: smb.csi.k8s.io
 ```
 
 ### Option 2: NFS CSI Driver (Alternative)
@@ -41,12 +42,26 @@ For NFS-based storage:
 
 ```bash
 helm repo add csi-driver-nfs https://raw.githubusercontent.com/kubernetes-csi/csi-driver-nfs/master/charts
-helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system
+helm install csi-driver-nfs csi-driver-nfs/csi-driver-nfs --namespace kube-system --version v4.5.0
+
+# Verify installation:
+kubectl get csidrivers
+# Should show: nfs.csi.k8s.io
 ```
 
 ### Option 3: Built-in CIFS Support
 
 K3s/K8s has built-in CIFS support, but requires CIFS utils on each node. With NixOS/Colmena, this is already configured in `k3s-agent.nix`.
+
+### Samba Server Configuration
+
+Ensure your NixOS storage node (storage-01) is configured with:
+- **IP Address**: 192.168.8.221
+- **Shares**: /media, /shared, /backups
+- **Samba User**: samba
+- **Password**: sfwMtZUJTFrcJRs4CUU7aQ==
+
+This is automatically configured in `nix/modules/samba.nix`.
 
 ## Deployment Steps
 

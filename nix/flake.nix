@@ -56,7 +56,7 @@
         # K3s control plane node
         k3s-server-01 = { name, nodes, pkgs, ... }: {
           deployment = {
-            targetHost = "192.168.1.21"; # Change to your IP
+            targetHost = "192.168.1.248"; # Change to your IP
             targetUser = "root";
             targetPort = 22;
             tags = [ "k3s" "k3s-server" ];
@@ -74,7 +74,7 @@
         # K3s worker node 1
         k3s-agent-01 = { name, nodes, pkgs, ... }: {
           deployment = {
-            targetHost = "192.168.1.22"; # Change to your IP
+            targetHost = "192.168.8.223"; 
             targetUser = "root";
             targetPort = 22;
             tags = [ "k3s" "k3s-agent" ];
@@ -86,8 +86,7 @@
 
           networking.hostName = "k3s-agent-01";
           
-          # Reference the server node
-          services.k3s.serverAddr = "https://${nodes.k3s-server-01.config.networking.hostName}:6443";
+          services.k3s.serverAddr = "https://192.168.1.248:6443";
           
           system.stateVersion = "24.05";
         };
@@ -95,7 +94,7 @@
         # K3s worker node 2
         k3s-agent-02 = { name, nodes, pkgs, ... }: {
           deployment = {
-            targetHost = "192.168.1.23"; # Change to your IP
+            targetHost = "192.168.8.195"; 
             targetUser = "root";
             targetPort = 22;
             tags = [ "k3s" "k3s-agent" ];
@@ -107,8 +106,7 @@
 
           networking.hostName = "k3s-agent-02";
           
-          # Reference the server node
-          services.k3s.serverAddr = "https://${nodes.k3s-server-01.config.networking.hostName}:6443";
+          services.k3s.serverAddr = "https://192.168.1.248:6443";
           
           system.stateVersion = "24.05";
         };
