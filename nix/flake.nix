@@ -47,6 +47,13 @@
             ./modules/samba.nix
           ];
 
+ 
+ 
+        fileSystems."/" = {
+          device = "/dev/disk/by-uuid/2f14a941-4301-4a71-a9b2-591625c386b7";
+          fsType = "ext4";
+        };
+
           networking.hostName = "storage-01";
           
           # System configuration
@@ -66,6 +73,11 @@
             ./modules/k3s-server.nix
           ];
 
+ 
+        fileSystems."/" = {
+          device = "/dev/disk/by-uuid/bdd7d614-861b-4d90-b724-6be838ec786b";
+          fsType = "ext4";
+        };
           networking.hostName = "k3s-server-01";
           
           system.stateVersion = "24.05";
@@ -84,6 +96,11 @@
             ./modules/k3s-agent.nix
           ];
 
+ 
+        fileSystems."/" = {
+          device = "/dev/disk/by-uuid/bdd7d614-861b-4d90-b724-6be838ec786b";
+          fsType = "ext4";
+        };
           networking.hostName = "k3s-agent-01";
           
           services.k3s.serverAddr = "https://192.168.8.248:6443";
@@ -104,6 +121,11 @@
             ./modules/k3s-agent.nix
           ];
 
+ 
+        fileSystems."/" = {
+          device = "/dev/disk/by-uuid/bdd7d614-861b-4d90-b724-6be838ec786b";
+          fsType = "ext4";
+        };
           networking.hostName = "k3s-agent-02";
           
           services.k3s.serverAddr = "https://192.168.8.248:6443";
