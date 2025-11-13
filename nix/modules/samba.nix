@@ -8,7 +8,7 @@
   networking.interfaces.ens18 = {  # Replace with your interface name (use `ip a` to find it)
     useDHCP = false;
     ipv4.addresses = [{
-      address = "192.168.8.100";
+      address = "192.168.8.221";
       prefixLength = 24;
     }];
   };
@@ -97,7 +97,7 @@
   services.nfs.server = {
     enable = true;
     exports = ''
-      /storage/k8s-volumes 192.168.1.0/24(rw,sync,no_subtree_check,no_root_squash)
+      /storage/k8s-volumes 192.168.8.0/24(rw,sync,no_subtree_check,no_root_squash)
     '';
   };
 
