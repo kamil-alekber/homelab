@@ -101,21 +101,36 @@
     '';
   };
 
-  # Create storage directories
-  systemd.tmpfiles.rules = [
-    "d /storage 0755 root root -"
-    "d /storage/media 0755 samba samba -"
-    "d /storage/backups 0700 samba samba -"
-    "d /storage/shared 0755 samba samba -"
-    "d /storage/k8s-volumes 0755 root root -"
-  ];
-
-  # File system configuration
-  # Uncomment and adjust based on your storage setup
+  # File system configuration - must be defined BEFORE tmpfiles
   fileSystems."/storage" = {
     device = "/dev/disk/by-uuid/98afcbf6-dfb5-4a8c-93e8-86fcd2e07c6c";
     fsType = "ext4";
     options = [ "defaults" "noatime" ];
+  };
+
+  # Create storage directories after filesystem is mounted
+  systemd.services."setup-storage-dirs" = {
+    description = "Setup storage directories";
+    after = [ "local-fs.target" ];
+    requires = [ "storage.mount" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      # Create directories
+      mkdir -p /storage/media /storage/backups /storage/shared /storage/k8s-volumes
+      
+      # Set ownership
+      chown samba:samba /storage/media /storage/backups /storage/shared
+      chown root:root /storage/k8s-volumes
+      
+      # Set permissions
+      chmod 0755 /storage/media /storage/shared
+      chmod 0700 /storage/backups
+      chmod 0755 /storage/k8s-volumes
+    '';
   };
 
   # Enable periodic TRIM for SSDs (if applicable)
