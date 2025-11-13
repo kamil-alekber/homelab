@@ -5,6 +5,14 @@
   networking.firewall.allowedTCPPorts = [ 139 445 2049 111 ];
   networking.firewall.allowedUDPPorts = [ 137 138 2049 111 ];
 
+  networking.interfaces.ens18 = {  # Replace with your interface name (use `ip a` to find it)
+    useDHCP = false;
+    ipv4.addresses = [{
+      address = "192.168.8.100";
+      prefixLength = 24;
+    }];
+  };
+
   # Additional storage-specific packages
   environment.systemPackages = with pkgs; [
     cifs-utils

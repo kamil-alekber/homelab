@@ -18,6 +18,9 @@
   networking.useDHCP = lib.mkDefault false;
   networking.firewall.enable = true;
 
+  networking.defaultGateway = "192.168.8.1";
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/2f14a941-4301-4a71-a9b2-591625c386b7";
           fsType = "ext4";
@@ -62,6 +65,7 @@
     rsync
     inetutils
     dnsutils
+    parted
   ];
 
   # Enable temperature monitoring
