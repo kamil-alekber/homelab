@@ -15,8 +15,8 @@
     role = "server";
     
     extraFlags = toString [
-      "--disable=traefik" # We'll use our own ingress
-      "--disable=servicelb" # Using MetalLB instead
+      # "--disable=traefik" # We'll use our own ingress
+      # "--disable=servicelb" # Using MetalLB instead
       "--write-kubeconfig-mode=644"
       "--tls-san=${config.networking.hostName}"
       "--tls-san=192.168.8.248"  # k3s-server-01 IP
