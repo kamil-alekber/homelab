@@ -18,10 +18,10 @@
       # "--disable=traefik" # We'll use our own ingress
       # "--disable=servicelb" # Using MetalLB instead
       "--write-kubeconfig-mode=644"
-      "--tls-san=${config.networking.hostName}"
-      "--tls-san=192.168.8.248"  # k3s-server-01 IP
-      "--tls-san=k3s-server-01.local"
-      "--node-label=node-role.kubernetes.io/control-plane=true"
+      # "--tls-san=${config.networking.hostName}"
+      # "--tls-san=192.168.8.248"  # k3s-server-01 IP
+      # "--tls-san=k3s-server-01.local"
+      # "--node-label=node-role.kubernetes.io/control-plane=true"
     ];
     
     # Token for agents to join (YOU MUST CHANGE THIS!)
