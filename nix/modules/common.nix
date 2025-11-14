@@ -10,11 +10,14 @@
   };
 
   nix.settings.auto-optimise-store = true;
+  
 
   # Boot loader (GRUB for most VMs/physical servers)
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/sda"; 
-
+  boot.loader.grub.useOSProber = true;
+  
+  networking.networkmanager.enable = true;
   networking.useDHCP = lib.mkDefault false;
   networking.firewall.enable = true;
 
