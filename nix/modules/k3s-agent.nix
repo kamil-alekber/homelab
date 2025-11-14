@@ -19,9 +19,9 @@
     # Server address is set in flake.nix per-node configuration
     # serverAddr is passed from the node config
     
-    extraFlags = toString [
-      "--node-label=node-role.kubernetes.io/worker=true"
-    ];
+    # extraFlags = toString [
+      # "--node-label=node-role.kubernetes.io/worker=true"
+    # ];
     
     # Token for joining the cluster (must match server token)
     tokenFile = "/var/lib/rancher/k3s/agent/token";
