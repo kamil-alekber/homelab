@@ -9,6 +9,7 @@ This directory contains Kubernetes manifests for a complete media automation sta
 - **Sonarr** (Port 8989) - TV show management and automation
 - **Radarr** (Port 7878) - Movie management and automation
 - **Lidarr** (Port 8686) - Music management and automation
+- **Prowlarr** (Port 9696) - Indexer manager for Sonarr, Radarr, and Lidarr
 - **qBittorrent** (Port 8080, 6881) - Torrent download client
 - **SABnzbd** (Port 8080) - Usenet download client
 
@@ -22,6 +23,7 @@ All services share a single PersistentVolumeClaim (`media-shared-storage`) backe
 │   ├── sonarr/       # Sonarr configuration
 │   ├── radarr/       # Radarr configuration
 │   ├── lidarr/       # Lidarr configuration
+│   ├── prowlarr/     # Prowlarr configuration
 │   ├── qbittorrent/  # qBittorrent configuration
 │   └── sabnzbd/      # SABnzbd configuration
 ├── downloads/

@@ -11,8 +11,13 @@ resources:
 - sonarr/
 - radarr/
 - lidarr/
+- prowlarr/
 - qbittorrent/
 - sabnzbd/
+- flaresolverr/
+- jellyfin/
+- jellyseerr/
+- profilarr/
 
 # Common labels applied to all resources
 labels:
@@ -22,5 +27,5 @@ labels:
 
 # Common annotations
 commonAnnotations:
-  description: Media automation stack - Sonarr, Radarr, Lidarr, qBittorrent, SABnzbd
+  description: Media automation stack - Sonarr, Radarr, Lidarr, Prowlarr, qBittorrent, SABnzbd, Jellyfin, Jellyseerr, Profilarr
   documentation: See README.md for deployment instructions
