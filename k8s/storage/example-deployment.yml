@@ -1,11 +1,10 @@
 ---
-# Example Deployment using Samba Media Storage
-# This shows how to mount and use the Samba storage with proper permissions
+# Example: Simple Deployment using Samba Media Storage
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: media-app-example
-  namespace: media-services
+  namespace: storage
   labels:
     app: media-app-example
 spec:
@@ -18,102 +17,9 @@ spec:
       labels:
         app: media-app-example
     spec:
-      # Security context for the pod
-      securityContext:
-        fsGroup: 1000  # Files created will have this group ID
-        fsGroupChangePolicy: "OnRootMismatch"  # Only change permissions if needed
-      
-      containers:
-      - name: app
-        image: alpine:latest
-        command: ["/bin/sh", "-c"]
-        args:
-          - |
-            # Create directories with proper permissions
-            mkdir -p /media/movies /media/tv /media/music /media/books
-            
-            # Set permissions (files writable by group)
-            chmod -R 775 /media
-            
-            # Test write permissions
-            echo "Testing write permissions..." > /media/test-$(date +%s).txt
-            
-            # Keep container running
-            tail -f /dev/null
-        
-        volumeMounts:
-        - name: media-storage
-          mountPath: /media
-          # subPath: movies  # Uncomment to mount only a subdirectory
-        
-        # Security context for the container
-        securityContext:
-          runAsUser: 1000
-          runAsGroup: 1000
-          allowPrivilegeEscalation: false
-          readOnlyRootFilesystem: false
-        
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "100m"
-          limits:
-            memory: "128Mi"
-            cpu: "200m"
-      
-      volumes:
-      - name: media-storage
-        persistentVolumeClaim:
-          claimName: media-storage
----
-# Example: StatefulSet with init container to set up directory structure
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: media-organizer
-  namespace: media-services
-spec:
-  serviceName: media-organizer
-  replicas: 1
-  selector:
-    matchLabels:
-      app: media-organizer
-  template:
-    metadata:
-      labels:
-        app: media-organizer
-    spec:
       securityContext:
         fsGroup: 1000
-      
-      initContainers:
-      # Init container to set up directory structure and permissions
-      - name: setup-storage
-        image: busybox:latest
-        command: ["/bin/sh", "-c"]
-        args:
-          - |
-            echo "Setting up media storage structure..."
-            
-            # Create directory structure
-            mkdir -p /media/{movies,tv,music,books,downloads}
-            mkdir -p /media/downloads/{complete,incomplete}
-            
-            # Set permissions (rwxrwxr-x)
-            chmod -R 775 /media
-            
-            # Create a marker file
-            echo "Storage initialized at $(date)" > /media/.initialized
-            
-            echo "Storage setup complete!"
-        
-        volumeMounts:
-        - name: media-storage
-          mountPath: /media
-        
-        securityContext:
-          runAsUser: 1000
-          runAsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
       
       containers:
       - name: app
@@ -129,90 +35,46 @@ spec:
           runAsGroup: 1000
           allowPrivilegeEscalation: false
         
-        env:
-        - name: MEDIA_PATH
-          value: "/media"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
       
       volumes:
       - name: media-storage
         persistentVolumeClaim:
           claimName: media-storage
 ---
-# Example: Job to set up initial directory structure
+# Job to initialize media storage directory structure (run once)
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: setup-media-storage
-  namespace: media-services
+  namespace: storage
 spec:
   template:
-    metadata:
-      labels:
-        app: setup-media-storage
     spec:
       securityContext:
         fsGroup: 1000
-      
       restartPolicy: OnFailure
       
       containers:
       - name: setup
-        image: alpine:latest
+        image: busybox:latest
         command: ["/bin/sh", "-c"]
         args:
           - |
-            echo "Setting up media storage directories..."
-            
-            # Create comprehensive directory structure
-            cd /media
-            
-            # Movies
-            mkdir -p movies/{4K,1080p,720p}
-            
-            # TV Shows
-            mkdir -p tv/{current,archive}
-            
-            # Music
-            mkdir -p music/{albums,playlists,audiobooks}
-            
-            # Books
-            mkdir -p books/{ebooks,audiobooks,comics}
-            
-            # Downloads
-            mkdir -p downloads/{movies,tv,music,other}/{complete,incomplete}
-            
-            # Metadata and cache
-            mkdir -p .metadata/{jellyfin,plex,sonarr,radarr}
-            
-            # Set permissions
+            mkdir -p /media/movies/complete /media/movies/incomplete
+            mkdir -p /media/tv/complete /media/tv/incomplete
+            mkdir -p /media/music/complete /media/music/incomplete
+            mkdir -p /media/books/complete /media/books/incomplete
+            mkdir -p /media/downloads/complete /media/downloads/incomplete
+            mkdir -p /media/.metadata
             chmod -R 775 /media
-            find /media -type d -exec chmod 775 {} \;
-            find /media -type f -exec chmod 664 {} \;
-            
-            # Create README
-            cat > /media/README.txt << 'EOF'
-            Media Storage Directory Structure
-            ==================================
-            
-            /media/movies/     - Movie files organized by quality
-            /media/tv/         - TV show episodes
-            /media/music/      - Music files and albums
-            /media/books/      - eBooks and audiobooks
-            /media/downloads/  - Download working directories
-            /media/.metadata/  - Application metadata and cache
-            
-            Permissions: 
-            - Directories: 775 (rwxrwxr-x)
-            - Files: 664 (rw-rw-r--)
-            - User/Group: 1000:1000
-            
-            Created: $(date)
-            EOF
-            
-            chmod 664 /media/README.txt
-            
-            echo "Setup complete!"
-            ls -lah /media
+            echo "Storage initialized at $(date)" > /media/.initialized
         
         volumeMounts:
         - name: media-storage

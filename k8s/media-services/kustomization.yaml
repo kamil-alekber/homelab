@@ -1,0 +1,26 @@
+# Main Kustomization for Media Services
+# This file orchestrates all media service deployments
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: media-services
+
+# Base resources
+resources:
+- base/
+- sonarr/
+- radarr/
+- lidarr/
+- qbittorrent/
+- sabnzbd/
+
+# Common labels applied to all resources
+labels:
+- pairs:
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/part-of: media-services
+
+# Common annotations
+commonAnnotations:
+  description: Media automation stack - Sonarr, Radarr, Lidarr, qBittorrent, SABnzbd
+  documentation: See README.md for deployment instructions

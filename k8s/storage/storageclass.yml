@@ -6,7 +6,7 @@ metadata:
   name: samba-storage
 provisioner: smb.csi.k8s.io
 parameters:
-  source: "//192.168.8.221"  # Base SMB server address
+  source: "//192.168.8.221/media"  # SMB server address with share path
   csi.storage.k8s.io/node-stage-secret-name: samba-credentials
   csi.storage.k8s.io/node-stage-secret-namespace: storage
 mountOptions:
@@ -14,9 +14,12 @@ mountOptions:
   - file_mode=0666
   - uid=1000
   - gid=1000
+  - vers=3.0
+  - cache=none
   - nobrl
+  - nosharesock
+  - actimeo=30
   - mfsymlinks
-  - cache=loose
 reclaimPolicy: Retain
 allowVolumeExpansion: false
 volumeBindingMode: Immediate

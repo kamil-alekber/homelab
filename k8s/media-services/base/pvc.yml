@@ -1,0 +1,19 @@
+---
+# Shared PersistentVolumeClaim for all media services
+# References the Samba storage class configured in k8s/storage/
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-shared-storage
+  namespace: media-services
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: samba-storage
+  resources:
+    requests:
+      storage: 5Ti
+  # Directory structure on Samba share:
+  # /media/{books,movies,tv,music}        - Media files (movies, tv shows, music)
+  # /media/downloads/{complete,incomplete,torrents} - Download clients storage
+  # /shared/{app_name}/*       - Application configurations
