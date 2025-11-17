@@ -118,9 +118,10 @@
     };
     script = ''
       # Check if password is already set
-      if ! pdbedit -L samba &>/dev/null; then
+      if ! ${pkgs.samba}/bin/pdbedit -L samba &>/dev/null; then
         # Set Samba password non-interactively
-        echo "95782641" | ${pkgs.samba}/bin/smbpasswd -a -s samba
+        # smbpasswd -s expects password twice (for confirmation)
+        printf "95782641\n95782641\n" | ${pkgs.samba}/bin/smbpasswd -a -s samba
         echo "Samba password set for user samba"
       fi
     '';
