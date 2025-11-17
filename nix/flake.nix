@@ -111,7 +111,7 @@
         # K3s worker node 2
         k3s-agent-02 = { name, nodes, pkgs, ... }: {
           deployment = {
-            targetHost = "192.168.8.195"; 
+            targetHost = "192.168.8.223"; 
             targetUser = "root";
             targetPort = 22;
             tags = [ "k3s" "k3s-agent" ];
