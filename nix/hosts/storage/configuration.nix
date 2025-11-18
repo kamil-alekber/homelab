@@ -23,7 +23,7 @@
    # };  
 };  
 
-  networking.hostName = "nixos"; # Define your hostname.
+  # networking.hostName is set in flake.nix
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
