@@ -44,17 +44,9 @@
           };
 
           imports = [
+            ./hosts/storage/configuration.nix
             ./modules/samba.nix
           ];
-
-          # Filesystem configuration auto-detected by NixOS
-          boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "sr_mod" "virtio_blk" ];
-
-          # Root filesystem configuration (required)
-          fileSystems."/" = {
-            device = "/dev/disk/by-label/nixos";
-            fsType = "ext4";
-          };
 
           networking.hostName = "storage-01";
           
@@ -72,17 +64,10 @@
           };
 
           imports = [
+            ./hosts/k3s-nodes/server-1/configuration.nix
             ./modules/k3s-server.nix
+            
           ];
-
-          # Filesystem configuration auto-detected by NixOS
-          boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "sr_mod" "virtio_blk" ];
-
-          # Root filesystem configuration (required)
-          fileSystems."/" = {
-            device = "/dev/disk/by-label/nixos";
-            fsType = "ext4";
-          };
 
           networking.hostName = "k3s-server-01";
           
@@ -99,17 +84,9 @@
           };
 
           imports = [
+            ./hosts/k3s-nodes/worker-1/configuration.nix
             ./modules/k3s-agent.nix
           ];
-
-          # Filesystem configuration auto-detected by NixOS
-          boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "sr_mod" "virtio_blk" ];
-
-          # Root filesystem configuration (required)
-          fileSystems."/" = {
-            device = "/dev/disk/by-label/nixos";
-            fsType = "ext4";
-          };
 
           networking.hostName = "k3s-agent-01";
           
@@ -128,17 +105,9 @@
           };
 
           imports = [
+            ./hosts/k3s-nodes/worker-2/configuration.nix
             ./modules/k3s-agent.nix
           ];
-
-          # Filesystem configuration auto-detected by NixOS
-          boot.initrd.availableKernelModules = [ "ata_piix" "uhci_hcd" "virtio_pci" "sr_mod" "virtio_blk" ];
-
-          # Root filesystem configuration (required)
-          fileSystems."/" = {
-            device = "/dev/disk/by-label/nixos";
-            fsType = "ext4";
-          };
 
           networking.hostName = "k3s-agent-02";
           
