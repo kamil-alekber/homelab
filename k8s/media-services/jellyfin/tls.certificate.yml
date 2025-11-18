@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: jellyfin-clusterlab-cc
+  namespace: media-services
+spec:
+  secretName: jellyfin-clusterlab-cc-tls
+  dnsNames:
+    - jellyfin.clusterlab.cc
+    - watch.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

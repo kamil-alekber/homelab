@@ -9,7 +9,10 @@ metadata:
 spec:
   replicas: 1
   strategy:
-    type: Recreate
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
   selector:
     matchLabels:
       app: sabnzbd
@@ -47,6 +50,9 @@ spec:
         - name: TZ
           value: "UTC"
         volumeMounts:
+        - name: shared-storage
+          mountPath: /data/media
+          subPath: media
         - name: shared-storage
           mountPath: /config
           subPath: shared/sabnzbd

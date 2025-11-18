@@ -4,8 +4,8 @@
 # Source: https://github.com/kubernetes-csi/csi-driver-smb
 
 # Deploy using Helm:
-# helm --kubeconfig ./k3s-external.yaml repo add csi-driver-smb https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
-# helm --kubeconfig ./k3s-external.yaml install csi-driver-smb csi-driver-smb/csi-driver-smb --namespace kube-system --version 1.19.1
+# helm repo add csi-driver-smb https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts
+# helm install csi-driver-smb csi-driver-smb/csi-driver-smb --namespace kube-system --version 1.19.1
 
 # Or apply directly:
 apiVersion: v1

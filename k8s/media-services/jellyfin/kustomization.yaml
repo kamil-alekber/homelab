@@ -7,6 +7,8 @@ namespace: media-services
 resources:
 - deployment.yml
 - service.yml
+- ingress.yml
+- tls.certificate.yml
 
 commonLabels:
   app: jellyfin

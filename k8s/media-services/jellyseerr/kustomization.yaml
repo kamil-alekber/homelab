@@ -7,7 +7,8 @@ namespace: media-services
 resources:
 - deployment.yml
 - service.yml
-
+- tls.certificate.yml
+- ingress.yml
 commonLabels:
   app: jellyseerr
   app.kubernetes.io/name: jellyseerr

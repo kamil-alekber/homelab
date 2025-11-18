@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: lidarr-clusterlab-cc
+  namespace: media-services
+spec:
+  secretName: lidarr-clusterlab-cc-tls
+  dnsNames:
+    - lidarr.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

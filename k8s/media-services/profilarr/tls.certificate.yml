@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: profilarr-clusterlab-cc
+  namespace: media-services
+spec:
+  secretName: profilarr-clusterlab-cc-tls
+  dnsNames:
+    - profilarr.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
