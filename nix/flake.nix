@@ -49,9 +49,6 @@
           ];
 
           networking.hostName = "storage-01";
-          
-          # System configuration
-          system.stateVersion = "24.05";
         };
 
         # K3s control plane node
@@ -70,8 +67,6 @@
           ];
 
           networking.hostName = "k3s-server-01";
-          
-          system.stateVersion = "24.05";
         };
 
         # K3s worker node 1
@@ -91,8 +86,6 @@
           networking.hostName = "k3s-agent-01";
           
           services.k3s.serverAddr = "https://192.168.8.248:6443";
-          
-          system.stateVersion = "24.05";
         };
 
         # K3s worker node 2
@@ -112,8 +105,6 @@
           networking.hostName = "k3s-agent-02";
           
           services.k3s.serverAddr = "https://192.168.8.248:6443";
-          
-          system.stateVersion = "24.05";
         };
       };
     };
