@@ -56,11 +56,8 @@ spec:
           mountPath: /config
           subPath: shared/lidarr
         - name: shared-storage
-          mountPath: /data/music
-          subPath: media/music
-        - name: shared-storage
-          mountPath: /data/downloads
-          subPath: media/downloads
+          mountPath: /data
+          subPath: media
         resources:
           requests:
             memory: "256Mi"

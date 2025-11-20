@@ -63,8 +63,8 @@ spec:
           mountPath: /config
           subPath: shared/qbittorrent
         - name: shared-storage
-          mountPath: /data/downloads
-          subPath: media/downloads/torrents
+          mountPath: /data
+          subPath: media
         resources:
           requests:
             memory: "512Mi"

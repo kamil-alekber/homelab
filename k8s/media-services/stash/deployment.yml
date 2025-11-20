@@ -1,0 +1,106 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stash
+  namespace: media-services
+  labels:
+    app: stash
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: stash
+  template:
+    metadata:
+      labels:
+        app: stash
+    spec:
+      initContainers:
+      - name: setup-directories
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          [ ! -d /storage/shared/stash/config ] && mkdir -p /storage/shared/stash/config
+          [ ! -d /storage/shared/stash/metadata ] && mkdir -p /storage/shared/stash/metadata
+          [ ! -d /storage/shared/stash/cache ] && mkdir -p /storage/shared/stash/cache
+          [ ! -d /storage/shared/stash/blobs ] && mkdir -p /storage/shared/stash/blobs
+          [ ! -d /storage/shared/stash/generated ] && mkdir -p /storage/shared/stash/generated
+          [ ! -d /storage/media/stash ] && mkdir -p /storage/media/stash
+          echo "Directory setup completed successfully"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /storage
+      containers:
+      - name: stash
+        image: stashapp/stash:latest
+        ports:
+        - name: http
+          containerPort: 9999
+          protocol: TCP
+        env:
+        - name: STASH_STASH
+          value: "/data/"
+        - name: STASH_GENERATED
+          value: "/generated/"
+        - name: STASH_METADATA
+          value: "/metadata/"
+        - name: STASH_CACHE
+          value: "/cache/"
+        - name: STASH_PORT
+          value: "9999"
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "UTC"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /data
+          subPath: media
+        - name: shared-storage
+          mountPath: /root/.stash
+          subPath: shared/stash/config
+        - name: shared-storage
+          mountPath: /metadata
+          subPath: shared/stash/metadata
+        - name: shared-storage
+          mountPath: /cache
+          subPath: shared/stash/cache
+        - name: shared-storage
+          mountPath: /blobs
+          subPath: shared/stash/blobs
+        - name: shared-storage
+          mountPath: /generated
+          subPath: shared/stash/generated
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: media-shared-storage

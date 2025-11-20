@@ -8,6 +8,7 @@ namespace: media-services
 # Base resources
 resources:
 - base/
+- cloudcmd/
 - sonarr/
 - radarr/
 - lidarr/
@@ -18,6 +19,11 @@ resources:
 - jellyfin/
 - jellyseerr/
 - profilarr/
+- stash/
+- homepage/
+- sonobarr/
+- glance/
+- whisparr/
 
 # Common labels applied to all resources
 labels:

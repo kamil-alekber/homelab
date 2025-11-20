@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sonobarr
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://sonobarr.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "AI-powered music discovery for Lidarr"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: lidarr.png
+    gethomepage.dev/name: Sonobarr
+    gethomepage.dev/pod-selector: "app=sonobarr"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`sonobarr.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: sonobarr
+          port: http
+  tls:
+    secretName: sonobarr-clusterlab-cc-tls

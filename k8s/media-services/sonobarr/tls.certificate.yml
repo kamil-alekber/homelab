@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: sonobarr-clusterlab-cc
+  namespace: media-services
+spec:
+  secretName: sonobarr-clusterlab-cc-tls
+  dnsNames:
+    - sonobarr.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

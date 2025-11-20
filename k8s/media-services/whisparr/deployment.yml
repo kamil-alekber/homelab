@@ -2,10 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: radarr
+  name: whisparr
   namespace: media-services
   labels:
-    app: radarr
+    app: whisparr
 spec:
   replicas: 1
   strategy:
@@ -15,11 +15,11 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      app: radarr
+      app: whisparr
   template:
     metadata:
       labels:
-        app: radarr
+        app: whisparr
     spec:
       initContainers:
       - name: setup-directories
@@ -28,21 +28,21 @@ spec:
         - sh
         - -c
         - |
-          [ ! -d /storage/media/movies ] && mkdir -p /storage/media/movies
+          [ ! -d /storage/media/adult ] && mkdir -p /storage/media/adult
           [ ! -d /storage/media/downloads/complete ] && mkdir -p /storage/media/downloads/complete
           [ ! -d /storage/media/downloads/incomplete ] && mkdir -p /storage/media/downloads/incomplete
           [ ! -d /storage/media/downloads/torrents ] && mkdir -p /storage/media/downloads/torrents
-          [ ! -d /storage/shared/radarr ] && mkdir -p /storage/shared/radarr
+          [ ! -d /storage/shared/whisparr ] && mkdir -p /storage/shared/whisparr
           echo "Directory setup completed successfully"
         volumeMounts:
         - name: shared-storage
           mountPath: /storage
       containers:
-      - name: radarr
-        image: lscr.io/linuxserver/radarr:latest
+      - name: whisparr
+        image: ghcr.io/hotio/whisparr:v3
         ports:
         - name: http
-          containerPort: 7878
+          containerPort: 6969
           protocol: TCP
         env:
         - name: PUID
@@ -54,7 +54,7 @@ spec:
         volumeMounts:
         - name: shared-storage
           mountPath: /config
-          subPath: shared/radarr
+          subPath: shared/whisparr
         - name: shared-storage
           mountPath: /data
           subPath: media

@@ -61,14 +61,8 @@ spec:
           mountPath: /config
           subPath: shared/jellyfin
         - name: shared-storage
-          mountPath: /data/tv
-          subPath: media/tv
-        - name: shared-storage
-          mountPath: /data/movies
-          subPath: media/movies
-        - name: shared-storage
-          mountPath: /data/music
-          subPath: media/music
+          mountPath: /data
+          subPath: media
         resources:
           requests:
             memory: "512Mi"

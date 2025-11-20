@@ -51,17 +51,11 @@ spec:
           value: "UTC"
         volumeMounts:
         - name: shared-storage
-          mountPath: /data/media
-          subPath: media
-        - name: shared-storage
           mountPath: /config
           subPath: shared/sabnzbd
         - name: shared-storage
-          mountPath: /data/downloads
-          subPath: media/downloads/complete
-        - name: shared-storage
-          mountPath: /data/incomplete-downloads
-          subPath: media/downloads/incomplete
+          mountPath: /data
+          subPath: media
         resources:
           requests:
             memory: "512Mi"

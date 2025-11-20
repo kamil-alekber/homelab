@@ -1,0 +1,151 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonobarr
+  namespace: media-services
+  labels:
+    app: sonobarr
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: sonobarr
+  template:
+    metadata:
+      labels:
+        app: sonobarr
+    spec:
+      initContainers:
+      - name: setup-directories
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          [ ! -d /storage/shared/sonobarr/config ] && mkdir -p /storage/shared/sonobarr/config
+          echo "Directory setup completed successfully"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /storage
+      containers:
+      - name: sonobarr
+        image: ghcr.io/dodelidoo-labs/sonobarr:latest
+        ports:
+        - name: http
+          containerPort: 5000
+          protocol: TCP
+        env:
+        - name: LIDARR_ADDRESS
+          value: "http://lidarr"
+        - name: LIDARR_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: sonobarr-secrets
+              key: lidarr_api_key
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: sonobarr-secrets
+              key: secret_key
+        - name: ROOT_FOLDER_PATH
+          value: "/data/music/"
+        - name: QUALITY_PROFILE_ID
+          value: "1"
+        - name: METADATA_PROFILE_ID
+          value: "1"
+        - name: LIDARR_API_TIMEOUT
+          value: "120"
+        - name: FALLBACK_TO_TOP_RESULT
+          value: "false"
+        - name: SEARCH_FOR_MISSING_ALBUMS
+          value: "false"
+        - name: DRY_RUN_ADDING_TO_LIDARR
+          value: "false"
+        - name: SIMILAR_ARTIST_BATCH_SIZE
+          value: "10"
+        - name: AUTO_START
+          value: "false"
+        - name: AUTO_START_DELAY
+          value: "60"
+        - name: LAST_FM_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: sonobarr-secrets
+              key: last_fm_api_key
+              optional: true
+        - name: LAST_FM_API_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: sonobarr-secrets
+              key: last_fm_api_secret
+              optional: true
+        - name: YOUTUBE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: sonobarr-secrets
+              key: youtube_api_key
+              optional: true
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: sonobarr-secrets
+              key: openai_api_key
+              optional: true
+        - name: OPENAI_MODEL
+          value: "gpt-4o-mini"
+        - name: OPENAI_MAX_SEED_ARTISTS
+          value: "5"
+        - name: SONOBARR_SUPERADMIN_USERNAME
+          value: "admin"
+        - name: SONOBARR_SUPERADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sonobarr-secrets
+              key: sonobarr_superadmin_password
+        - name: SONOBARR_SUPERADMIN_DISPLAY_NAME
+          value: "Super Admin"
+        - name: SONOBARR_SUPERADMIN_RESET
+          value: "false"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /sonobarr/config
+          subPath: shared/sonobarr/config
+        - name: shared-storage
+          mountPath: /data
+          subPath: media
+        - name: localtime
+          mountPath: /etc/localtime
+          readOnly: true
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: media-shared-storage
+      - name: localtime
+        hostPath:
+          path: /etc/localtime
+          type: File

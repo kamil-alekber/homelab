@@ -56,11 +56,8 @@ spec:
           mountPath: /config
           subPath: shared/sonarr
         - name: shared-storage
-          mountPath: /data/tv
-          subPath: media/tv
-        - name: shared-storage
-          mountPath: /data/downloads
-          subPath: media/downloads
+          mountPath: /data
+          subPath: media
         resources:
           requests:
             memory: "256Mi"
