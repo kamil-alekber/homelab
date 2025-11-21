@@ -49,7 +49,7 @@ data:
             description: Media streaming server
             widget:
               type: jellyfin
-              url: http://jellyfin.clusterlab.cc
+              url: http://jellyfin
               key: 2fe19c24d6f94c02bdb59789bd0e3200
         
         - Jellyseerr:
@@ -113,7 +113,7 @@ data:
             description: Torrent client
             widget:
               type: qbittorrent
-              url: http://qbittorrent
+              url: http://qbittorrent-bittorrent
               username: admin
               password: 95782641
         
@@ -123,7 +123,7 @@ data:
             description: Usenet client
             widget:
               type: sabnzbd
-              url: http://sabnzbd
+              url: https://sabnzbd.clusterlab.cc
               key: 3611a4ac1588459294bdd36a3fb702b6
         
         - FlareSolverr:
@@ -136,7 +136,10 @@ data:
             icon: stash.png
             href: https://stash.clusterlab.cc
             description: Media library manager
-        
+            widget:
+              type: stash
+              url: http://stash
+              
         - CloudCmd:
             icon: cloudcmd.png
             href: https://cloudcmd.clusterlab.cc
