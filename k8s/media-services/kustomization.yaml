@@ -24,6 +24,7 @@ resources:
 - sonobarr/
 - glance/
 - whisparr/
+- monitoring/
 
 # Common labels applied to all resources
 labels:

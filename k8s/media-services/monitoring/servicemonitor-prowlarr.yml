@@ -1,0 +1,18 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: prowlarr
+  namespace: media-services
+  labels:
+    app: prowlarr
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: prowlarr
+  endpoints:
+  - port: http
+    path: /
+    interval: 30s
+    scrapeTimeout: 10s

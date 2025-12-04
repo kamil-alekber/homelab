@@ -1,0 +1,18 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cloudcmd
+  namespace: media-services
+  labels:
+    app: cloudcmd
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: cloudcmd
+  endpoints:
+  - port: http
+    path: /
+    interval: 30s
+    scrapeTimeout: 10s
