@@ -69,6 +69,39 @@
           networking.hostName = "k3s-server-01";
         };
 
+        k3s-server-02 = { name, nodes, pkgs, ... }: {
+          deployment = {
+            targetHost = "192.168.8.182"; # Change to your IP
+            targetUser = "root";
+            targetPort = 22;
+            tags = [ "k3s" "k3s-server" ];
+          };
+
+          imports = [
+            ./hosts/k3s-nodes/server-2/configuration.nix
+            ./modules/k3s-server.nix
+            
+          ];
+
+          networking.hostName = "k3s-server-02";
+        };
+
+        k3s-server-03 = { name, nodes, pkgs, ... }: {
+          deployment = {
+            targetHost = "192.168.8.103"; # Change to your IP
+            targetUser = "root";
+            targetPort = 22;
+            tags = [ "k3s" "k3s-server" ];
+          };
+
+          imports = [
+            ./hosts/k3s-nodes/server-3/configuration.nix
+            ./modules/k3s-server.nix
+          ];
+
+          networking.hostName = "k3s-server-03";
+        };
+
         # K3s worker node 1
         k3s-agent-01 = { name, nodes, pkgs, ... }: {
           deployment = {
