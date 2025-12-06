@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 # Set disk variable (adjust as necessary)
 DISK=/dev/sda
 
