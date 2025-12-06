@@ -1,0 +1,88 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+  namespace: media-services
+  labels:
+    app: jellyfin
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      initContainers:
+      - name: setup-directories
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          [ ! -d /storage/shared/jellyfin ] && mkdir -p /storage/shared/jellyfin
+          [ ! -d /storage/media/tv ] && mkdir -p /storage/media/tv
+          [ ! -d /storage/media/movies ] && mkdir -p /storage/media/movies
+          [ ! -d /storage/media/music ] && mkdir -p /storage/media/music
+          echo "Directory setup completed successfully"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /storage
+      containers:
+      - name: jellyfin
+        image: lscr.io/linuxserver/jellyfin:latest
+        ports:
+        - name: http
+          containerPort: 8096
+          protocol: TCP
+        - name: dlna
+          containerPort: 1900
+          protocol: UDP
+        - name: discovery
+          containerPort: 7359
+          protocol: UDP
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "UTC"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /config
+          subPath: shared/jellyfin
+        - name: shared-storage
+          mountPath: /data
+          subPath: media
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 5
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: media-shared-storage

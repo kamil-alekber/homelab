@@ -1,0 +1,90 @@
+---
+# Example: Simple Deployment using Samba Media Storage
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: media-app-example
+  namespace: storage
+  labels:
+    app: media-app-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: media-app-example
+  template:
+    metadata:
+      labels:
+        app: media-app-example
+    spec:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: "OnRootMismatch"
+      
+      containers:
+      - name: app
+        image: alpine:latest
+        command: ["/bin/sh", "-c", "tail -f /dev/null"]
+        
+        volumeMounts:
+        - name: media-storage
+          mountPath: /media
+        
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          allowPrivilegeEscalation: false
+        
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+      
+      volumes:
+      - name: media-storage
+        persistentVolumeClaim:
+          claimName: media-storage
+---
+# Job to initialize media storage directory structure (run once)
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: setup-media-storage
+  namespace: storage
+spec:
+  template:
+    spec:
+      securityContext:
+        fsGroup: 1000
+      restartPolicy: OnFailure
+      
+      containers:
+      - name: setup
+        image: busybox:latest
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            mkdir -p /media/movies/complete /media/movies/incomplete
+            mkdir -p /media/tv/complete /media/tv/incomplete
+            mkdir -p /media/music/complete /media/music/incomplete
+            mkdir -p /media/books/complete /media/books/incomplete
+            mkdir -p /media/downloads/complete /media/downloads/incomplete
+            mkdir -p /media/.metadata
+            chmod -R 775 /media
+            echo "Storage initialized at $(date)" > /media/.initialized
+        
+        volumeMounts:
+        - name: media-storage
+          mountPath: /media
+        
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+      
+      volumes:
+      - name: media-storage
+        persistentVolumeClaim:
+          claimName: media-storage

@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: flaresolverr
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://flaresolverr.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Proxy server to bypass Cloudflare protection."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: flaresolverr.png
+    gethomepage.dev/name: FlareSolverr
+    gethomepage.dev/pod-selector: "app=flaresolverr"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`flaresolverr.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: flaresolverr
+          port: http
+  tls:
+    secretName: flaresolverr-clusterlab-cc-tls

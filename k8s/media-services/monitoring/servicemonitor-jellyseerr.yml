@@ -1,0 +1,18 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: jellyseerr
+  namespace: media-services
+  labels:
+    app: jellyseerr
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: jellyseerr
+  endpoints:
+  - port: http
+    path: /
+    interval: 30s
+    scrapeTimeout: 10s

@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: profilarr
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://profilarr.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Custom profile and configuration management for *arr applications."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: profilarr.png
+    gethomepage.dev/name: Profilarr
+    gethomepage.dev/pod-selector: "app=profilarr"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`profilarr.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: profilarr
+          port: http
+  tls:
+    secretName: profilarr-clusterlab-cc-tls

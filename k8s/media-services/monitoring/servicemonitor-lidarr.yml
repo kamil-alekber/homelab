@@ -1,0 +1,18 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: lidarr
+  namespace: media-services
+  labels:
+    app: lidarr
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: lidarr
+  endpoints:
+  - port: http
+    path: /
+    interval: 30s
+    scrapeTimeout: 10s

@@ -1,0 +1,17 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: media-services
+
+resources:
+- deployment.yml
+- service.yml
+- ingress.yml
+- tls.certificate.yml
+
+commonLabels:
+  app: profilarr
+  app.kubernetes.io/name: profilarr
+  app.kubernetes.io/component: config-management-radarr-sonarr
+

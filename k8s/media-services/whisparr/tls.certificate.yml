@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: whisparr-clusterlab-cc
+  namespace: media-services
+spec:
+  secretName: whisparr-clusterlab-cc-tls
+  dnsNames:
+    - whisparr.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: qbittorrent
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://qbittorrent.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "BitTorrent client with a Qt-based GUI."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: qbittorrent.png
+    gethomepage.dev/name: qBittorrent
+    gethomepage.dev/pod-selector: "app=qbittorrent"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`qbittorrent.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: qbittorrent
+          port: http
+  tls:
+    secretName: qbittorrent-clusterlab-cc-tls

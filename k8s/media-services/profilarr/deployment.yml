@@ -1,0 +1,72 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profilarr
+  namespace: media-services
+  labels:
+    app: profilarr
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: profilarr
+  template:
+    metadata:
+      labels:
+        app: profilarr
+    spec:
+      initContainers:
+      - name: setup-directories
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          [ ! -d /storage/shared/profilarr ] && mkdir -p /storage/shared/profilarr
+          echo "Directory setup completed successfully"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /storage
+      containers:
+      - name: profilarr
+        image: santiagosayshey/profilarr:latest
+        ports:
+        - name: http
+          containerPort: 6868
+          protocol: TCP
+        env:
+        - name: TZ
+          value: "UTC"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /config
+          subPath: shared/profilarr
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: media-shared-storage

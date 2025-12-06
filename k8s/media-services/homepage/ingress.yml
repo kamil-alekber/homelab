@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: homepage
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "https://homepage.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Unified dashboard for all media services"
+    gethomepage.dev/group: Management
+    gethomepage.dev/icon: homepage.png
+    gethomepage.dev/name: Homepage
+    gethomepage.dev/pod-selector: "app=homepage"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`homepage.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: homepage
+          port: 3000
+  tls:
+    secretName: homepage-clusterlab-cc-tls

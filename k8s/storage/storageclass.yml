@@ -1,0 +1,46 @@
+---
+# StorageClass for SMB/CIFS provisioning
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: samba-storage
+provisioner: smb.csi.k8s.io
+parameters:
+  source: "//192.168.8.221/media"  # SMB server address with share path
+  csi.storage.k8s.io/node-stage-secret-name: samba-credentials
+  csi.storage.k8s.io/node-stage-secret-namespace: storage
+mountOptions:
+  - dir_mode=0777
+  - file_mode=0666
+  - uid=1000
+  - gid=1000
+  - vers=3.0
+  - cache=none
+  - nobrl
+  - nosharesock
+  - actimeo=30
+  - mfsymlinks
+reclaimPolicy: Retain
+allowVolumeExpansion: false
+volumeBindingMode: Immediate
+---
+# StorageClass for NFS (alternative approach)
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-storage
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 192.168.8.221  # NFS server hostname or IP
+  share: /storage/k8s-volumes
+  # Optional: subDir parameter for creating subdirectories
+  # subDir: ${pvc.metadata.namespace}/${pvc.metadata.name}
+mountOptions:
+  - nfsvers=4.1
+  - hard
+  - timeo=600
+  - retrans=2
+  - noresvport
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: Immediate

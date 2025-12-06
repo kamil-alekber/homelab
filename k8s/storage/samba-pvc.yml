@@ -1,0 +1,45 @@
+---
+# PersistentVolumeClaim for Media Storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-storage
+  namespace: storage
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: samba-storage
+  resources:
+    requests:
+      storage: 1Ti
+  volumeName: samba-media-pv
+---
+# PersistentVolumeClaim for Shared Storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shared-storage
+  namespace: storage
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: samba-storage
+  resources:
+    requests:
+      storage: 500Gi
+  volumeName: samba-shared-pv
+---
+# PVC for Media Services namespace
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-storage
+  namespace: media-services
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: samba-storage
+  resources:
+    requests:
+      storage: 1Ti
+  volumeName: samba-media-pv

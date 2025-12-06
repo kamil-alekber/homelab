@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: stash-clusterlab-cc
+  namespace: media-system
+spec:
+  secretName: stash-clusterlab-cc-tls
+  dnsNames:
+    - stash.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

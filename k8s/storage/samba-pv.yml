@@ -1,0 +1,60 @@
+---
+# PersistentVolume for Samba Media Storage
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: samba-media-pv
+spec:
+  capacity:
+    storage: 1Ti  # Adjust based on your actual storage size
+  accessModes:
+    - ReadWriteMany  # Multiple pods can read/write simultaneously
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: samba-storage
+  mountOptions:
+    - dir_mode=0777
+    - file_mode=0666
+    - uid=1000
+    - gid=1000
+    - nobrl  # Disable byte-range locks for better performance
+    - mfsymlinks
+    - cache=loose
+  csi:
+    driver: smb.csi.k8s.io
+    readOnly: false
+    volumeHandle: samba-media-volume
+    volumeAttributes:
+      source: "//192.168.8.221/media"  # storage-01 IP address
+    nodeStageSecretRef:
+      name: samba-credentials
+      namespace: storage
+---
+# PersistentVolume for Samba Shared Storage
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: samba-shared-pv
+spec:
+  capacity:
+    storage: 500Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: samba-storage
+  mountOptions:
+    - dir_mode=0777
+    - file_mode=0666
+    - uid=1000
+    - gid=1000
+    - nobrl
+    - mfsymlinks
+    - cache=loose
+  csi:
+    driver: smb.csi.k8s.io
+    readOnly: false
+    volumeHandle: samba-shared-volume
+    volumeAttributes:
+      source: "//192.168.8.221/shared"  # storage-01 IP address
+    nodeStageSecretRef:
+      name: samba-credentials
+      namespace: storage

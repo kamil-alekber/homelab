@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: glance
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://glance.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "A self-hosted dashboard that puts all your feeds in one place"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: glance.png
+    gethomepage.dev/name: Glance
+    gethomepage.dev/pod-selector: "app=glance"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`glance.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: glance
+          port: http
+  tls:
+    secretName: glance-clusterlab-cc-tls

@@ -1,0 +1,18 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: glance
+  namespace: media-services
+  labels:
+    app: glance
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: glance
+  endpoints:
+  - port: http
+    path: /
+    interval: 30s
+    scrapeTimeout: 10s

@@ -1,0 +1,287 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage
+  namespace: media-services
+  labels:
+    app: homepage
+    app.kubernetes.io/name: homepage
+data:
+  kubernetes.yaml: |
+    mode: cluster
+  
+  settings.yaml: |
+    title: Media Services Dashboard
+    theme: dark
+    color: slate
+    headerStyle: boxed
+    layout:
+      Media Services:
+        style: row
+        columns: 4
+      Download Clients:
+        style: row
+        columns: 2
+      Management:
+        style: row
+        columns: 3
+      Monitoring:
+        style: row
+        columns: 2
+    quicklaunch:
+      searchDescriptions: true
+      hideInternetSearch: false
+      showSearchSuggestions: true
+      hideVisitURL: false
+  
+  bookmarks.yaml: |
+    - Developer Resources:
+        - GitHub:
+            - abbr: GH
+              href: https://github.com/
+        - Kubernetes Docs:
+            - abbr: K8s
+              href: https://kubernetes.io/docs/
+  
+  services.yaml: |
+    - Media Services:
+        - Jellyfin:
+            icon: jellyfin.png
+            href: https://jellyfin.clusterlab.cc
+            description: Media streaming server
+            widget:
+              type: jellyfin
+              url: http://jellyfin
+              key: 2fe19c24d6f94c02bdb59789bd0e3200
+        
+        - Jellyseerr:
+            icon: jellyseerr.png
+            href: https://jellyseerr.clusterlab.cc
+            description: Media request management
+            widget:
+              type: jellyseerr
+              url: http://jellyseerr
+              key: MTc2MzMwMDQzNTYzMmYwZDgzZDQ1LThkNDMtNDEzNS1hMDJjLWYwMDkwMjE2NzE2NQ==
+        
+        - Sonarr:
+            icon: sonarr.png
+            href: https://sonarr.clusterlab.cc
+            description: TV show automation
+            widget:
+              type: sonarr
+              url: http://sonarr
+              key: 843aca18c51d4a2189214b962efa514e
+        
+        - Radarr:
+            icon: radarr.png
+            href: https://radarr.clusterlab.cc
+            description: Movie automation
+            widget:
+              type: radarr
+              url: http://radarr
+              key: 67c4ed90623c43f8869b6596044b2b46
+        
+        - Lidarr:
+            icon: lidarr.png
+            href: https://lidarr.clusterlab.cc
+            description: Music automation
+            widget:
+              type: lidarr
+              url: http://lidarr
+              key: cca173b3d8914e66b31f160ed72ee28c
+        
+        - Whisparr:
+            icon: whisparr.png
+            href: https://whisparr.clusterlab.cc
+            description: Adult content automation
+        
+        - Prowlarr:
+            icon: prowlarr.png
+            href: https://prowlarr.clusterlab.cc
+            description: Indexer manager
+            widget:
+              type: prowlarr
+              url: http://prowlarr
+              key: 3989241f2c5e42b8b4d6f572202bf7f6
+    
+    - Download Clients:
+        - qBittorrent:
+            icon: qbittorrent.png
+            href: https://qbittorrent.clusterlab.cc
+            description: Torrent client
+            widget:
+              type: qbittorrent
+              url: http://qbittorrent-bittorrent
+              username: admin
+              password: 95782641
+        
+        - SABnzbd:
+            icon: sabnzbd.png
+            href: https://sabnzbd.clusterlab.cc
+            description: Usenet client
+            widget:
+              type: sabnzbd
+              url: http://sabnzbd:80
+              key: 3611a4ac1588459294bdd36a3fb702b6
+        
+        - FlareSolverr:
+            icon: flaresolverr.png
+            href: https://flaresolverr.clusterlab.cc
+            description: Cloudflare bypass proxy
+    
+    - Management:
+        - Stash:
+            icon: stash.png
+            href: https://stash.clusterlab.cc
+            description: Media library manager
+            widget:
+              type: stash
+              url: http://stash
+              
+        - CloudCmd:
+            icon: cloudcmd.png
+            href: https://cloudcmd.clusterlab.cc
+            description: File manager
+        
+        - Profilarr:
+            icon: profilarr.png
+            href: https://profilarr.clusterlab.cc
+            description: Profile manager
+        
+        - Sonobarr:
+            icon: sonobarr.png
+            href: https://sonobarr.clusterlab.cc
+            description: Music management
+        
+        - Glance:
+            icon: glance.png
+            href: https://glance.clusterlab.cc
+            description: Dashboard at a glance
+    
+    - Monitoring:
+        - Grafana:
+            icon: grafana.png
+            href: https://grafana.clusterlab.cc
+            description: Grafana dashboard for cluster monitoring
+            widget:
+              type: grafana
+              url: http://kube-prometheus-stack-grafana.monitoring
+              username: admin
+              password: prom-operator
+        
+        - Prometheus:
+            icon: prometheus.png
+            href: https://prometheus.clusterlab.cc
+            description: Prometheus monitoring for cluster
+            widget:
+              type: prometheus
+              url: http://kube-prometheus-stack-prometheus.monitoring:9090
+  
+  widgets.yaml: |
+    - logo:
+        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/jellyfin.png
+    
+    - greeting:
+        text_size: xl
+        text: "Welcome to Media Services"
+    
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+          label: "Media Services Cluster"
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+    
+    - resources:
+        backend: kubernetes
+        expanded: true
+        cpu: true
+        memory: true
+    
+    - datetime:
+        text_size: l
+        format:
+          dateStyle: long
+          timeStyle: short
+          hourCycle: h23
+    
+    - search:
+        provider: duckduckgo
+        target: _blank
+  
+  docker.yaml: ""
+  
+  custom.css: |
+    body {
+       font-family: "Google Sans";
+       opacity: .8;
+       }
+
+    .border-theme-300, .border-theme-800 {
+       border: 0;
+       }
+
+    .border-theme-800 {
+       margin: 30px 45px 0 35px;
+       }
+
+    h2 {  
+       margin-bottom: -10px;    
+       }
+
+    .text-left > .flex div .opacity-50 {
+       color: #fff !important;
+       }
+
+    .items-start {
+       padding-top: 0;
+       }
+
+    .h-15 {
+       border-radius: 12px;
+       margin: 10px 10px 10px 0;
+       opacity: .75;
+       backdrop-filter: blur(8px) !important;
+       background: rgba(255,255,255,.15) !important;    
+       }
+
+    .text-left.cursor-pointer > .flex div:nth-child(2) {
+       margin:5px 5px 5px 0;       
+       padding-left: 0 !important;   
+       }
+
+    img {
+       width: 38px; 
+       height: 38px;
+       margin: 10px;
+       position: relative;
+       left: 10px !important;
+       }
+
+    .px-2.flex-1 {
+       margin-left: 15px;       
+       }
+
+    .rounded-l-md {
+       padding: 10px !important;       
+       }
+
+    .grow .text-xl {
+       margin-bottom: 10px;
+    }
+
+    #__next .fixed {
+       background-image:
+       linear-gradient(0deg, rgba(0,0,0,0.8), rgba(0,0,0,0.6)),
+       url(https://source.unsplash.com/random/?dark+lush+forest&auto=format&fit=crop&w=2560&q=80)
+       !important;
+       }
+  
+  custom.js: ""

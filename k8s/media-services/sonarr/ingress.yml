@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sonarr
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://sonarr.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "TV series collection manager for Usenet and BitTorrent users."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: sonarr.png
+    gethomepage.dev/name: Sonarr
+    gethomepage.dev/pod-selector: "app=sonarr"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`sonarr.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: sonarr
+          port: http
+  tls:
+    secretName: sonarr-clusterlab-cc-tls
