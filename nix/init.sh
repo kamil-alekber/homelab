@@ -31,6 +31,8 @@ swapon ${DISK}2
 # Format the root partition as ext4 (or btrfs/zfs if your config specifies it)
 mkfs.ext4 -L NIXOS_ROOT ${DISK}3
 
+sleep 2
+
 # Mount the root partition to /mnt
 mount /dev/disk/by-label/NIXOS_ROOT /mnt
 
