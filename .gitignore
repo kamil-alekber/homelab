@@ -11,3 +11,5 @@ result-*
 
 # Colmena
 .colmena-*
+
+.DS_Store
