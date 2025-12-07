@@ -17,15 +17,21 @@ data:
     color: slate
     headerStyle: boxed
     layout:
-      Media Services:
-        style: row
-        columns: 4
-      Download Clients:
+      Media Streaming:
         style: row
         columns: 2
-      Management:
+      Media Automation:
+        style: row
+        columns: 5
+      Download Clients:
         style: row
         columns: 3
+      Libraries:
+        style: row
+        columns: 2
+      Utilities:
+        style: row
+        columns: 5
       Monitoring:
         style: row
         columns: 2
@@ -45,7 +51,7 @@ data:
               href: https://kubernetes.io/docs/
   
   services.yaml: |
-    - Media Services:
+    - Media Streaming:
         - Jellyfin:
             icon: jellyfin.png
             href: https://jellyfin.clusterlab.cc
@@ -63,7 +69,8 @@ data:
               type: jellyseerr
               url: http://jellyseerr
               key: MTc2MzMwMDQzNTYzMmYwZDgzZDQ1LThkNDMtNDEzNS1hMDJjLWYwMDkwMjE2NzE2NQ==
-        
+    
+    - Media Automation:
         - Sonarr:
             icon: sonarr.png
             href: https://sonarr.clusterlab.cc
@@ -91,19 +98,15 @@ data:
               url: http://lidarr
               key: cca173b3d8914e66b31f160ed72ee28c
         
-        - Readarr:
-            icon: readarr.png
-            href: https://readarr.clusterlab.cc
-            description: Book & audiobook automation
-            widget:
-              type: readarr
-              url: http://readarr
-              key: YOUR_API_KEY_HERE
-        
         - Whisparr:
             icon: whisparr.png
             href: https://whisparr.clusterlab.cc
             description: Adult content automation
+            widget:
+              type: radarr
+              url: http://whisparr
+              key: 70d8f379cecc4188860043dfe118b4ae
+              fields: ["wanted", "queued"]
         
         - Prowlarr:
             icon: prowlarr.png
@@ -126,9 +129,14 @@ data:
               password: 95782641
         
         - RDTClient:
-            icon: rdtclient.png
+            icon: real-debrid.png
             href: https://rdtclient.clusterlab.cc
             description: Real-Debrid download client
+            widget:
+              type: qbittorrent
+              url: http://rdtclient
+              username: kamil
+              password: 95782641
         
         - SABnzbd:
             icon: sabnzbd.png
@@ -138,13 +146,8 @@ data:
               type: sabnzbd
               url: http://sabnzbd:80
               key: 3611a4ac1588459294bdd36a3fb702b6
-        
-        - FlareSolverr:
-            icon: flaresolverr.png
-            href: https://flaresolverr.clusterlab.cc
-            description: Cloudflare bypass proxy
     
-    - Management:
+    - Libraries:
         - Stash:
             icon: stash.png
             href: https://stash.clusterlab.cc
@@ -152,7 +155,13 @@ data:
             widget:
               type: stash
               url: http://stash
-              
+        
+        - BookLore:
+            icon: booklore.png
+            href: https://booklore.clusterlab.cc
+            description: Self-hosted book library manager
+    
+    - Utilities:
         - CloudCmd:
             icon: cloudcmd.png
             href: https://cloudcmd.clusterlab.cc
@@ -161,7 +170,7 @@ data:
         - Profilarr:
             icon: profilarr.png
             href: https://profilarr.clusterlab.cc
-            description: Profile manager
+            description: Profile manager for *arr apps
         
         - Sonobarr:
             icon: sonobarr.png
@@ -173,16 +182,16 @@ data:
             href: https://glance.clusterlab.cc
             description: Dashboard at a glance
         
-        - BookLore:
-            icon: booklore.png
-            href: https://booklore.clusterlab.cc
-            description: Self-hosted book library manager
+        - FlareSolverr:
+            icon: flaresolverr.png
+            href: https://flaresolverr.clusterlab.cc
+            description: Cloudflare bypass proxy
     
     - Monitoring:
         - Grafana:
             icon: grafana.png
             href: https://grafana.clusterlab.cc
-            description: Grafana dashboard for cluster monitoring
+            description: Cluster monitoring dashboard
             widget:
               type: grafana
               url: http://kube-prometheus-stack-grafana.monitoring
@@ -192,11 +201,11 @@ data:
         - Prometheus:
             icon: prometheus.png
             href: https://prometheus.clusterlab.cc
-            description: Prometheus monitoring for cluster
+            description: Metrics collection & alerting
             widget:
               type: prometheus
               url: http://kube-prometheus-stack-prometheus.monitoring:9090
-  
+
   widgets.yaml: |
     - logo:
         icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/jellyfin.png
