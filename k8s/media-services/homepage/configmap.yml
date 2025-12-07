@@ -116,6 +116,11 @@ data:
               username: admin
               password: 95782641
         
+        - RDTClient:
+            icon: rdtclient.png
+            href: https://rdtclient.clusterlab.cc
+            description: Real-Debrid download client
+        
         - SABnzbd:
             icon: sabnzbd.png
             href: https://sabnzbd.clusterlab.cc
@@ -158,6 +163,11 @@ data:
             icon: glance.png
             href: https://glance.clusterlab.cc
             description: Dashboard at a glance
+        
+        - BookLore:
+            icon: booklore.png
+            href: https://booklore.clusterlab.cc
+            description: Self-hosted book library manager
     
     - Monitoring:
         - Grafana:

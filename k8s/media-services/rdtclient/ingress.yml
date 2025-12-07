@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: rdtclient
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://rdtclient.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Real-Debrid download client with web interface."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: rdtclient.png
+    gethomepage.dev/name: RDTClient
+    gethomepage.dev/pod-selector: "app=rdtclient"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`rdtclient.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: rdtclient
+          port: http
+  tls:
+    secretName: rdtclient-clusterlab-cc-tls

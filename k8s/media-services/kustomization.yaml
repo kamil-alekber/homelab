@@ -8,6 +8,8 @@ namespace: media-services
 # Base resources
 resources:
 - base/
+- booklore/
+- rdtclient/
 - cloudcmd/
 - sonarr/
 - radarr/

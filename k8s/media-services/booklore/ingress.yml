@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: booklore
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "https://booklore.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Self-hosted book library manager"
+    gethomepage.dev/group: Management
+    gethomepage.dev/icon: booklore.png
+    gethomepage.dev/name: BookLore
+    gethomepage.dev/pod-selector: "app=booklore"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`booklore.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: booklore
+          port: http
+  tls:
+    secretName: booklore-clusterlab-cc-tls

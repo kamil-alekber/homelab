@@ -1,0 +1,155 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booklore
+  namespace: media-services
+  labels:
+    app: booklore
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: booklore
+  template:
+    metadata:
+      labels:
+        app: booklore
+    spec:
+      initContainers:
+      - name: setup-directories
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          [ ! -d /storage/shared/booklore/data ] && mkdir -p /storage/shared/booklore/data
+          [ ! -d /storage/shared/booklore/mariadb ] && mkdir -p /storage/shared/booklore/mariadb
+          [ ! -d /storage/media/books ] && mkdir -p /storage/media/books
+          [ ! -d /storage/media/bookdrop ] && mkdir -p /storage/media/bookdrop
+          echo "Directory setup completed successfully"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /storage
+      containers:
+      - name: booklore
+        image: booklore/booklore:latest
+        ports:
+        - name: http
+          containerPort: 6060
+          protocol: TCP
+        env:
+        - name: USER_ID
+          value: "0"
+        - name: GROUP_ID
+          value: "0"
+        - name: TZ
+          value: "Etc/UTC"
+        - name: DATABASE_URL
+          value: "jdbc:mariadb://localhost:3306/booklore"
+        - name: DATABASE_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: booklore-db-credentials
+              key: username
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: booklore-db-credentials
+              key: password
+        - name: BOOKLORE_PORT
+          value: "6060"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /app/data
+          subPath: shared/booklore/data
+        - name: shared-storage
+          mountPath: /books
+          subPath: media/books
+        - name: shared-storage
+          mountPath: /bookdrop
+          subPath: media/bookdrop
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 5
+      - name: mariadb
+        image: lscr.io/linuxserver/mariadb:11.4.5
+        ports:
+        - name: mysql
+          containerPort: 3306
+          protocol: TCP
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "Etc/UTC"
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: booklore-db-credentials
+              key: root-password
+        - name: MYSQL_DATABASE
+          value: "booklore"
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: booklore-db-credentials
+              key: username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: booklore-db-credentials
+              key: password
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /config
+          subPath: shared/booklore/mariadb
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - mariadb-admin
+            - ping
+            - -h
+            - localhost
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - mariadb-admin
+            - ping
+            - -h
+            - localhost
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: media-shared-storage

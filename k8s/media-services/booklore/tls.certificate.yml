@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: booklore-clusterlab-cc
+  namespace: media-services
+spec:
+  secretName: booklore-clusterlab-cc-tls
+  dnsNames:
+    - booklore.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
