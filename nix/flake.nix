@@ -139,6 +139,43 @@
           
           services.k3s.serverAddr = "https://192.168.8.248:6443";
         };
+
+        k3s-agent-03 = { name, nodes, pkgs, ... }: {
+          deployment = {
+            targetHost = "192.168.8.174"; 
+            targetUser = "root";
+            targetPort = 22;
+            tags = [ "k3s" "k3s-agent" ];
+          };
+
+          imports = [
+            ./hosts/k3s-nodes/worker-3/configuration.nix
+            ./modules/k3s-agent.nix
+          ];
+
+          networking.hostName = "k3s-agent-03";
+          
+          services.k3s.serverAddr = "https://192.168.8.248:6443";
+        };
+
+
+        k3s-agent-04 = { name, nodes, pkgs, ... }: {
+          deployment = {
+            targetHost = "192.168.8.160"; 
+            targetUser = "root";
+            targetPort = 22;
+            tags = [ "k3s" "k3s-agent" ];
+          };
+
+          imports = [
+            ./hosts/k3s-nodes/worker-4/configuration.nix
+            ./modules/k3s-agent.nix
+          ];
+
+          networking.hostName = "k3s-agent-04";
+          
+          services.k3s.serverAddr = "https://192.168.8.248:6443";
+        };
       };
     };
 }
