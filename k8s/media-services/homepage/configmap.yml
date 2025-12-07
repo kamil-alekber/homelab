@@ -91,6 +91,15 @@ data:
               url: http://lidarr
               key: cca173b3d8914e66b31f160ed72ee28c
         
+        - Readarr:
+            icon: readarr.png
+            href: https://readarr.clusterlab.cc
+            description: Book & audiobook automation
+            widget:
+              type: readarr
+              url: http://readarr
+              key: YOUR_API_KEY_HERE
+        
         - Whisparr:
             icon: whisparr.png
             href: https://whisparr.clusterlab.cc
