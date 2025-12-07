@@ -51,7 +51,7 @@
           networking.hostName = "storage-01";
         };
 
-        # K3s control plane node
+        # K3s control plane node 1
         k3s-server-01 = { name, nodes, pkgs, ... }: {
           deployment = {
             targetHost = "192.168.8.248"; # Change to your IP
@@ -69,6 +69,7 @@
           networking.hostName = "k3s-server-01";
         };
 
+        # K3s control plane node 2
         k3s-server-02 = { name, nodes, pkgs, ... }: {
           deployment = {
             targetHost = "192.168.8.182"; # Change to your IP
@@ -86,6 +87,7 @@
           networking.hostName = "k3s-server-02";
         };
 
+        # K3s control plane node 1
         k3s-server-03 = { name, nodes, pkgs, ... }: {
           deployment = {
             targetHost = "192.168.8.103"; # Change to your IP
@@ -140,6 +142,7 @@
           services.k3s.serverAddr = "https://192.168.8.248:6443";
         };
 
+        # K3s worker node 3
         k3s-agent-03 = { name, nodes, pkgs, ... }: {
           deployment = {
             targetHost = "192.168.8.174"; 
@@ -158,7 +161,7 @@
           services.k3s.serverAddr = "https://192.168.8.248:6443";
         };
 
-
+        # K3s worker node 4
         k3s-agent-04 = { name, nodes, pkgs, ... }: {
           deployment = {
             targetHost = "192.168.8.160"; 
@@ -173,6 +176,44 @@
           ];
 
           networking.hostName = "k3s-agent-04";
+          
+          services.k3s.serverAddr = "https://192.168.8.248:6443";
+        };
+
+        # K3s worker node 5
+        k3s-agent-05 = { name, nodes, pkgs, ... }: {
+          deployment = {
+            targetHost = "192.168.8.244"; 
+            targetUser = "root";
+            targetPort = 22;
+            tags = [ "k3s" "k3s-agent" ];
+          };
+
+          imports = [
+            ./hosts/k3s-nodes/worker-5/configuration.nix
+            ./modules/k3s-agent.nix
+          ];
+
+          networking.hostName = "k3s-agent-05";
+          
+          services.k3s.serverAddr = "https://192.168.8.248:6443";
+        };
+
+          # K3s worker node 6
+        k3s-agent-06 = { name, nodes, pkgs, ... }: {
+          deployment = {
+            targetHost = "192.168.8.134"; 
+            targetUser = "root";
+            targetPort = 22;
+            tags = [ "k3s" "k3s-agent" ];
+          };
+
+          imports = [
+            ./hosts/k3s-nodes/worker-6/configuration.nix
+            ./modules/k3s-agent.nix
+          ];
+
+          networking.hostName = "k3s-agent-06";
           
           services.k3s.serverAddr = "https://192.168.8.248:6443";
         };
