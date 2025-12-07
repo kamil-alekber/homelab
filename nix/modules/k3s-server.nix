@@ -8,21 +8,39 @@
 #
 # Current demo token: v1OTu/xJ2CGP1S1+ub92/tv4hDjOdAOslWHEZ67IIO0= (CHANGE THIS!)
 
+let
+  # Define the first server as the cluster initializer
+  firstServerIP = "192.168.8.248";  # k3s-server-01
+  isFirstServer = config.networking.hostName == "k3s-server-01";
+  
+  # Additional server nodes join the first server
+  serverJoinFlags = lib.optionals (!isFirstServer) [
+    "--server https://${firstServerIP}:6443"
+  ];
+  
+  # Cluster initialization flag for the first server
+  clusterInitFlags = lib.optionals isFirstServer [
+    "--cluster-init"
+  ];
+in
 {
   # K3s server (control plane) configuration
   services.k3s = {
     enable = true;
     role = "server";
     
-    extraFlags = toString [
-      # "--disable=traefik" # We'll use our own ingress
-      # "--disable=servicelb" # Using MetalLB instead
-      "--write-kubeconfig-mode=644"
-      # "--tls-san=${config.networking.hostName}"
-      # "--tls-san=192.168.8.248"  # k3s-server-01 IP
-      # "--tls-san=k3s-server-01.local"
-      # "--node-label=node-role.kubernetes.io/control-plane=true"
-    ];
+    extraFlags = toString (
+      [
+        # "--disable=traefik" # We'll use our own ingress
+        # "--disable=servicelb" # Using MetalLB instead
+        "--write-kubeconfig-mode=644"
+        "--tls-san=${config.networking.hostName}"
+        "--tls-san=${firstServerIP}"  # Primary server IP
+        "--tls-san=k3s.local"  # Optional: if you have a VIP or DNS
+      ]
+      ++ clusterInitFlags
+      ++ serverJoinFlags
+    );
     
     # Token for agents to join (YOU MUST CHANGE THIS!)
     tokenFile = "/var/lib/rancher/k3s/server/token";
@@ -101,7 +119,7 @@
       if [ -f /etc/rancher/k3s/k3s.yaml ]; then
         # Create a copy with external IP
         cp /etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/k3s-external.yaml
-        ${pkgs.gnused}/bin/sed -i 's/127.0.0.1:6443/192.168.8.248:6443/g' /etc/rancher/k3s/k3s-external.yaml
+        ${pkgs.gnused}/bin/sed -i 's/127.0.0.1:6443/${firstServerIP}:6443/g' /etc/rancher/k3s/k3s-external.yaml
         chmod 644 /etc/rancher/k3s/k3s-external.yaml
         echo "Kubeconfig exported to /etc/rancher/k3s/k3s-external.yaml"
       fi
