@@ -13,6 +13,13 @@ let
   firstServerIP = "192.168.8.248";  # k3s-server-01
   isFirstServer = config.networking.hostName == "k3s-server-01";
   
+  # The simple token (used by first server for initial cluster creation)
+  simpleToken = "v1OTu/xJ2CGP1S1+ub92/tv4hDjOdAOslWHEZ67IIO0=";
+  
+  # The full cluster token from k3s-server-01 (CA hash + server + token)
+  # Secondary servers need this full token to join the cluster
+  clusterToken = "K1031800070e6769f62b771899fd4d2a214098cf822fd00a783f12a0de15357c64a::server:v1OTu/xJ2CGP1S1+ub92/tv4hDjOdAOslWHEZ67IIO0=";
+  
   # Additional server nodes join the first server
   serverJoinFlags = lib.optionals (!isFirstServer) [
     "--server https://${firstServerIP}:6443"
@@ -47,8 +54,9 @@ in
   };
 
   # Create token file if it doesn't exist
+  # First server uses the simple token, secondary servers need the full cluster token
   systemd.tmpfiles.rules = [
-    "f /var/lib/rancher/k3s/server/token 0600 root root - v1OTu/xJ2CGP1S1+ub92/tv4hDjOdAOslWHEZ67IIO0="
+    "f /var/lib/rancher/k3s/server/token 0600 root root - ${if isFirstServer then simpleToken else clusterToken}"
   ];
 
   # Networking for K3s
