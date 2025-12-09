@@ -80,6 +80,15 @@ data:
               url: http://sonarr
               key: 843aca18c51d4a2189214b962efa514e
         
+        - Sonarr DAV:
+            icon: sonarr.png
+            href: https://sonarr-dav.clusterlab.cc
+            description: TV show automation (WebDAV/Debrid)
+            widget:
+              type: sonarr
+              url: http://sonarr-dav
+              key: ""
+              
         - Radarr:
             icon: radarr.png
             href: https://radarr.clusterlab.cc
@@ -88,6 +97,15 @@ data:
               type: radarr
               url: http://radarr
               key: 67c4ed90623c43f8869b6596044b2b46
+        
+        - Radarr DAV:
+            icon: radarr.png
+            href: https://radarr-dav.clusterlab.cc
+            description: Movie automation (WebDAV/Debrid)
+            widget:
+              type: radarr
+              url: http://radarr-dav
+              key: ""
         
         - Lidarr:
             icon: lidarr.png

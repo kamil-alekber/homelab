@@ -14,6 +14,8 @@ resources:
 - cloudcmd/
 - sonarr/
 - radarr/
+- sonarr-dav/
+- radarr-dav/
 - lidarr/
 - listenarr/
 - readarr/
