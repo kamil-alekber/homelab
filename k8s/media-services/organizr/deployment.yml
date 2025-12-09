@@ -2,10 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qbittorrent
+  name: organizr
   namespace: media-services
   labels:
-    app: qbittorrent
+    app: organizr
 spec:
   replicas: 1
   strategy:
@@ -15,11 +15,11 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      app: qbittorrent
+      app: organizr
   template:
     metadata:
       labels:
-        app: qbittorrent
+        app: organizr
     spec:
       initContainers:
       - name: setup-directories
@@ -28,51 +28,39 @@ spec:
         - sh
         - -c
         - |
-          [ ! -d /storage/media/downloads/complete ] && mkdir -p /storage/media/downloads/complete
-          [ ! -d /storage/media/downloads/incomplete ] && mkdir -p /storage/media/downloads/incomplete
-          [ ! -d /storage/media/downloads/torrents ] && mkdir -p /storage/media/downloads/torrents
-          [ ! -d /storage/shared/qbittorrent ] && mkdir -p /storage/shared/qbittorrent
+          [ ! -d /storage/shared/organizr ] && mkdir -p /storage/shared/organizr
           echo "Directory setup completed successfully"
         volumeMounts:
         - name: shared-storage
           mountPath: /storage
       containers:
-      - name: qbittorrent
-        image: lscr.io/linuxserver/qbittorrent:latest
+      - name: organizr
+        image: organizr/organizr:latest
         ports:
         - name: http
-          containerPort: 8080
+          containerPort: 80
           protocol: TCP
-        - name: bittorrent-tcp
-          containerPort: 6881
-          protocol: TCP
-        - name: bittorrent-udp
-          containerPort: 6881
-          protocol: UDP
         env:
-        - name: DOCKER_MODS
-          value: "ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest"
         - name: PUID
           value: "1000"
         - name: PGID
           value: "1000"
         - name: TZ
           value: "UTC"
-        - name: WEBUI_PORT
-          value: "8080"
+        - name: fpm
+          value: "false"
+        - name: branch
+          value: "v2-master"
         volumeMounts:
         - name: shared-storage
           mountPath: /config
-          subPath: shared/qbittorrent
-        - name: shared-storage
-          mountPath: /data
-          subPath: media
+          subPath: shared/organizr
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "200m"
+            memory: "128Mi"
+            cpu: "100m"
           limits:
-            memory: "2Gi"
+            memory: "512Mi"
             cpu: "1000m"
         livenessProbe:
           httpGet:

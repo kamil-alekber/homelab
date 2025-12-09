@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: media-services
+
+resources:
+- deployment.yml
+- service.yml
+- ingress.yml
+- tls.certificate.yml
+
+commonLabels:
+  app: polaris
+  app.kubernetes.io/name: polaris
+  app.kubernetes.io/component: music-server

@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: watcharr
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://watcharr.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Content discovery and tracking for media services."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: watcharr.png
+    gethomepage.dev/name: Watcharr
+    gethomepage.dev/pod-selector: "app=watcharr"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`watcharr.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: watcharr
+          port: http
+  tls:
+    secretName: watcharr-clusterlab-cc-tls

@@ -1,0 +1,84 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decypharr
+  namespace: media-services
+  labels:
+    app: decypharr
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: decypharr
+  template:
+    metadata:
+      labels:
+        app: decypharr
+    spec:
+      initContainers:
+      - name: setup-directories
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          [ ! -d /storage/shared/decypharr ] && mkdir -p /storage/shared/decypharr
+          echo "Directory setup completed successfully"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /storage
+      containers:
+      - name: decypharr
+        image: cy01/blackhole:latest
+        ports:
+        - name: http
+          containerPort: 8282
+          protocol: TCP
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "UTC"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /mnt
+          mountPropagation: Bidirectional
+        - name: shared-storage
+          mountPath: /app
+          subPath: shared/decypharr
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: media-shared-storage

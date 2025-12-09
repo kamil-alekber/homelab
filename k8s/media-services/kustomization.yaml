@@ -10,10 +10,12 @@ resources:
 - base/
 - booklore/
 - rdtclient/
+- decypharr/
 - cloudcmd/
 - sonarr/
 - radarr/
 - lidarr/
+- listenarr/
 - readarr/
 - prowlarr/
 - qbittorrent/
@@ -28,6 +30,8 @@ resources:
 - glance/
 - whisparr/
 - monitoring/
+- polaris/
+- organizr/
 
 # Common labels applied to all resources
 labels:

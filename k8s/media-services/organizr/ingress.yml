@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: organizr
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://organizr.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "HTPC/Homelab services organizer with tabs and authentication."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: organizr.png
+    gethomepage.dev/name: Organizr
+    gethomepage.dev/pod-selector: "app=organizr"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`organizr.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: organizr
+          port: http
+  tls:
+    secretName: organizr-clusterlab-cc-tls

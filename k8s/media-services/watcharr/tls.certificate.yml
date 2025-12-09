@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: watcharr-clusterlab-cc
+  namespace: media-services
+spec:
+  secretName: watcharr-clusterlab-cc-tls
+  dnsNames:
+    - watcharr.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

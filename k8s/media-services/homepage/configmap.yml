@@ -138,6 +138,11 @@ data:
               username: kamil
               password: 95782641
         
+        - Decypharr:
+            icon: mdi-cloud-sync
+            href: https://decypharr.clusterlab.cc
+            description: Real-Debrid WebDAV cloud storage mounter
+        
         - SABnzbd:
             icon: sabnzbd.png
             href: https://sabnzbd.clusterlab.cc
@@ -160,6 +165,11 @@ data:
             icon: booklore.png
             href: https://booklore.clusterlab.cc
             description: Self-hosted book library manager
+        
+        - Polaris:
+            icon: polaris.png
+            href: https://polaris.clusterlab.cc
+            description: Self-hosted music streaming service
     
     - Utilities:
         - CloudCmd:
@@ -172,15 +182,30 @@ data:
             href: https://profilarr.clusterlab.cc
             description: Profile manager for *arr apps
         
+        - Watcharr:
+            icon: watcharr.png
+            href: https://watcharr.clusterlab.cc
+            description: Content discovery and tracking
+        
         - Sonobarr:
             icon: sonobarr.png
             href: https://sonobarr.clusterlab.cc
             description: Music management
         
+        - Miniflux:
+            icon: miniflux.png
+            href: https://miniflux.clusterlab.cc
+            description: Minimalist RSS feed reader
+        
         - Glance:
             icon: glance.png
             href: https://glance.clusterlab.cc
             description: Dashboard at a glance
+        
+        - Organizr:
+            icon: organizr.png
+            href: https://organizr.clusterlab.cc
+            description: HTPC/Homelab services organizer
         
         - FlareSolverr:
             icon: flaresolverr.png

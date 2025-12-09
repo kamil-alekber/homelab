@@ -1,0 +1,80 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: listenarr
+  namespace: media-services
+  labels:
+    app: listenarr
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: listenarr
+  template:
+    metadata:
+      labels:
+        app: listenarr
+    spec:
+      initContainers:
+      - name: setup-directories
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          [ ! -d /storage/media/audiobooks ] && mkdir -p /storage/media/audiobooks
+
+          [ ! -d /storage/shared/listenarr ] && mkdir -p /storage/shared/listenarr
+          echo "Directory setup completed successfully"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /storage
+        - name: shared-storage
+          mountPath: /data
+          subPath: media
+      containers:
+      - name: listenarr
+        image: ghcr.io/therobbiedavis/listenarr:canary
+        ports:
+        - name: http
+          containerPort: 5000
+          protocol: TCP
+        env:
+        - name: LISTENARR_PUBLIC_URL
+          value: "https://listenarr.clusterlab.cc"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /app/config
+          subPath: shared/listenarr
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: media-shared-storage

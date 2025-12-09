@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: miniflux
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "https://miniflux.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Minimalist RSS feed reader"
+    gethomepage.dev/group: Utilities
+    gethomepage.dev/icon: miniflux.png
+    gethomepage.dev/name: Miniflux
+    gethomepage.dev/pod-selector: "app=miniflux"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`miniflux.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: miniflux
+          port: http
+  tls:
+    secretName: miniflux-clusterlab-cc-tls

@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: listenarr
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://listenarr.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Audiobook and podcast tracker for Lidarr and other *arr services."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: lidarr.png
+    gethomepage.dev/name: Listenarr
+    gethomepage.dev/pod-selector: "app=listenarr"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`listenarr.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: listenarr
+          port: http
+  tls:
+    secretName: listenarr-clusterlab-cc-tls
