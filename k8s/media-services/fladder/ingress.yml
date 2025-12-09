@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: fladder
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://fladder.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Modern Jellyfin client with a sleek interface"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: jellyfin.png
+    gethomepage.dev/name: Fladder
+    gethomepage.dev/pod-selector: "app=fladder"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`fladder.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: fladder
+          port: http
+  tls:
+    secretName: fladder-clusterlab-cc-tls

@@ -60,6 +60,14 @@ data:
               type: jellyfin
               url: http://jellyfin
               key: 2fe19c24d6f94c02bdb59789bd0e3200
+        - Jellyfin-DAV:
+            icon: jellyfin.png
+            href: https://streaming.clusterlab.cc
+            description: DAV enabled streaming server
+            widget:
+              type: jellyfin
+              url: http://jellyfin
+              key: 2fe19c24d6f94c02bdb59789bd0e3200
         
         - Jellyseerr:
             icon: jellyseerr.png
@@ -69,6 +77,21 @@ data:
               type: jellyseerr
               url: http://jellyseerr
               key: MTc2MzMwMDQzNTYzMmYwZDgzZDQ1LThkNDMtNDEzNS1hMDJjLWYwMDkwMjE2NzE2NQ==
+        
+        - Frames:
+            icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/jellyfin.png
+            href: https://frames.clusterlab.cc
+            description: AI-powered media management
+        
+        - Fladder:
+            icon: jellyfin.png
+            href: http://fladder.clusterlab.cc
+            description: Modern Jellyfin client with a sleek interface
+        
+        - Jellyswarm:
+            icon: jellyfin.png
+            href: https://jellyswarm.clusterlab.cc
+            description: Jellyfin swarm management interface
     
     - Media Automation:
         - Sonarr:

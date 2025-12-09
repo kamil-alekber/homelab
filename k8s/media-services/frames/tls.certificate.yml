@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: frames-clusterlab-cc
+  namespace: media-services
+spec:
+  secretName: frames-clusterlab-cc-tls
+  dnsNames:
+    - frames.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
