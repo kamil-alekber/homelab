@@ -10,7 +10,5 @@ resources:
 - tls.certificate.yml
 - ingress.yml
 
-commonLabels:
-  app: decypharr
-  app.kubernetes.io/name: decypharr
-  app.kubernetes.io/component: webdav-mounter
+# Note: commonLabels removed to avoid selector immutability issues
+# Labels are already defined in deployment.yml

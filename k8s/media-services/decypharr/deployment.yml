@@ -17,6 +17,8 @@ spec:
     metadata:
       labels:
         app: decypharr
+        radarr-dav: enabled
+        sonarr-dav: enabled
     spec:
       initContainers:
       - name: setup-directories
@@ -25,8 +27,19 @@ spec:
         - sh
         - -c
         - |
-          [ ! -d /storage/shared/decypharr ] && mkdir -p /storage/shared/decypharr
-          [ ! -d /storage/media/mnt ] && mkdir -p /storage/media/mnt
+          mkdir -p /storage/shared/decypharr
+          mkdir -p /storage/shared/radarr-dav
+          mkdir -p /storage/mnt
+          mkdir -p /storage/movies
+          mkdir -p /storage/downloads/complete
+          mkdir -p /storage/downloads/incomplete
+          mkdir -p /storage/downloads/torrents
+          mkdir -p /storage/downloads/radarr-dav
+          mkdir -p /storage/downloads/sonarr-dav
+          chown -R 1000:1000 /storage/downloads/radarr-dav
+          chown -R 1000:1000 /storage/downloads/sonarr-dav
+          chmod -R 755 /storage/downloads/radarr-dav
+          chmod -R 755 /storage/downloads/sonarr-dav
           echo "Directory setup completed successfully"
         volumeMounts:
         - name: shared-storage
@@ -48,7 +61,6 @@ spec:
         volumeMounts:
         - name: shared-storage
           mountPath: /data
-          subPath: media
           mountPropagation: Bidirectional
         - name: shared-storage
           mountPath: /app
@@ -80,6 +92,142 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 10
           timeoutSeconds: 5
+      - name: radarr-dav
+        image: lscr.io/linuxserver/radarr:latest
+        ports:
+        - name: radarr-http
+          containerPort: 7878
+          protocol: TCP
+        env:
+        - name: TP_ADDON
+          value: radarr-darker
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "UTC"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /config
+          subPath: shared/radarr-dav
+        - name: shared-storage
+          mountPath: /data
+          mountPropagation: Bidirectional
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: radarr-http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: radarr-http
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      - name: sonarr-dav
+        image: lscr.io/linuxserver/sonarr:latest
+        ports:
+        - name: sonarr-http
+          containerPort: 8989
+          protocol: TCP
+        env:
+        - name: TP_ADDON
+          value: sonarr-darker
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "UTC"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /config
+          subPath: shared/sonarr-dav
+        - name: shared-storage
+          mountPath: /data
+          mountPropagation: Bidirectional
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: sonarr-http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: sonarr-http
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      - name: jellyfin-dav
+        image: lscr.io/linuxserver/jellyfin:latest
+        ports:
+        - name: jellyfin-http
+          containerPort: 8096
+          protocol: TCP
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "UTC"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /config
+          subPath: shared/jellyfin
+        - name: shared-storage
+          mountPath: /data
+          mountPropagation: Bidirectional
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: jellyfin-http
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: jellyfin-http
+          initialDelaySeconds: 30
+          periodSeconds: 10
       volumes:
       - name: shared-storage
         persistentVolumeClaim:

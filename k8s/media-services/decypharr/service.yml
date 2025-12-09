@@ -15,3 +15,58 @@ spec:
     protocol: TCP
   selector:
     app: decypharr
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr-dav
+  namespace: media-services
+  labels:
+    app: decypharr
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: radarr-http
+    protocol: TCP
+  selector:
+    radarr-dav: enabled
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sonarr-dav
+  namespace: media-services
+  labels:
+    app: decypharr
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: sonarr-http
+    protocol: TCP
+  selector:
+    sonarr-dav: enabled
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellyfin-dav
+  namespace: media-services
+  labels:
+    app: decypharr
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: jellyfin-http
+    protocol: TCP
+  selector:
+    app: decypharr
+
