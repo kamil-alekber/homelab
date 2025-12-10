@@ -234,4 +234,4 @@ spec:
       volumes:
       - name: shared-storage
         persistentVolumeClaim:
-          claimName: media-shared-storage
+          claimName: media-shared-storage 
