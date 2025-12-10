@@ -23,6 +23,8 @@ spec:
         radarr-dav: enabled
         sonarr-dav: enabled
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: k3s-agent-01
       initContainers:
       - name: setup-directories
         image: busybox:latest
