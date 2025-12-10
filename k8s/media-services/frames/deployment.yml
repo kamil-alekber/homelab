@@ -172,4 +172,4 @@ spec:
           claimName: frames-redis-pvc
       - name: media
         persistentVolumeClaim:
-          claimName: media-pvc
+          claimName: media-shared-storage
