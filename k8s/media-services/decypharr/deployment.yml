@@ -203,7 +203,7 @@ spec:
         volumeMounts:
         - name: shared-storage
           mountPath: /config
-          subPath: shared/jellyfin
+          subPath: shared/jellyfin-dav
         - name: shared-storage
           mountPath: /data
           mountPropagation: Bidirectional

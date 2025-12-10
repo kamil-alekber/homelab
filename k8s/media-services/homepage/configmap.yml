@@ -59,7 +59,7 @@ data:
             widget:
               type: jellyfin
               url: http://jellyfin
-              key: 2fe19c24d6f94c02bdb59789bd0e3200
+              key: 4038821385854512bf6998ff948427da
         - Jellyfin-DAV:
             icon: jellyfin.png
             href: https://streaming.clusterlab.cc
