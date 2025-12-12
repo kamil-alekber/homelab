@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: disk-cleanup-agent-04
+  namespace: default
+spec:
+  template:
+    spec:
+      nodeName: k3s-agent-04
+      hostPID: true
+      hostNetwork: true
+      containers:
+      - name: cleanup
+        image: alpine:latest
+        command:
+        - nsenter
+        - --target
+        - "1"
+        - --mount
+        - --uts
+        - --ipc
+        - --net
+        - --pid
+        - --
+        - sh
+        - -c
+        - |
+          echo "=== Disk Usage Before ==="
+          df -h /var/lib/rancher/k3s
+          echo ""
+          echo "=== Cleaning up unused containerd images ==="
+          k3s crictl rmi --prune || true
+          echo ""
+          echo "=== Cleaning up old logs ==="
+          find /var/log -type f -name "*.log" -mtime +7 -delete || true
+          find /var/lib/rancher/k3s/agent/containerd -name "*.log" -mtime +3 -delete || true
+          echo ""
+          echo "=== Disk Usage After ==="
+          df -h /var/lib/rancher/k3s
+        securityContext:
+          privileged: true
+      restartPolicy: Never
+      tolerations:
+      - effect: NoSchedule
+        key: node.kubernetes.io/disk-pressure
+        operator: Exists
+  backoffLimit: 1
+

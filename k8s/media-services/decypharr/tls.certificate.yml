@@ -44,12 +44,40 @@ spec:
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
+  name: lidarr-dav-clusterlab-cc
+  namespace: media-services
+spec:
+  secretName: lidarr-dav-clusterlab-cc-tls
+  dnsNames:
+    - lidarr-dav.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
   name: streaming-clusterlab-cc
   namespace: media-services
 spec:
   secretName: streaming-clusterlab-cc-tls
   dnsNames:
     - streaming.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: navidrome-clusterlab-cc
+  namespace: media-services
+spec:
+  secretName: navidrome-clusterlab-cc-tls
+  dnsNames:
+    - navidrome.clusterlab.cc
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer

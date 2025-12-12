@@ -56,6 +56,24 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: lidarr-dav
+  namespace: media-services
+  labels:
+    app: decypharr
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: lidarr-http
+    protocol: TCP
+  selector:
+    lidarr-dav: enabled
+
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: jellyfin-dav
   namespace: media-services
   labels:
@@ -69,4 +87,22 @@ spec:
     protocol: TCP
   selector:
     app: decypharr
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: navidrome
+  namespace: media-services
+  labels:
+    app: decypharr
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: navidrome-http
+    protocol: TCP
+  selector:
+    navidrome: enabled
 

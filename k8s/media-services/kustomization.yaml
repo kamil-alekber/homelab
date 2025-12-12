@@ -9,16 +9,15 @@ namespace: media-services
 resources:
 - base/
 - booklore/
+- frames/
+- fladder/
 - rdtclient/
 - decypharr/
 - cloudcmd/
 - sonarr/
 - radarr/
-- sonarr-dav/
-- radarr-dav/
 - lidarr/
 - listenarr/
-- readarr/
 - prowlarr/
 - qbittorrent/
 - sabnzbd/
@@ -34,6 +33,8 @@ resources:
 - monitoring/
 - polaris/
 - organizr/
+- miniflux/
+- watcharr/
 
 # Common labels applied to all resources
 labels:
