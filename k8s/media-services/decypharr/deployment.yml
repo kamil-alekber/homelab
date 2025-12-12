@@ -316,11 +316,11 @@ spec:
           value: "info"
         - name: ND_MUSICFOLDER
           value: "/data/music"
-        - name: ND_BASEURL
-          value: ""
+        - name: ND_DATAFOLDER
+          value: "/config"
         volumeMounts:
         - name: shared-storage
-          mountPath: /data
+          mountPath: /config
           subPath: shared/navidrome
         - name: dav-storage
           mountPath: /data
