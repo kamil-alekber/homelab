@@ -66,8 +66,8 @@ data:
             description: DAV enabled streaming server
             widget:
               type: jellyfin
-              url: http://jellyfin
-              key: 2fe19c24d6f94c02bdb59789bd0e3200
+              url: http://jellyfin-dav
+              key: 10210a5d648441dd86e2ee9a5a26444d
         
         - Jellyseerr:
             icon: jellyseerr.png
@@ -79,17 +79,17 @@ data:
               key: MTc2MzMwMDQzNTYzMmYwZDgzZDQ1LThkNDMtNDEzNS1hMDJjLWYwMDkwMjE2NzE2NQ==
         
         - Frames:
-            icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/jellyfin.png
+            icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/frames.png
             href: https://frames.clusterlab.cc
             description: AI-powered media management
         
         - Fladder:
-            icon: jellyfin.png
+            icon: fladder.png
             href: http://fladder.clusterlab.cc
             description: Modern Jellyfin client with a sleek interface
         
         - Jellyswarm:
-            icon: jellyfin.png
+            icon: jellyswarm.png
             href: https://jellyswarm.clusterlab.cc
             description: Jellyfin swarm management interface
     
@@ -110,7 +110,7 @@ data:
             widget:
               type: sonarr
               url: http://sonarr-dav
-              key: ""
+              key: b547703628be4f4094542759a95d62e6
               
         - Radarr:
             icon: radarr.png
@@ -128,7 +128,7 @@ data:
             widget:
               type: radarr
               url: http://radarr-dav
-              key: ""
+              key: 1be37c9d75fb4dcc8a1943b1307526f9
         
         - Lidarr:
             icon: lidarr.png
@@ -138,6 +138,15 @@ data:
               type: lidarr
               url: http://lidarr
               key: cca173b3d8914e66b31f160ed72ee28c
+          
+        - Lidarr DAV:
+            icon: lidarr.png
+            href: https://lidarr.clusterlab.cc
+            description: Music automation (WebDAV/Debrid)
+            widget:
+              type: lidarr
+              url: http://lidarr-dav
+              key: c167ec59d56a40d6830675cad77cdc6b
         
         - Whisparr:
             icon: whisparr.png
