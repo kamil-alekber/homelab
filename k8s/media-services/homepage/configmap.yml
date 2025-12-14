@@ -200,6 +200,11 @@ data:
             icon: mdi-cloud-sync
             href: https://decypharr.clusterlab.cc
             description: Real-Debrid WebDAV cloud storage mounter
+            widget:
+              type: qbittorrent
+              url: http://rdtclient
+              username: kamil
+              password: 95782641
         
         - SABnzbd:
             icon: sabnzbd.png
@@ -298,6 +303,11 @@ data:
             icon: https://icons.clusterlab.cc/dozzle
             href: https://dozzle.clusterlab.cc
             description: Real-time log viewer for Kubernetes pods
+        
+        - Gogs:
+            icon: https://icons.clusterlab.cc/gogs
+            href: https://gogs.clusterlab.cc
+            description: Self-hosted Git service
         
         - Icons:
             icon: https://icons.clusterlab.cc/selfh-st

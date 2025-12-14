@@ -18,8 +18,6 @@ spec:
       labels:
         app: frames
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: k3s-agent-01
       containers:
       - name: frames
         image: elevenam/frames:latest
