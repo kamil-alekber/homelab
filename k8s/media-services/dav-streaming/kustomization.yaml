@@ -11,6 +11,7 @@ resources:
 - lidarr-dav
 - jellyfin-dav
 - navidrome-dav
+- fladder-dav
 
 patches:
 - target:

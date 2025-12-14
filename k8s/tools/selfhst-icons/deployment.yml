@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: selfhst-icons
+  namespace: default
+  labels:
+    app: selfhst-icons
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: selfhst-icons
+  template:
+    metadata:
+      labels:
+        app: selfhst-icons
+    spec:
+      containers:
+        - name: selfhst-icons
+          image: ghcr.io/selfhst/icons:latest
+          ports:
+            - name: http
+              containerPort: 4050
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "4050"
+            - name: ICON_SOURCE
+              value: "remote"
+            - name: STANDARD_ICON_FORMAT
+              value: "webp"

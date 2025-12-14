@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: selfhst-icons
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://icons.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Self-hosted icon service"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/selfhst-icons.png
+    gethomepage.dev/name: Icons
+    gethomepage.dev/pod-selector: "app=selfhst-icons"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`icons.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: selfhst-icons-service
+          port: 80
+  tls:
+    secretName: selfhst-icons-tls

@@ -35,6 +35,9 @@ data:
       Monitoring:
         style: row
         columns: 2
+      Tools:
+        style: row
+        columns: 2
     quicklaunch:
       searchDescriptions: true
       hideInternetSearch: false
@@ -79,7 +82,7 @@ data:
               key: MTc2MzMwMDQzNTYzMmYwZDgzZDQ1LThkNDMtNDEzNS1hMDJjLWYwMDkwMjE2NzE2NQ==
         
         - Frames:
-            icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/frames.png
+            icon: https://icons.clusterlab.cc/frames
             href: https://frames.clusterlab.cc
             description: AI-powered media management
         
@@ -88,8 +91,13 @@ data:
             href: http://fladder.clusterlab.cc
             description: Modern Jellyfin client with a sleek interface
         
+        - Fladder-DAV:
+            icon: fladder.png
+            href: http://fladder-dav.clusterlab.cc
+            description: Modern Jellyfin client for DAV streaming
+        
         - Jellyswarm:
-            icon: jellyswarm.png
+            icon: https://icons.clusterlab.cc/jellyswarrm
             href: https://jellyswarm.clusterlab.cc
             description: Jellyfin swarm management interface
     
@@ -212,12 +220,12 @@ data:
               url: http://stash
         
         - BookLore:
-            icon: booklore.png
+            icon: https://icons.clusterlab.cc/booklore
             href: https://booklore.clusterlab.cc
             description: Self-hosted book library manager
         
         - Polaris:
-            icon: polaris.png
+            icon: https://icons.clusterlab.cc/polaris
             href: https://polaris.clusterlab.cc
             description: Self-hosted music streaming service
     
@@ -233,19 +241,23 @@ data:
             description: Profile manager for *arr apps
         
         - Watcharr:
-            icon: watcharr.png
+            icon: https://icons.clusterlab.cc/watcharr
             href: https://watcharr.clusterlab.cc
             description: Content discovery and tracking
         
         - Sonobarr:
-            icon: sonobarr.png
+            icon: https://icons.clusterlab.cc/sonobarr
             href: https://sonobarr.clusterlab.cc
             description: Music management
         
         - Miniflux:
-            icon: miniflux.png
+            icon: https://icons.clusterlab.cc/miniflux/02d1ca
             href: https://miniflux.clusterlab.cc
             description: Minimalist RSS feed reader
+            widget:
+              type: miniflux
+              url: http://miniflux
+              key: d0cad09dee15ae420c759fb38b87a03f4080bc5837c9395133be05ba0a48b08f
         
         - Glance:
             icon: glance.png
@@ -267,19 +279,30 @@ data:
             icon: grafana.png
             href: https://grafana.clusterlab.cc
             description: Cluster monitoring dashboard
-            widget:
-              type: grafana
-              url: http://kube-prometheus-stack-grafana.monitoring
-              username: admin
-              password: prom-operator
+            # widget:
+            #   type: grafana
+            #   url: http://kube-prometheus-stack-grafana.monitoring
+            #   username: admin
+            #   password: prom-operator
         
         - Prometheus:
             icon: prometheus.png
             href: https://prometheus.clusterlab.cc
             description: Metrics collection & alerting
-            widget:
-              type: prometheus
-              url: http://kube-prometheus-stack-prometheus.monitoring:9090
+            # widget:
+            #   type: prometheus
+            #   url: http://kube-prometheus-stack-prometheus.monitoring:9090
+    
+    - Tools:
+        - Dozzle:
+            icon: https://icons.clusterlab.cc/dozzle
+            href: https://dozzle.clusterlab.cc
+            description: Real-time log viewer for Kubernetes pods
+        
+        - Icons:
+            icon: https://icons.clusterlab.cc/selfh-st
+            href: https://icons.clusterlab.cc
+            description: Self-hosted icon service
 
   widgets.yaml: |
     - logo:

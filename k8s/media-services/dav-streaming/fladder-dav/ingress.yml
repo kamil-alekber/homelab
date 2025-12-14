@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: fladder-dav
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://fladder-dav.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Modern Jellyfin client for DAV streaming"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: jellyfin.png
+    gethomepage.dev/name: Fladder-DAV
+    gethomepage.dev/pod-selector: "app=fladder-dav"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`fladder-dav.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: fladder-dav
+          port: http
+  tls:
+    secretName: fladder-dav-clusterlab-cc-tls

@@ -21,8 +21,6 @@ spec:
       labels:
         app: miniflux
     spec:
-      nodeSelector:
-        kubernetes.io/hostname: k3s-agent-01
       containers:
       - name: miniflux
         image: miniflux/miniflux:latest

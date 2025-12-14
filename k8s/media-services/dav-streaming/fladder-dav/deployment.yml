@@ -1,0 +1,56 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fladder-dav
+  namespace: media-services
+  labels:
+    app: fladder-dav
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: fladder-dav
+  template:
+    metadata:
+      labels:
+        app: fladder-dav
+    spec:
+      containers:
+      - name: fladder-dav
+        image: ghcr.io/donutware/fladder:latest
+        ports:
+        - name: http
+          containerPort: 80
+          protocol: TCP
+        env:
+        - name: BASE_URL
+          value: "https://streaming.clusterlab.cc"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3

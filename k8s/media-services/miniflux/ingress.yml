@@ -16,7 +16,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`miniflux.clusterlab.cc`)
+    - match: Host(`miniflux.clusterlab.cc`) || Host(`feed.clusterlab.cc`)
       kind: Rule
       services:
         - name: miniflux

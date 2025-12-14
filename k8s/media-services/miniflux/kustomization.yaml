@@ -12,7 +12,12 @@ resources:
 - tls.certificate.yml
 - ingress.yml
 
-commonLabels:
-  app: miniflux
-  app.kubernetes.io/name: miniflux
-  app.kubernetes.io/component: rss-reader
+patches:
+- target:
+    kind: Deployment
+  patch: |-
+    - op: add
+      path: /spec/template/spec/nodeSelector
+      value:
+        kubernetes.io/hostname: k3s-agent-01
+

@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dozzle
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://dozzle.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Real-time log viewer for Kubernetes pods"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/dozzle.png
+    gethomepage.dev/name: Dozzle
+    gethomepage.dev/pod-selector: "app=dozzle"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`dozzle.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: dozzle-service
+          port: 80
+  tls:
+    secretName: dozzle-tls
