@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: radarr-dav
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://radarr-dav.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Movie collection manager for WebDAV/Debrid users."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: radarr.png
+    gethomepage.dev/name: Radarr DAV
+    gethomepage.dev/pod-selector: "app=radarr-dav"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`radarr-dav.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: radarr-dav
+          port: http
+  tls:
+    secretName: radarr-dav-clusterlab-cc-tls

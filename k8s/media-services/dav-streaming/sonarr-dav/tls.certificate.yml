@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: sonarr-dav-clusterlab-cc
+  namespace: media-services
+spec:
+  secretName: sonarr-dav-clusterlab-cc-tls
+  dnsNames:
+    - sonarr-dav.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

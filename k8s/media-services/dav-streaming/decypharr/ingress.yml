@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: decypharr
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://decypharr.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Real-Debrid WebDAV cloud storage mounter"
+    gethomepage.dev/group: Download Clients
+    gethomepage.dev/icon: mdi-cloud-sync
+    gethomepage.dev/name: Decypharr
+    gethomepage.dev/pod-selector: "app=decypharr"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`decypharr.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: decypharr
+          port: http
+  tls:
+    secretName: decypharr-clusterlab-cc-tls

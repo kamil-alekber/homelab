@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: navidrome-dav
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://navidrome.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Modern music server and streamer"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: navidrome.png
+    gethomepage.dev/name: Navidrome
+    gethomepage.dev/pod-selector: "app=navidrome-dav"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`navidrome.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: navidrome-dav
+          port: http
+  tls:
+    secretName: navidrome-clusterlab-cc-tls

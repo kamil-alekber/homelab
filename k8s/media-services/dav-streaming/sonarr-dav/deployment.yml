@@ -1,0 +1,77 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr-dav
+  namespace: media-services
+  labels:
+    app: sonarr-dav
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: sonarr-dav
+  template:
+    metadata:
+      labels:
+        app: sonarr-dav
+    spec:
+      containers:
+      - name: sonarr-dav
+        image: lscr.io/linuxserver/sonarr:latest
+        ports:
+        - name: http
+          containerPort: 8989
+          protocol: TCP
+        env:
+        - name: TP_ADDON
+          value: sonarr-darker
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "UTC"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /config
+          subPath: shared/sonarr-dav
+        - name: dav-storage
+          mountPath: /data
+          mountPropagation: Bidirectional
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      volumes:
+      - name: dav-storage
+        persistentVolumeClaim:
+          claimName: decypharr-pvc
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: media-shared-storage

@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jellyfin-dav
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://streaming.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Media streaming server with WebDAV support"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: jellyfin.png
+    gethomepage.dev/name: Jellyfin DAV
+    gethomepage.dev/pod-selector: "app=jellyfin-dav"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`streaming.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: jellyfin-dav
+          port: http
+  tls:
+    secretName: streaming-clusterlab-cc-tls

@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: lidarr-dav
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://lidarr-dav.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Music collection manager for WebDAV/Debrid users."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: lidarr.png
+    gethomepage.dev/name: Lidarr DAV
+    gethomepage.dev/pod-selector: "app=lidarr-dav"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`lidarr-dav.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: lidarr-dav
+          port: http
+  tls:
+    secretName: lidarr-dav-clusterlab-cc-tls
