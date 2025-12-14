@@ -309,6 +309,11 @@ data:
             href: https://gogs.clusterlab.cc
             description: Self-hosted Git service
         
+        - Registry:
+            icon: https://icons.clusterlab.cc/dockerizalo
+            href: https://registry.clusterlab.cc
+            description: Docker Registry
+        
         - Icons:
             icon: https://icons.clusterlab.cc/selfh-st
             href: https://icons.clusterlab.cc
