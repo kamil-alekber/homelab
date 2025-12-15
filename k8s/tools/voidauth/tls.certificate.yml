@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: voidauth-clusterlab-cc
+  namespace: default
+spec:
+  secretName: voidauth-clusterlab-cc-tls
+  dnsNames:
+    - voidauth.clusterlab.cc
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer

@@ -1,0 +1,170 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: youtarr
+  namespace: media-services
+  labels:
+    app: youtarr
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: youtarr
+  template:
+    metadata:
+      labels:
+        app: youtarr
+    spec:
+      containers:
+      - name: youtarr
+        image: dialmaster/youtarr:latest
+        ports:
+        - name: http
+          containerPort: 3011
+          protocol: TCP
+        env:
+        - name: TZ
+          value: "UTC"
+        - name: DB_HOST
+          value: "localhost"
+        - name: DB_PORT
+          value: "3321"
+        - name: DB_USER
+          value: "root"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: youtarr-credentials
+              key: db-root-password
+        - name: DB_NAME
+          value: "youtarr"
+        - name: LOG_LEVEL
+          value: "info"
+        - name: YOUTUBE_OUTPUT_DIR
+          value: "/usr/src/app/data"
+        - name: AUTH_ENABLED
+          value: "1"
+        - name: AUTH_PRESET_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: youtarr-credentials
+              key: admin-username
+        - name: AUTH_PRESET_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: youtarr-credentials
+              key: admin-password
+        volumeMounts:
+        - name: youtarr-data
+          mountPath: /usr/src/app/data
+        - name: youtarr-images
+          mountPath: /app/server/images
+        - name: youtarr-config
+          mountPath: /app/config
+        - name: youtarr-jobs
+          mountPath: /app/jobs
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: http
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: http
+          initialDelaySeconds: 40
+          periodSeconds: 10
+      - name: mariadb
+        image: mariadb:10.3
+        ports:
+        - name: mysql
+          containerPort: 3321
+          protocol: TCP
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: youtarr-credentials
+              key: db-root-password
+        - name: MYSQL_DATABASE
+          value: "youtarr"
+        - name: MYSQL_TCP_PORT
+          value: "3321"
+        - name: MYSQL_CHARSET
+          value: "utf8mb4"
+        - name: MYSQL_COLLATION
+          value: "utf8mb4_unicode_ci"
+        args:
+        - --port=3321
+        - --character-set-server=utf8mb4
+        - --collation-server=utf8mb4_unicode_ci
+        - --innodb-file-per-table=1
+        - --innodb-large-prefix=ON
+        volumeMounts:
+        - name: mariadb-data
+          mountPath: /var/lib/mysql
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - mysqladmin
+            - ping
+            - -h
+            - localhost
+            - -P
+            - "3321"
+            - -u
+            - root
+            - -p$(MYSQL_ROOT_PASSWORD)
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - mysqladmin
+            - ping
+            - -h
+            - localhost
+            - -P
+            - "3321"
+            - -u
+            - root
+            - -p$(MYSQL_ROOT_PASSWORD)
+          initialDelaySeconds: 10
+          periodSeconds: 5
+      volumes:
+      - name: mariadb-data
+        persistentVolumeClaim:
+          claimName: youtarr-mariadb-pvc
+      - name: youtarr-data
+        persistentVolumeClaim:
+          claimName: youtarr-data-pvc
+      - name: youtarr-images
+        persistentVolumeClaim:
+          claimName: youtarr-images-pvc
+      - name: youtarr-config
+        persistentVolumeClaim:
+          claimName: youtarr-config-pvc
+      - name: youtarr-jobs
+        persistentVolumeClaim:
+          claimName: youtarr-jobs-pvc

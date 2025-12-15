@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: voidauth
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://voidauth.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Authentication and authorization service"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: mdi-shield-account
+    gethomepage.dev/name: VoidAuth
+    gethomepage.dev/pod-selector: "app=voidauth"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`voidauth.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: voidauth
+          port: http
+  tls:
+    secretName: voidauth-clusterlab-cc-tls

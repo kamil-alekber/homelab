@@ -18,6 +18,9 @@ spec:
   routes:
     - match: Host(`homepage.clusterlab.cc`)
       kind: Rule
+      middlewares:
+        - name: voidauth
+          namespace: media-services
       services:
         - name: homepage
           port: 3000

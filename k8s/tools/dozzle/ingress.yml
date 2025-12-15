@@ -18,6 +18,9 @@ spec:
   routes:
     - match: Host(`dozzle.clusterlab.cc`)
       kind: Rule
+      middlewares:
+        - name: voidauth
+          namespace: tools
       services:
         - name: dozzle-service
           port: 80

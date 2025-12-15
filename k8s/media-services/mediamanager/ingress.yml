@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: mediamanager
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://mediamanager.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Media library management and organization tool."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: mdi-file-cabinet
+    gethomepage.dev/name: MediaManager
+    gethomepage.dev/pod-selector: "app=mediamanager"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`mediamanager.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: mediamanager
+          port: http
+  tls:
+    secretName: mediamanager-clusterlab-cc-tls

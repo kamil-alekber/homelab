@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: organizr
+  name: mediamanager
   namespace: media-services
   labels:
-    app: organizr
+    app: mediamanager
 spec:
   type: ClusterIP
   ports:
@@ -14,4 +14,4 @@ spec:
     targetPort: http
     protocol: TCP
   selector:
-    app: organizr
+    app: mediamanager

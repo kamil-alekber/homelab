@@ -5,12 +5,9 @@ kind: Kustomization
 namespace: media-services
 
 resources:
+- secret.yml
+- pvc.yml
 - deployment.yml
 - service.yml
-- ingress.yml
 - tls.certificate.yml
-
-commonLabels:
-  app: organizr
-  app.kubernetes.io/name: organizr
-  app.kubernetes.io/component: service-organizer
+- ingress.yml

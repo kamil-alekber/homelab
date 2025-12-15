@@ -1,12 +1,12 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: organizr-clusterlab-cc
+  name: mediamanager-clusterlab-cc
   namespace: media-services
 spec:
-  secretName: organizr-clusterlab-cc-tls
+  secretName: mediamanager-clusterlab-cc-tls
   dnsNames:
-    - organizr.clusterlab.cc
+    - mediamanager.clusterlab.cc
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer

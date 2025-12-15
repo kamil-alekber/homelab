@@ -1,0 +1,25 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: youtarr
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "https://youtarr.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "YouTube downloader and manager"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: youtube.png
+    gethomepage.dev/name: Youtarr
+    gethomepage.dev/pod-selector: "app=youtarr"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`youtarr.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: youtarr
+          port: http
+  tls:
+    secretName: youtarr-clusterlab-cc-tls

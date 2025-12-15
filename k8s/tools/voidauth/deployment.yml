@@ -2,10 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: organizr
-  namespace: media-services
+  name: voidauth
+  namespace: default
   labels:
-    app: organizr
+    app: voidauth
 spec:
   replicas: 1
   strategy:
@@ -15,11 +15,11 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      app: organizr
+      app: voidauth
   template:
     metadata:
       labels:
-        app: organizr
+        app: voidauth
     spec:
       initContainers:
       - name: setup-directories
@@ -28,40 +28,40 @@ spec:
         - sh
         - -c
         - |
-          [ ! -d /storage/shared/organizr ] && mkdir -p /storage/shared/organizr
+          [ ! -d /storage/shared/voidauth/config ] && mkdir -p /storage/shared/voidauth/config
+          [ ! -d /storage/shared/voidauth/db ] && mkdir -p /storage/shared/voidauth/db
           echo "Directory setup completed successfully"
         volumeMounts:
         - name: shared-storage
           mountPath: /storage
       containers:
-      - name: organizr
-        image: organizr/organizr:latest
+      - name: voidauth
+        image: voidauth/voidauth:latest
         ports:
         - name: http
-          containerPort: 80
+          containerPort: 3000
           protocol: TCP
         env:
-        - name: PUID
-          value: "1000"
-        - name: PGID
-          value: "1000"
-        - name: TZ
-          value: "UTC"
-        - name: fpm
-          value: "false"
-        - name: branch
-          value: "v2-master"
+        - name: APP_URL
+          value: "https://voidauth.clusterlab.cc"
+        - name: STORAGE_KEY
+          value: "change-me-to-random-32-char-string"
+        - name: DB_ADAPTER
+          value: "sqlite"
         volumeMounts:
         - name: shared-storage
-          mountPath: /config
-          subPath: shared/organizr
+          mountPath: /app/config
+          subPath: shared/voidauth/config
+        - name: shared-storage
+          mountPath: /app/db
+          subPath: shared/voidauth/db
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "100m"
+            memory: "256Mi"
+            cpu: "50m"
           limits:
             memory: "512Mi"
-            cpu: "1000m"
+            cpu: "200m"
         livenessProbe:
           httpGet:
             path: /
@@ -77,4 +77,4 @@ spec:
       volumes:
       - name: shared-storage
         persistentVolumeClaim:
-          claimName: media-shared-storage
+          claimName: voidauth-storage

@@ -12,6 +12,7 @@ commonLabels:
 resources:
   - namespace.yml
   - pvc.yml
+  - middleware.yml
 
 # Common configuration for all deployments
 commonAnnotations:

@@ -1,0 +1,28 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: whoami
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://whoami.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Simple service that returns request information"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: mdi-information-outline
+    gethomepage.dev/name: WhoAmI
+    gethomepage.dev/pod-selector: "app=whoami"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`whoami.clusterlab.cc`)
+      kind: Rule
+      middlewares:
+        - name: voidauth
+          namespace: tools
+      services:
+        - name: whoami-service
+          port: 80
+  tls:
+    secretName: whoami-tls
