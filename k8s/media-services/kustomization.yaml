@@ -16,13 +16,13 @@ resources:
 - sonarr/
 - radarr/
 - lidarr/
+- youtarr/
 - listenarr/
 - prowlarr/
 - qbittorrent/
 - sabnzbd/
 - flaresolverr/
-- jellyfin/
-- jellyseerr/
+- jellyfin-media/
 - profilarr/
 - stash/
 - homepage/
