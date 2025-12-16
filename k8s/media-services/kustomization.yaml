@@ -12,7 +12,6 @@ resources:
 - frames/
 - fladder/
 - rdtclient/
-- decypharr/
 - cloudcmd/
 - sonarr/
 - radarr/
@@ -32,17 +31,26 @@ resources:
 - whisparr/
 - monitoring/
 - polaris/
-- organizr/
 - miniflux/
 - watcharr/
 
-# Common labels applied to all resources
 labels:
 - pairs:
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/part-of: media-services
 
-# Common annotations
 commonAnnotations:
   description: Media automation stack - Sonarr, Radarr, Lidarr, Prowlarr, qBittorrent, SABnzbd, Jellyfin, Jellyseerr, Profilarr
   documentation: See README.md for deployment instructions
+
+
+patches:
+- target:
+    kind: IngressRoute
+  patch: |-
+    - op: add
+      path: /spec/routes/0/middlewares
+      value:
+        - name: voidauth
+          namespace: media-services
+        
