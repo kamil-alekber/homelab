@@ -228,6 +228,11 @@ data:
               type: slskd
               url: http://slskd
               key: ddbfbc053f4e00a306ac11c4de9fb0a0
+        
+        - Pyload:
+            icon: icons.clusterlab.cc/pyload
+            href: https://pyload.clusterlab.cc
+            description: Free and Open Source download manager
     
     - Libraries:
         - Stash:

@@ -1,0 +1,31 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pyload
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "https://pyload.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Free and Open Source download manager"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: pyload.png
+    gethomepage.dev/name: pyload
+    gethomepage.dev/pod-selector: "app=pyload"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`pyload.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: pyload
+          port: http
+    - match: Host(`injest.pyload.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: pyload
+          port: clicknload
+  tls:
+    secretName: pyload-clusterlab-cc-tls

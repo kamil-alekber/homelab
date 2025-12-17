@@ -33,6 +33,7 @@ resources:
 - polaris/
 - miniflux/
 - watcharr/
+- pyload/
 
 labels:
 - pairs:

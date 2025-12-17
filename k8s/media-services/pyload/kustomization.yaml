@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: media-services
+
+resources:
+- deployment.yml
+- service.yml
+- tls.certificate.yml
+- ingress.yml
+
+commonLabels:
+  app: pyload
+  app.kubernetes.io/name: pyload
+  app.kubernetes.io/component: download-manager

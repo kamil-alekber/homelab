@@ -2,10 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: slskd
+  name: pyload
   namespace: media-services
   labels:
-    app: slskd
+    app: pyload
 spec:
   replicas: 1
   strategy:
@@ -15,11 +15,11 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      app: slskd
+      app: pyload
   template:
     metadata:
       labels:
-        app: slskd
+        app: pyload
     spec:
       initContainers:
       - name: setup-directories
@@ -28,28 +28,23 @@ spec:
         - sh
         - -c
         - |
-          [ ! -d /storage/shared/slskd ] && mkdir -p /storage/shared/slskd
-          [ ! -d /storage/media/downloads/slskd ] && mkdir -p /storage/media/downloads/slskd
+          [ ! -d /storage/shared/pyload ] && mkdir -p /storage/shared/pyload
+          [ ! -d /storage/media/downloads/pyload ] && mkdir -p /storage/media/downloads/pyload
           echo "Directory setup completed successfully"
         volumeMounts:
         - name: shared-storage
           mountPath: /storage
       containers:
-      - name: slskd
-        image: slskd/slskd:latest
+      - name: pyload
+        image: pyload/pyload
         ports:
         - name: http
-          containerPort: 5030
+          containerPort: 8000
           protocol: TCP
-        - name: https
-          containerPort: 5031
-          protocol: TCP
-        - name: p2p
-          containerPort: 50300
+        - name: clicknload
+          containerPort: 9666
           protocol: TCP
         env:
-        - name: SLSKD_REMOTE_CONFIGURATION
-          value: "true"
         - name: PUID
           value: "1000"
         - name: PGID
@@ -58,14 +53,11 @@ spec:
           value: "UTC"
         volumeMounts:
         - name: shared-storage
-          mountPath: /app
-          subPath: shared/slskd
+          mountPath: /config
+          subPath: shared/pyload
         - name: shared-storage
-          mountPath: /var/slskd/downloads
-          subPath: media/downloads/slskd
-        - name: shared-storage
-          mountPath: /var/slskd/media
-          subPath: media
+          mountPath: /downloads
+          subPath: media/downloads/pyload
         resources:
           requests:
             memory: "256Mi"
