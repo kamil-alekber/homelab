@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: slskd
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "https://slskd.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Soulseek P2P file sharing client"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: slskd.png
+    gethomepage.dev/name: slskd
+    gethomepage.dev/pod-selector: "app=slskd"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`slskd.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: slskd
+          port: http
+  tls:
+    secretName: slskd-clusterlab-cc-tls

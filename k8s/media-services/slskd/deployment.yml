@@ -1,0 +1,88 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slskd
+  namespace: media-services
+  labels:
+    app: slskd
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: slskd
+  template:
+    metadata:
+      labels:
+        app: slskd
+    spec:
+      initContainers:
+      - name: setup-directories
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          [ ! -d /storage/shared/slskd ] && mkdir -p /storage/shared/slskd
+          [ ! -d /storage/media/downloads/slskd ] && mkdir -p /storage/media/downloads/slskd
+          echo "Directory setup completed successfully"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /storage
+      containers:
+      - name: slskd
+        image: slskd/slskd:latest
+        ports:
+        - name: http
+          containerPort: 5030
+          protocol: TCP
+        - name: https
+          containerPort: 5031
+          protocol: TCP
+        - name: p2p
+          containerPort: 50300
+          protocol: TCP
+        env:
+        - name: SLSKD_REMOTE_CONFIGURATION
+          value: "true"
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "UTC"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /app
+          subPath: shared/slskd
+        - name: shared-storage
+          mountPath: /var/slskd/downloads
+          subPath: media/downloads/slskd
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+          initialDelaySeconds: 15
+          periodSeconds: 5
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: media-shared-storage

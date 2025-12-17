@@ -1,0 +1,28 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: bentopdf
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://bentopdf.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "PDF generation service"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: mdi-file-pdf-box
+    gethomepage.dev/name: BentoPDF
+    gethomepage.dev/pod-selector: "app=bentopdf"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`bentopdf.clusterlab.cc`)
+      kind: Rule
+      middlewares:
+        - name: voidauth
+          namespace: tools
+      services:
+        - name: bentopdf-service
+          port: 8080
+  tls:
+    secretName: bentopdf-tls

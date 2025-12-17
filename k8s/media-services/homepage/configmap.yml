@@ -207,7 +207,7 @@ data:
             description: Real-Debrid WebDAV cloud storage mounter
             widget:
               type: qbittorrent
-              url: http://rdtclient
+              url: http://decypharr
               username: kamil
               password: 95782641
         
@@ -219,6 +219,15 @@ data:
               type: sabnzbd
               url: http://sabnzbd:80
               key: 3611a4ac1588459294bdd36a3fb702b6
+        
+        - Slskd:
+            icon: https://icons.clusterlab.cc/slskd
+            href: https://slskd.clusterlab.cc
+            description: Soulseek P2P file sharing client
+            widget: 
+              type: slskd
+              url: http://slskd
+              key: ddbfbc053f4e00a306ac11c4de9fb0a0
     
     - Libraries:
         - Stash:
@@ -338,6 +347,16 @@ data:
             icon: mdi-account-question
             href: https://whoami.clusterlab.cc
             description: Simple service to display request information
+        
+        - BentoPDF:
+            icon: https://icons.clusterlab.cc/bentopdf
+            href: https://bentopdf.clusterlab.cc
+            description: PDF generation service
+        
+        - SearXNG:
+            icon: https://icons.clusterlab.cc/searxng
+            href: https://searxng.clusterlab.cc
+            description: Privacy-respecting metasearch engine
 
   widgets.yaml: |
     - logo:

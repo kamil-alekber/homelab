@@ -1,0 +1,64 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searxng
+  namespace: default
+  labels:
+    app: searxng
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: searxng
+  template:
+    metadata:
+      labels:
+        app: searxng
+    spec:
+      initContainers:
+        - name: init-folders
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              echo "Checking and creating required directories..."
+              if [ ! -d "/data/shared/searxng/config" ]; then
+                echo "Creating /data/shared/searxng/config"
+                mkdir -p /data/shared/searxng/config
+              else
+                echo "/data/shared/searxng/config already exists"
+              fi
+              if [ ! -d "/data/shared/searxng/cache" ]; then
+                echo "Creating /data/shared/searxng/cache"
+                mkdir -p /data/shared/searxng/cache
+              else
+                echo "/data/shared/searxng/cache already exists"
+              fi
+              echo "Initialization complete"
+          volumeMounts:
+            - name: searxng-data
+              mountPath: /data
+      containers:
+        - name: searxng
+          image: docker.io/searxng/searxng:latest
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          volumeMounts:
+            - name: searxng-data
+              mountPath: /etc/searxng
+              subPath: shared/searxng/config
+            - name: searxng-data
+              mountPath: /var/cache/searxng
+              subPath: shared/searxng/cache
+      volumes:
+        - name: searxng-data
+          persistentVolumeClaim:
+            claimName: searxng-data
+
+      
