@@ -1,0 +1,77 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plex-dav
+  namespace: media-services
+  labels:
+    app: plex-dav
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: plex-dav
+  template:
+    metadata:
+      labels:
+        app: plex-dav
+    spec:
+      containers:
+      - name: plex-dav
+        image: lscr.io/linuxserver/plex:latest
+        ports:
+        - name: http
+          containerPort: 32400
+          protocol: TCP
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "UTC"
+        - name: VERSION
+          value: "docker"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /config
+          subPath: shared/plex-dav
+        - name: dav-storage
+          mountPath: /data
+          mountPropagation: Bidirectional
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /web
+            port: http
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /web
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+      volumes:
+      - name: dav-storage
+        persistentVolumeClaim:
+          claimName: decypharr-pvc
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: media-shared-storage

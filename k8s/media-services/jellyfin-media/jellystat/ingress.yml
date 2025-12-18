@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jellystat
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://jellystat.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Jellyfin statistics and monitoring"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: jellyfin.png
+    gethomepage.dev/name: Jellystat
+    gethomepage.dev/pod-selector: "app=jellystat,component=app"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`jellystat.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: jellystat-service
+          port: 80
+  tls:
+    secretName: jellystat-tls

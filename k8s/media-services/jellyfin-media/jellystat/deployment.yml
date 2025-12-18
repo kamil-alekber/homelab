@@ -1,0 +1,124 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellystat-db
+  namespace: default
+  labels:
+    app: jellystat
+    component: database
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: jellystat
+      component: database
+  template:
+    metadata:
+      labels:
+        app: jellystat
+        component: database
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15.2
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secret
+                  key: POSTGRES_PASSWORD
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - name: postgres
+              containerPort: 5432
+              protocol: TCP
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+          resources:
+            limits:
+              memory: 1Gi
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: jellystat-postgres-data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellystat
+  namespace: default
+  labels:
+    app: jellystat
+    component: app
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: jellystat
+      component: app
+  template:
+    metadata:
+      labels:
+        app: jellystat
+        component: app
+    spec:
+      initContainers:
+        - name: wait-for-db
+          image: busybox:1.36
+          command: 
+            - 'sh'
+            - '-c'
+            - |
+              until nc -z jellystat-db-service 5432; do
+                echo "Waiting for jellystat-db to be ready..."
+                sleep 2
+              done
+              echo "Database is ready!"
+      containers:
+        - name: jellystat
+          image: cyfershepard/jellystat:latest
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_IP
+              value: jellystat-db-service
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jellystat-secret
+                  key: JWT_SECRET
+            - name: TZ
+              value: Asia/Almaty
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            - name: backup-data
+              mountPath: /app/backend/backup-data
+      volumes:
+        - name: backup-data
+          persistentVolumeClaim:
+            claimName: jellystat-backup-data

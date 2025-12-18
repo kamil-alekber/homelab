@@ -46,6 +46,9 @@ data:
   
   bookmarks.yaml: |
     - Developer Resources:
+        - Homepage Widget: 
+            - abbr: HW
+              href: https://gethomepage.dev/widgets/
         - GitHub:
             - abbr: GH
               href: https://github.com/
@@ -81,11 +84,6 @@ data:
               url: http://jellyseerr
               key: MTc2MzMwMDQzNTYzMmYwZDgzZDQ1LThkNDMtNDEzNS1hMDJjLWYwMDkwMjE2NzE2NQ==
         
-        - Frames:
-            icon: https://icons.clusterlab.cc/frames
-            href: https://frames.clusterlab.cc
-            description: AI-powered media management
-        
         - Fladder:
             icon: fladder.png
             href: http://fladder.clusterlab.cc
@@ -100,6 +98,11 @@ data:
             icon: https://icons.clusterlab.cc/jellyswarrm
             href: https://jellyswarm.clusterlab.cc
             description: Jellyfin swarm management interface
+        
+        - Plex:
+            icon: plex.png
+            href: https://plex.clusterlab.cc
+            description: Media streaming server with WebDAV support
     
     - Media Automation:
         - Sonarr:
@@ -205,11 +208,6 @@ data:
             icon: mdi-cloud-sync
             href: https://decypharr.clusterlab.cc
             description: Real-Debrid WebDAV cloud storage mounter
-            widget:
-              type: qbittorrent
-              url: http://decypharr
-              username: kamil
-              password: 95782641
         
         - SABnzbd:
             icon: sabnzbd.png
@@ -230,9 +228,15 @@ data:
               key: ddbfbc053f4e00a306ac11c4de9fb0a0
         
         - Pyload:
-            icon: icons.clusterlab.cc/pyload
+            icon: https://icons.clusterlab.cc/pyload
             href: https://pyload.clusterlab.cc
             description: Free and Open Source download manager
+            widget:
+              type: pyload
+              url: http://pyload
+              username: homepage
+              password: 95782641
+
     
     - Libraries:
         - Stash:
@@ -398,7 +402,10 @@ data:
           hourCycle: h23
     
     - search:
-        provider: duckduckgo
+        provider: custom
+        url: https://searxng.clusterlab.cc/search?q=
+        suggestionUrl: https://ac.ecosia.org/autocomplete?type=list&q= # Optional
+        showSearchSuggestions: true # Optional
         target: _blank
   
   docker.yaml: ""

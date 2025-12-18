@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: media-services
 
 resources:
-- jellyfin
-- jellyseerr
-- jellyswarm
-- jellystat
+- deployment.yml
+- service.yml
+- tls.certificate.yml
+- ingress.yml

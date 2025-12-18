@@ -12,6 +12,7 @@ resources:
 - jellyfin-dav
 - navidrome-dav
 - fladder-dav
+- plex-dav
 
 patches:
 - target:

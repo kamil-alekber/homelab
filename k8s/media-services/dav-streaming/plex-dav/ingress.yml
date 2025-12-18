@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: plex-dav
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://plex.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Media streaming server with WebDAV support"
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: plex.png
+    gethomepage.dev/name: Plex DAV
+    gethomepage.dev/pod-selector: "app=plex-dav"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`plex.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: plex-dav
+          port: http
+  tls:
+    secretName: plex-clusterlab-cc-tls
