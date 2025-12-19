@@ -8,10 +8,14 @@ metadata:
     gethomepage.dev/href: "https://slskd.clusterlab.cc"
     gethomepage.dev/enabled: "true"
     gethomepage.dev/description: "Soulseek P2P file sharing client"
-    gethomepage.dev/group: Media
-    gethomepage.dev/icon: slskd.png
-    gethomepage.dev/name: slskd
+    gethomepage.dev/group: Download Clients
+    gethomepage.dev/icon: https://icons.clusterlab.cc/slskd
+    gethomepage.dev/name: Slskd
     gethomepage.dev/pod-selector: "app=slskd"
+
+    gethomepage.dev/widget.type: "slskd"
+    gethomepage.dev/widget.url: "http://slskd"
+    gethomepage.dev/widget.key: "ddbfbc053f4e00a306ac11c4de9fb0a0"
 
 spec:
   entryPoints:

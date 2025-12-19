@@ -4,13 +4,17 @@ metadata:
   name: sabnzbd
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://sabnzbd.clusterlab.cc"
+    gethomepage.dev/href: "https://sabnzbd.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "Free and easy binary newsreader."
-    gethomepage.dev/group: Media
+    gethomepage.dev/description: "Usenet client"
+    gethomepage.dev/group: Download Clients
     gethomepage.dev/icon: sabnzbd.png
     gethomepage.dev/name: SABnzbd
     gethomepage.dev/pod-selector: "app=sabnzbd"
+
+    gethomepage.dev/widget.type: "sabnzbd"
+    gethomepage.dev/widget.url: "http://sabnzbd:80"
+    gethomepage.dev/widget.key: "3611a4ac1588459294bdd36a3fb702b6"
 
 spec:
   entryPoints:

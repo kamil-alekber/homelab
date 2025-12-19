@@ -1,13 +1,12 @@
----
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: plex-dav-clusterlab-cc
+  name: tautulli-clusterlab-cc
   namespace: media-services
 spec:
-  secretName: plex-dav-clusterlab-cc-tls
+  secretName: tautulli-clusterlab-cc-tls
   dnsNames:
-    - plex-dav.clusterlab.cc
+    - tautulli.clusterlab.cc
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer

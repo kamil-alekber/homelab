@@ -9,7 +9,7 @@ metadata:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/description: "Self-hosted icon service"
     gethomepage.dev/group: Tools
-    gethomepage.dev/icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/selfhst-icons.png
+    gethomepage.dev/icon:  https://icons.clusterlab.cc/selfh-st
     gethomepage.dev/name: Icons
     gethomepage.dev/pod-selector: "app=selfhst-icons"
 spec:

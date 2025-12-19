@@ -4,13 +4,17 @@ metadata:
   name: prowlarr
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://prowlarr.clusterlab.cc"
+    gethomepage.dev/href: "https://prowlarr.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "Indexer manager/proxy for Usenet and torrents."
-    gethomepage.dev/group: Media
+    gethomepage.dev/description: "Indexer manager"
+    gethomepage.dev/group: Media Automation
     gethomepage.dev/icon: prowlarr.png
     gethomepage.dev/name: Prowlarr
     gethomepage.dev/pod-selector: "app=prowlarr"
+
+    gethomepage.dev/widget.type: "prowlarr"
+    gethomepage.dev/widget.url: "http://prowlarr"
+    gethomepage.dev/widget.key: "3989241f2c5e42b8b4d6f572202bf7f6"
 
 spec:
   entryPoints:

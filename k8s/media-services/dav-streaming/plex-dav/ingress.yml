@@ -5,7 +5,7 @@ metadata:
   name: plex-dav
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://plex.clusterlab.cc"
+    gethomepage.dev/href: "http://plex-dav.clusterlab.cc"
     gethomepage.dev/enabled: "true"
     gethomepage.dev/description: "Media streaming server with WebDAV support"
     gethomepage.dev/group: Media
@@ -17,10 +17,10 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`plex.clusterlab.cc`)
+    - match: Host(`plex-dav.clusterlab.cc`)
       kind: Rule
       services:
         - name: plex-dav
           port: http
   tls:
-    secretName: plex-clusterlab-cc-tls
+    secretName: plex-dav-clusterlab-cc-tls

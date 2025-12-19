@@ -8,10 +8,15 @@ metadata:
     gethomepage.dev/href: "https://pyload.clusterlab.cc"
     gethomepage.dev/enabled: "true"
     gethomepage.dev/description: "Free and Open Source download manager"
-    gethomepage.dev/group: Media
-    gethomepage.dev/icon: pyload.png
-    gethomepage.dev/name: pyload
+    gethomepage.dev/group: Download Clients
+    gethomepage.dev/icon: https://icons.clusterlab.cc/pyload
+    gethomepage.dev/name: Pyload
     gethomepage.dev/pod-selector: "app=pyload"
+
+    gethomepage.dev/widget.type: "pyload"
+    gethomepage.dev/widget.url: "http://pyload"
+    gethomepage.dev/widget.username: "homepage"
+    gethomepage.dev/widget.password: "95782641"
 
 spec:
   entryPoints:

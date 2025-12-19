@@ -4,11 +4,11 @@ metadata:
   name: sonobarr
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://sonobarr.clusterlab.cc"
+    gethomepage.dev/href: "https://sonobarr.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "AI-powered music discovery for Lidarr"
-    gethomepage.dev/group: Media
-    gethomepage.dev/icon: lidarr.png
+    gethomepage.dev/description: "Music management"
+    gethomepage.dev/group: Utilities
+    gethomepage.dev/icon: https://icons.clusterlab.cc/sonobarr
     gethomepage.dev/name: Sonobarr
     gethomepage.dev/pod-selector: "app=sonobarr"
 

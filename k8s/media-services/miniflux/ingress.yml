@@ -8,9 +8,13 @@ metadata:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/description: "Minimalist RSS feed reader"
     gethomepage.dev/group: Utilities
-    gethomepage.dev/icon: miniflux.png
+    gethomepage.dev/icon: https://icons.clusterlab.cc/miniflux/02d1ca
     gethomepage.dev/name: Miniflux
     gethomepage.dev/pod-selector: "app=miniflux"
+
+    gethomepage.dev/widget.type: "miniflux"
+    gethomepage.dev/widget.url: "http://miniflux"
+    gethomepage.dev/widget.key: "d0cad09dee15ae420c759fb38b87a03f4080bc5837c9395133be05ba0a48b08f"
 
 spec:
   entryPoints:

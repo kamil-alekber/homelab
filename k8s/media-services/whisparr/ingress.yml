@@ -4,13 +4,18 @@ metadata:
   name: whisparr
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://whisparr.clusterlab.cc"
+    gethomepage.dev/href: "https://whisparr.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "Adult content collection manager for Usenet and BitTorrent users."
-    gethomepage.dev/group: Media
+    gethomepage.dev/description: "Adult content automation"
+    gethomepage.dev/group: Media Automation
     gethomepage.dev/icon: whisparr.png
     gethomepage.dev/name: Whisparr
     gethomepage.dev/pod-selector: "app=whisparr"
+
+    gethomepage.dev/widget.type: "radarr"
+    gethomepage.dev/widget.url: "http://whisparr"
+    gethomepage.dev/widget.key: "70d8f379cecc4188860043dfe118b4ae"
+    gethomepage.dev/widget.fields: '["wanted", "queued"]'
 
 spec:
   entryPoints:

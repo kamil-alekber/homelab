@@ -5,13 +5,18 @@ metadata:
   name: rdtclient
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://rdtclient.clusterlab.cc"
+    gethomepage.dev/href: "https://rdtclient.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "Real-Debrid download client with web interface."
-    gethomepage.dev/group: Media
-    gethomepage.dev/icon: rdtclient.png
+    gethomepage.dev/description: "Real-Debrid download client"
+    gethomepage.dev/group: Download Clients
+    gethomepage.dev/icon: real-debrid.png
     gethomepage.dev/name: RDTClient
     gethomepage.dev/pod-selector: "app=rdtclient"
+
+    gethomepage.dev/widget.type: "qbittorrent"
+    gethomepage.dev/widget.url: "http://rdtclient"
+    gethomepage.dev/widget.username: "kamil"
+    gethomepage.dev/widget.password: "95782641"
 
 spec:
   entryPoints:

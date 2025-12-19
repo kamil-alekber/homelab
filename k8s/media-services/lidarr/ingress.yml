@@ -4,13 +4,17 @@ metadata:
   name: lidarr
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://lidarr.clusterlab.cc"
+    gethomepage.dev/href: "https://lidarr.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "Music collection manager for Usenet and BitTorrent users."
-    gethomepage.dev/group: Media
+    gethomepage.dev/description: "Music automation"
+    gethomepage.dev/group: Media Automation
     gethomepage.dev/icon: lidarr.png
     gethomepage.dev/name: Lidarr
     gethomepage.dev/pod-selector: "app=lidarr"
+
+    gethomepage.dev/widget.type: "lidarr"
+    gethomepage.dev/widget.url: "http://lidarr"
+    gethomepage.dev/widget.key: "cca173b3d8914e66b31f160ed72ee28c"
 
 spec:
   entryPoints:

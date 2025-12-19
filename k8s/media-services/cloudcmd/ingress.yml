@@ -5,12 +5,12 @@ metadata:
   name: cloudcmd
   namespace: media-system
   annotations:
-    gethomepage.dev/href: "https://files.clusterlab.cc"
+    gethomepage.dev/href: "https://cloudcmd.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "Web-based file manager with console and editor"
-    gethomepage.dev/group: Tools
-    gethomepage.dev/icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/cloud-commander.png
-    gethomepage.dev/name: CloudCMD
+    gethomepage.dev/description: "File manager"
+    gethomepage.dev/group: Utilities
+    gethomepage.dev/icon: cloudcmd.png
+    gethomepage.dev/name: CloudCmd
     gethomepage.dev/pod-selector: "app=cloudcmd"
 spec:
   entryPoints:

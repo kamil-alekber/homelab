@@ -4,10 +4,10 @@ metadata:
   name: glance
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://glance.clusterlab.cc"
+    gethomepage.dev/href: "https://glance.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "A self-hosted dashboard that puts all your feeds in one place"
-    gethomepage.dev/group: Media
+    gethomepage.dev/description: "Dashboard at a glance"
+    gethomepage.dev/group: Utilities
     gethomepage.dev/icon: glance.png
     gethomepage.dev/name: Glance
     gethomepage.dev/pod-selector: "app=glance"

@@ -10,28 +10,32 @@ metadata:
 data:
   kubernetes.yaml: |
     mode: cluster
+    traefik: true
   
   settings.yaml: |
     title: Media Services Dashboard
     theme: dark
+    background: 
+      image: https://images.alphacoders.com/134/thumb-1920-1343748.png
+      brightness: 75
     color: slate
     headerStyle: boxed
     layout:
       Media Streaming:
         style: row
-        columns: 2
+        columns: 4
       Media Automation:
         style: row
-        columns: 5
+        columns: 4
       Download Clients:
         style: row
-        columns: 3
+        columns: 2
       Libraries:
         style: row
         columns: 2
       Utilities:
         style: row
-        columns: 5
+        columns: 2
       Monitoring:
         style: row
         columns: 2
@@ -57,323 +61,19 @@ data:
               href: https://kubernetes.io/docs/
   
   services.yaml: |
-    - Media Streaming:
-        - Jellyfin:
-            icon: jellyfin.png
-            href: https://jellyfin.clusterlab.cc
-            description: Media streaming server
-            widget:
-              type: jellyfin
-              url: http://jellyfin
-              key: 4038821385854512bf6998ff948427da
-        - Jellyfin-DAV:
-            icon: jellyfin.png
-            href: https://streaming.clusterlab.cc
-            description: DAV enabled streaming server
-            widget:
-              type: jellyfin
-              url: http://jellyfin-dav
-              key: 10210a5d648441dd86e2ee9a5a26444d
-        
-        - Jellyseerr:
-            icon: jellyseerr.png
-            href: https://jellyseerr.clusterlab.cc
-            description: Media request management
-            widget:
-              type: jellyseerr
-              url: http://jellyseerr
-              key: MTc2MzMwMDQzNTYzMmYwZDgzZDQ1LThkNDMtNDEzNS1hMDJjLWYwMDkwMjE2NzE2NQ==
-        
-        - Fladder:
-            icon: fladder.png
-            href: http://fladder.clusterlab.cc
-            description: Modern Jellyfin client with a sleek interface
-        
-        - Fladder-DAV:
-            icon: fladder.png
-            href: http://fladder-dav.clusterlab.cc
-            description: Modern Jellyfin client for DAV streaming
-        
-        - Jellyswarm:
-            icon: https://icons.clusterlab.cc/jellyswarrm
-            href: https://jellyswarm.clusterlab.cc
-            description: Jellyfin swarm management interface
-        
-        - Plex:
-            icon: plex.png
-            href: https://plex.clusterlab.cc
-            description: Media streaming server with WebDAV support
-    
-    - Media Automation:
-        - Sonarr:
-            icon: sonarr.png
-            href: https://sonarr.clusterlab.cc
-            description: TV show automation
-            widget:
-              type: sonarr
-              url: http://sonarr
-              key: 843aca18c51d4a2189214b962efa514e
-        
-        - Sonarr DAV:
-            icon: sonarr.png
-            href: https://sonarr-dav.clusterlab.cc
-            description: TV show automation (WebDAV/Debrid)
-            widget:
-              type: sonarr
-              url: http://sonarr-dav
-              key: b547703628be4f4094542759a95d62e6
+    - Links: 
+        - GitHub:
+            icon: https://icons.clusterlab.cc/github
+            href: https://github.com
+            description: Code hosting platform
               
-        - Radarr:
-            icon: radarr.png
-            href: https://radarr.clusterlab.cc
-            description: Movie automation
-            widget:
-              type: radarr
-              url: http://radarr
-              key: 67c4ed90623c43f8869b6596044b2b46
-        
-        - Radarr DAV:
-            icon: radarr.png
-            href: https://radarr-dav.clusterlab.cc
-            description: Movie automation (WebDAV/Debrid)
-            widget:
-              type: radarr
-              url: http://radarr-dav
-              key: 1be37c9d75fb4dcc8a1943b1307526f9
-        
-        - Lidarr:
-            icon: lidarr.png
-            href: https://lidarr.clusterlab.cc
-            description: Music automation
-            widget:
-              type: lidarr
-              url: http://lidarr
-              key: cca173b3d8914e66b31f160ed72ee28c
-          
-        - Lidarr DAV:
-            icon: lidarr.png
-            href: https://lidarr.clusterlab.cc
-            description: Music automation (WebDAV/Debrid)
-            widget:
-              type: lidarr
-              url: http://lidarr-dav
-              key: c167ec59d56a40d6830675cad77cdc6b
-        
-        - Whisparr:
-            icon: whisparr.png
-            href: https://whisparr.clusterlab.cc
-            description: Adult content automation
-            widget:
-              type: radarr
-              url: http://whisparr
-              key: 70d8f379cecc4188860043dfe118b4ae
-              fields: ["wanted", "queued"]
-        
-        - Prowlarr:
-            icon: prowlarr.png
-            href: https://prowlarr.clusterlab.cc
-            description: Indexer manager
-            widget:
-              type: prowlarr
-              url: http://prowlarr
-              key: 3989241f2c5e42b8b4d6f572202bf7f6
-        
-        - Youtarr:
-            icon: https://icons.clusterlab.cc/youtarr
-            href: https://youtarr.clusterlab.cc
-            description: YouTube content automation
-    
-    - Download Clients:
-        - qBittorrent:
-            icon: qbittorrent.png
-            href: https://qbittorrent.clusterlab.cc
-            description: Torrent client
-            widget:
-              type: qbittorrent
-              url: http://qbittorrent-bittorrent
-              username: admin
-              password: 95782641
-        
-        - RDTClient:
-            icon: real-debrid.png
-            href: https://rdtclient.clusterlab.cc
-            description: Real-Debrid download client
-            widget:
-              type: qbittorrent
-              url: http://rdtclient
-              username: kamil
-              password: 95782641
-        
-        - Decypharr:
-            icon: mdi-cloud-sync
-            href: https://decypharr.clusterlab.cc
-            description: Real-Debrid WebDAV cloud storage mounter
-        
-        - SABnzbd:
-            icon: sabnzbd.png
-            href: https://sabnzbd.clusterlab.cc
-            description: Usenet client
-            widget:
-              type: sabnzbd
-              url: http://sabnzbd:80
-              key: 3611a4ac1588459294bdd36a3fb702b6
-        
-        - Slskd:
-            icon: https://icons.clusterlab.cc/slskd
-            href: https://slskd.clusterlab.cc
-            description: Soulseek P2P file sharing client
-            widget: 
-              type: slskd
-              url: http://slskd
-              key: ddbfbc053f4e00a306ac11c4de9fb0a0
-        
-        - Pyload:
-            icon: https://icons.clusterlab.cc/pyload
-            href: https://pyload.clusterlab.cc
-            description: Free and Open Source download manager
-            widget:
-              type: pyload
-              url: http://pyload
-              username: homepage
-              password: 95782641
-
-    
-    - Libraries:
-        - Stash:
-            icon: stash.png
-            href: https://stash.clusterlab.cc
-            description: Media library manager
-            widget:
-              type: stash
-              url: http://stash
-        
-        - BookLore:
-            icon: https://icons.clusterlab.cc/booklore
-            href: https://booklore.clusterlab.cc
-            description: Self-hosted book library manager
-        
-        - Polaris:
-            icon: https://icons.clusterlab.cc/polaris
-            href: https://polaris.clusterlab.cc
-            description: Self-hosted music streaming service
-        
-        - MediaManager:
-            icon: https://icons.clusterlab.cc/mediamanager
-            href: https://mediamanager.clusterlab.cc
-            description: Media library management and organization tool
-    
-    - Utilities:
-        - CloudCmd:
-            icon: cloudcmd.png
-            href: https://cloudcmd.clusterlab.cc
-            description: File manager
-        
-        - Profilarr:
-            icon: profilarr.png
-            href: https://profilarr.clusterlab.cc
-            description: Profile manager for *arr apps
-        
-        - Watcharr:
-            icon: https://icons.clusterlab.cc/watcharr
-            href: https://watcharr.clusterlab.cc
-            description: Content discovery and tracking
-        
-        - Sonobarr:
-            icon: https://icons.clusterlab.cc/sonobarr
-            href: https://sonobarr.clusterlab.cc
-            description: Music management
-        
-        - Miniflux:
-            icon: https://icons.clusterlab.cc/miniflux/02d1ca
-            href: https://miniflux.clusterlab.cc
-            description: Minimalist RSS feed reader
-            widget:
-              type: miniflux
-              url: http://miniflux
-              key: d0cad09dee15ae420c759fb38b87a03f4080bc5837c9395133be05ba0a48b08f
-        
-        - Glance:
-            icon: glance.png
-            href: https://glance.clusterlab.cc
-            description: Dashboard at a glance
-        
-        - Organizr:
-            icon: organizr.png
-            href: https://organizr.clusterlab.cc
-            description: HTPC/Homelab services organizer
-        
-        - FlareSolverr:
-            icon: flaresolverr.png
-            href: https://flaresolverr.clusterlab.cc
-            description: Cloudflare bypass proxy
-    
-    - Monitoring:
-        - Grafana:
-            icon: grafana.png
-            href: https://grafana.clusterlab.cc
-            description: Cluster monitoring dashboard
-            # widget:
-            #   type: grafana
-            #   url: http://kube-prometheus-stack-grafana.monitoring
-            #   username: admin
-            #   password: prom-operator
-        
-        - Prometheus:
-            icon: prometheus.png
-            href: https://prometheus.clusterlab.cc
-            description: Metrics collection & alerting
-            # widget:
-            #   type: prometheus
-            #   url: http://kube-prometheus-stack-prometheus.monitoring:9090
-    
-    - Tools:
-        - Dozzle:
-            icon: https://icons.clusterlab.cc/dozzle
-            href: https://dozzle.clusterlab.cc
-            description: Real-time log viewer for Kubernetes pods
-        
-        - Gogs:
-            icon: https://icons.clusterlab.cc/gogs
-            href: https://gogs.clusterlab.cc
-            description: Self-hosted Git service
-        
-        - Registry:
-            icon: https://icons.clusterlab.cc/dockerizalo
-            href: https://registry.clusterlab.cc
-            description: Docker Registry
-        
-        - Icons:
-            icon: https://icons.clusterlab.cc/selfh-st
-            href: https://icons.clusterlab.cc
-            description: Self-hosted icon service
-        
-        - VoidAuth:
-            icon: https://icons.clusterlab.cc/voidauth
-            href: https://voidauth.clusterlab.cc
-            description: Authentication and authorization service
-        
-        - Whoami:
-            icon: mdi-account-question
-            href: https://whoami.clusterlab.cc
-            description: Simple service to display request information
-        
-        - BentoPDF:
-            icon: https://icons.clusterlab.cc/bentopdf
-            href: https://bentopdf.clusterlab.cc
-            description: PDF generation service
-        
-        - SearXNG:
-            icon: https://icons.clusterlab.cc/searxng
-            href: https://searxng.clusterlab.cc
-            description: Privacy-respecting metasearch engine
-
   widgets.yaml: |
     - logo:
-        icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/jellyfin.png
+        icon: https://icons.clusterlab.cc/kubernetes
     
     - greeting:
         text_size: xl
-        text: "Welcome to Media Services"
+        text: "Homepage of Nix based k3s cluster"
     
     - kubernetes:
         cluster:
@@ -468,12 +168,5 @@ data:
     .grow .text-xl {
        margin-bottom: 10px;
     }
-
-    #__next .fixed {
-       background-image:
-       linear-gradient(0deg, rgba(0,0,0,0.8), rgba(0,0,0,0.6)),
-       url(https://source.unsplash.com/random/?dark+lush+forest&auto=format&fit=crop&w=2560&q=80)
-       !important;
-       }
   
   custom.js: ""

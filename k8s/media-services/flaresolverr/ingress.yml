@@ -4,10 +4,10 @@ metadata:
   name: flaresolverr
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://flaresolverr.clusterlab.cc"
+    gethomepage.dev/href: "https://flaresolverr.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "Proxy server to bypass Cloudflare protection."
-    gethomepage.dev/group: Media
+    gethomepage.dev/description: "Cloudflare bypass proxy"
+    gethomepage.dev/group: Utilities
     gethomepage.dev/icon: flaresolverr.png
     gethomepage.dev/name: FlareSolverr
     gethomepage.dev/pod-selector: "app=flaresolverr"

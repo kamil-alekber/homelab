@@ -6,9 +6,9 @@ metadata:
   annotations:
     gethomepage.dev/href: "https://youtarr.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "YouTube downloader and manager"
-    gethomepage.dev/group: Media
-    gethomepage.dev/icon: youtube.png
+    gethomepage.dev/description: "YouTube content automation"
+    gethomepage.dev/group: Media Automation
+    gethomepage.dev/icon: https://icons.clusterlab.cc/youtarr
     gethomepage.dev/name: Youtarr
     gethomepage.dev/pod-selector: "app=youtarr"
 

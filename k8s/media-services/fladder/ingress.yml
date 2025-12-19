@@ -7,8 +7,8 @@ metadata:
     gethomepage.dev/href: "http://fladder.clusterlab.cc"
     gethomepage.dev/enabled: "true"
     gethomepage.dev/description: "Modern Jellyfin client with a sleek interface"
-    gethomepage.dev/group: Media
-    gethomepage.dev/icon: jellyfin.png
+    gethomepage.dev/group: Media Streaming
+    gethomepage.dev/icon: fladder.png
     gethomepage.dev/name: Fladder
     gethomepage.dev/pod-selector: "app=fladder"
 

@@ -1,0 +1,45 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: plex
+  namespace: media-services
+  labels:
+    app: plex
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+    protocol: TCP
+  - name: dlna
+    port: 1900
+    targetPort: dlna
+    protocol: UDP
+  - name: discovery
+    port: 32410
+    targetPort: discovery
+    protocol: UDP
+  - name: companion
+    port: 3005
+    targetPort: companion
+    protocol: TCP
+  - name: roku
+    port: 8324
+    targetPort: roku
+    protocol: TCP
+  - name: gdm-1
+    port: 32412
+    targetPort: gdm-1
+    protocol: UDP
+  - name: gdm-2
+    port: 32413
+    targetPort: gdm-2
+    protocol: UDP
+  - name: gdm-3
+    port: 32414
+    targetPort: gdm-3
+    protocol: UDP
+  selector:
+    app: plex

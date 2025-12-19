@@ -9,7 +9,7 @@ metadata:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/description: "Jellyfin statistics and monitoring"
     gethomepage.dev/group: Tools
-    gethomepage.dev/icon: jellyfin.png
+    gethomepage.dev/icon:  https://icons.clusterlab.cc/jellyfin
     gethomepage.dev/name: Jellystat
     gethomepage.dev/pod-selector: "app=jellystat,component=app"
 spec:

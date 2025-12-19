@@ -1,0 +1,29 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: plex
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "http://plex.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Media server for streaming movies, TV shows, music, and more."
+    gethomepage.dev/group: Media
+    gethomepage.dev/icon: plex.png
+    gethomepage.dev/name: Plex
+    gethomepage.dev/pod-selector: "app=plex"
+
+    gethomepage.dev/widget.type: "plex"
+    gethomepage.dev/widget.url: "https://plex.clusterlab.cc"
+    gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_PLEX_TOKEN}}"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`plex.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: plex
+          port: http
+  tls:
+    secretName: plex-clusterlab-cc-tls

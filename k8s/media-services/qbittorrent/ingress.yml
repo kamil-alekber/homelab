@@ -4,13 +4,18 @@ metadata:
   name: qbittorrent
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://qbittorrent.clusterlab.cc"
+    gethomepage.dev/href: "https://qbittorrent.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "BitTorrent client with a Qt-based GUI."
-    gethomepage.dev/group: Media
+    gethomepage.dev/description: "Torrent client"
+    gethomepage.dev/group: Download Clients
     gethomepage.dev/icon: qbittorrent.png
     gethomepage.dev/name: qBittorrent
     gethomepage.dev/pod-selector: "app=qbittorrent"
+
+    gethomepage.dev/widget.type: "qbittorrent"
+    gethomepage.dev/widget.url: "http://qbittorrent-bittorrent"
+    gethomepage.dev/widget.username: "admin"
+    gethomepage.dev/widget.password: "95782641"
 
 spec:
   entryPoints:

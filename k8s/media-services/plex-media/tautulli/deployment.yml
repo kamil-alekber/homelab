@@ -2,10 +2,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: plex-dav
+  name: tautulli
   namespace: media-services
   labels:
-    app: plex-dav
+    app: tautulli
 spec:
   replicas: 1
   strategy:
@@ -15,65 +15,62 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      app: plex-dav
+      app: tautulli
   template:
     metadata:
       labels:
-        app: plex-dav
+        app: tautulli
     spec:
+      initContainers:
+      - name: setup-directories
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          [ ! -d /storage/shared/tautulli ] && mkdir -p /storage/shared/tautulli
+          echo "Directory setup completed successfully"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /storage
       containers:
-      - name: plex-dav
-        image: lscr.io/linuxserver/plex:latest
+      - name: tautulli
+        image: ghcr.io/tautulli/tautulli:latest
         ports:
         - name: http
-          containerPort: 32400
+          containerPort: 8181
           protocol: TCP
         env:
-        - name: PLEX_CLAIM
-          value: "claim-RosPMJG7HLEc6JAsR4oK"
         - name: PUID
           value: "1000"
         - name: PGID
           value: "1000"
         - name: TZ
           value: "UTC"
-        - name: VERSION
-          value: "docker"
         volumeMounts:
         - name: shared-storage
           mountPath: /config
-          subPath: shared/plex-dav
-        - name: dav-storage
-          mountPath: /data
-          mountPropagation: Bidirectional
-        securityContext:
-          privileged: true
-          capabilities:
-            add:
-            - SYS_ADMIN
+          subPath: shared/tautulli
         resources:
           requests:
-            memory: "512Mi"
-            cpu: "200m"
+            memory: "128Mi"
+            cpu: "100m"
           limits:
-            memory: "2Gi"
-            cpu: "2000m"
+            memory: "512Mi"
+            cpu: "1000m"
         livenessProbe:
           httpGet:
-            path: /web
+            path: /
             port: http
           initialDelaySeconds: 60
-          periodSeconds: 30
+          periodSeconds: 10
         readinessProbe:
           httpGet:
-            path: /web
+            path: /
             port: http
           initialDelaySeconds: 30
-          periodSeconds: 10
+          periodSeconds: 5
       volumes:
-      - name: dav-storage
-        persistentVolumeClaim:
-          claimName: decypharr-pvc
       - name: shared-storage
         persistentVolumeClaim:
           claimName: media-shared-storage

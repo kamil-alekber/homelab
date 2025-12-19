@@ -4,13 +4,17 @@ metadata:
   name: radarr
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://radarr.clusterlab.cc"
+    gethomepage.dev/href: "https://radarr.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "Movie collection manager for Usenet and BitTorrent users."
-    gethomepage.dev/group: Media
+    gethomepage.dev/description: "Movie automation"
+    gethomepage.dev/group: Media Automation
     gethomepage.dev/icon: radarr.png
     gethomepage.dev/name: Radarr
     gethomepage.dev/pod-selector: "app=radarr"
+
+    gethomepage.dev/widget.type: "radarr"
+    gethomepage.dev/widget.url: "http://radarr"
+    gethomepage.dev/widget.key: "67c4ed90623c43f8869b6596044b2b46"
 
 spec:
   entryPoints:

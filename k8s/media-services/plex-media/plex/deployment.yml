@@ -1,0 +1,107 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: plex
+  namespace: media-services
+  labels:
+    app: plex
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: plex
+  template:
+    metadata:
+      labels:
+        app: plex
+    spec:
+      initContainers:
+      - name: setup-directories
+        image: busybox:latest
+        command:
+        - sh
+        - -c
+        - |
+          [ ! -d /storage/shared/plex ] && mkdir -p /storage/shared/plex
+          [ ! -d /storage/media/tv ] && mkdir -p /storage/media/tv
+          [ ! -d /storage/media/movies ] && mkdir -p /storage/media/movies
+          [ ! -d /storage/media/music ] && mkdir -p /storage/media/music
+          echo "Directory setup completed successfully"
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /storage
+      containers:
+      - name: plex
+        image: lscr.io/linuxserver/plex:latest
+        ports:
+        - name: http
+          containerPort: 32400
+          protocol: TCP
+        - name: dlna
+          containerPort: 1900
+          protocol: UDP
+        - name: discovery
+          containerPort: 32410
+          protocol: UDP
+        - name: companion
+          containerPort: 3005
+          protocol: TCP
+        - name: roku
+          containerPort: 8324
+          protocol: TCP
+        - name: gdm-1
+          containerPort: 32412
+          protocol: UDP
+        - name: gdm-2
+          containerPort: 32413
+          protocol: UDP
+        - name: gdm-3
+          containerPort: 32414
+          protocol: UDP
+        env:
+        - name: PUID
+          value: "1000"
+        - name: PGID
+          value: "1000"
+        - name: TZ
+          value: "UTC"
+        - name: VERSION
+          value: "docker"
+        - name: PLEX_CLAIM
+          value: "claim-8EjFVqJ6m8iPPTzGDYkZ"  # Add your claim token here if needed
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /config
+          subPath: shared/plex
+        - name: shared-storage
+          mountPath: /data
+          subPath: media
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "4Gi"
+            cpu: "4000m"
+        livenessProbe:
+          httpGet:
+            path: /web/index.html
+            port: http
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /web/index.html
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 5
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: media-shared-storage

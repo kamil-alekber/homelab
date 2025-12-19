@@ -13,6 +13,10 @@ metadata:
     gethomepage.dev/name: Radarr DAV
     gethomepage.dev/pod-selector: "app=radarr-dav"
 
+    gethomepage.dev/widget.type: "radarr"
+    gethomepage.dev/widget.url: "http://radarr-dav"
+    gethomepage.dev/widget.key: "1be37c9d75fb4dcc8a1943b1307526f9"
+
 spec:
   entryPoints:
     - websecure

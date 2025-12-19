@@ -13,6 +13,10 @@ metadata:
     gethomepage.dev/name: Sonarr DAV
     gethomepage.dev/pod-selector: "app=sonarr-dav"
 
+    gethomepage.dev/widget.type: "sonarr"
+    gethomepage.dev/widget.url: "http://sonarr-dav"
+    gethomepage.dev/widget.key: "b547703628be4f4094542759a95d62e6"
+
 spec:
   entryPoints:
     - websecure

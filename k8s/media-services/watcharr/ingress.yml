@@ -4,11 +4,11 @@ metadata:
   name: watcharr
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://watcharr.clusterlab.cc"
+    gethomepage.dev/href: "https://watcharr.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "Content discovery and tracking for media services."
-    gethomepage.dev/group: Media
-    gethomepage.dev/icon: watcharr.png
+    gethomepage.dev/description: "Content discovery and tracking"
+    gethomepage.dev/group: Utilities
+    gethomepage.dev/icon: https://icons.clusterlab.cc/watcharr
     gethomepage.dev/name: Watcharr
     gethomepage.dev/pod-selector: "app=watcharr"
 

@@ -4,13 +4,17 @@ metadata:
   name: jellyseerr
   namespace: media-services
   annotations:
-    gethomepage.dev/href: "http://jellyseerr.clusterlab.cc"
+    gethomepage.dev/href: "https://jellyseerr.clusterlab.cc"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/description: "Request management and media discovery tool."
-    gethomepage.dev/group: Media
+    gethomepage.dev/description: "Media request management"
+    gethomepage.dev/group: Media Streaming
     gethomepage.dev/icon: jellyseerr.png
     gethomepage.dev/name: Jellyseerr
     gethomepage.dev/pod-selector: "app=jellyseerr"
+
+    gethomepage.dev/widget.type: "jellyseerr"
+    gethomepage.dev/widget.url: "http://jellyseerr"
+    gethomepage.dev/widget.key: "MTc2MzMwMDQzNTYzMmYwZDgzZDQ1LThkNDMtNDEzNS1hMDJjLWYwMDkwMjE2NzE2NQ=="
 
 spec:
   entryPoints:
