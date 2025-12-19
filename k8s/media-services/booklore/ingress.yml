@@ -8,7 +8,7 @@ metadata:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/description: "Self-hosted book library manager"
     gethomepage.dev/group: Management
-    gethomepage.dev/icon: booklore.png
+    gethomepage.dev/icon: https://icons.clusterlab.cc/booklore
     gethomepage.dev/name: BookLore
     gethomepage.dev/pod-selector: "app=booklore"
 

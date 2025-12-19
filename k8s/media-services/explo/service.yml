@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: frames
+  name: explo
   namespace: media-services
   labels:
-    app: frames
+    app: explo
 spec:
   type: ClusterIP
   ports:
@@ -14,4 +14,4 @@ spec:
     targetPort: http
     protocol: TCP
   selector:
-    app: frames
+    app: explo

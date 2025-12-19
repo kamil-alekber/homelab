@@ -15,12 +15,19 @@ data:
   settings.yaml: |
     title: Media Services Dashboard
     theme: dark
-    background: 
+    background:
       image: https://images.alphacoders.com/134/thumb-1920-1343748.png
-      brightness: 75
+      blur: sm
+      saturate: 50 
+      brightness: 50 
+      opacity: 50
+
     color: slate
     headerStyle: boxed
     layout:
+      Links:
+        style: row
+        columns: 4
       Media Streaming:
         style: row
         columns: 4
@@ -64,8 +71,12 @@ data:
     - Links: 
         - GitHub:
             icon: https://icons.clusterlab.cc/github
-            href: https://github.com
+            href: https://github.com/kamil-alekber
             description: Code hosting platform
+        - AlphaCoders:
+            icon: https://icons.clusterlab.cc/wallpapers
+            href: https://wall.alphacoders.com/
+            description: High quality wallpapers
               
   widgets.yaml: |
     - logo:

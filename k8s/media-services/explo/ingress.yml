@@ -1,0 +1,26 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: explo
+  namespace: media-services
+  annotations:
+    gethomepage.dev/href: "https://explo.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "ListenBrainz music discovery automation"
+    gethomepage.dev/group: Media Management
+    gethomepage.dev/icon: https://icons.clusterlab.cc/listenbrainz
+    gethomepage.dev/name: Explo
+    gethomepage.dev/pod-selector: "app=explo"
+
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`explo.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: explo
+          port: http
+  tls:
+    secretName: explo-clusterlab-cc-tls

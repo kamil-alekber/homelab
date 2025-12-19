@@ -34,7 +34,7 @@ resources:
 - miniflux/
 - watcharr/
 - pyload/
-
+- explo/
 labels:
 - pairs:
     app.kubernetes.io/managed-by: kustomize

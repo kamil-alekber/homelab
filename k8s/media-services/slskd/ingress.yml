@@ -12,7 +12,7 @@ metadata:
     gethomepage.dev/icon: https://icons.clusterlab.cc/slskd
     gethomepage.dev/name: Slskd
     gethomepage.dev/pod-selector: "app=slskd"
-
+    
     gethomepage.dev/widget.type: "slskd"
     gethomepage.dev/widget.url: "http://slskd"
     gethomepage.dev/widget.key: "ddbfbc053f4e00a306ac11c4de9fb0a0"

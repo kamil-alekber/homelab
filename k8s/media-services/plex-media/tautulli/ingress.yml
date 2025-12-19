@@ -14,7 +14,7 @@ metadata:
 
     gethomepage.dev/widget.type: "tautulli"
     gethomepage.dev/widget.url: "https://tautulli.clusterlab.cc"
-    gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_TAUTULLI_API_KEY}}"
+    gethomepage.dev/widget.key: "n5Yzf_2jjGvoU8Tbs6GcJ2p5TW9USD5b"
 
 spec:
   entryPoints:
