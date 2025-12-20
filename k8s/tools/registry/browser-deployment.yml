@@ -25,6 +25,9 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+              
           env:
+            - name: DOCKER_REGISTRY_URL
+              value: http://registry
             - name: SECRET_KEY_BASE
               value: 8e979acdf64b69204868d712d795089b3c4815e44e013e277c069afc596420b5

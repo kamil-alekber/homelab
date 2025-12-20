@@ -20,6 +20,6 @@ spec:
       kind: Rule
       services:
         - name: registry-service
-          port: 5000
+          port: http
   tls:
     secretName: registry-tls
