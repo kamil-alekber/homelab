@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: olivetin-config
+  namespace: default
+data:
+  config.yaml: |
+    actions:
+      - title: "Hello world!"
+        shell: echo 'Hello World!'
+      
+      - title: "Restart k3s server"
+        shell: systemctl restart k3s
+
+      - title: "Check cluster status"
+        shell: kubectl get nodes

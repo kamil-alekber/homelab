@@ -9,7 +9,7 @@ metadata:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/description: "Real-time log viewer for Kubernetes pods"
     gethomepage.dev/group: Tools
-    gethomepage.dev/icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/dozzle.png
+    gethomepage.dev/icon: https://icons.clusterlab.cc/dozzle
     gethomepage.dev/name: Dozzle
     gethomepage.dev/pod-selector: "app=dozzle"
 spec:

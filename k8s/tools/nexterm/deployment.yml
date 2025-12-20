@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexterm
+  namespace: default
+  labels:
+    app: nexterm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nexterm
+  template:
+    metadata:
+      labels:
+        app: nexterm
+    spec:
+      containers:
+        - name: nexterm
+          image: germannewsmaker/nexterm:latest
+          ports:
+            - name: http
+              containerPort: 6989
+              protocol: TCP
+          env:
+            - name: TZ
+              value: "Asia/Almaty"
+            - name: ENCRYPTION_KEY
+              value: "98a7b25418e6a64927b77cced85d502b15a741bfb66626411f9b95301bd17181"
+          volumeMounts:
+            - name: nexterm-data
+              mountPath: /app/data
+      volumes:
+        - name: nexterm-data
+          persistentVolumeClaim:
+            claimName: nexterm-data

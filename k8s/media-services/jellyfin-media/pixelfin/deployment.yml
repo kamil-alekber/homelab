@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pixelfin
+  namespace: default
+  labels:
+    app: pixelfin
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: pixelfin
+  template:
+    metadata:
+      labels:
+        app: pixelfin
+    spec:
+      initContainers:
+        - name: init-folders
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              echo "Checking and creating required directories..."
+              if [ ! -d "/data/shared/pixelfin/output" ]; then
+                echo "Creating /data/shared/pixelfin/output"
+                mkdir -p /data/shared/pixelfin/output
+              else
+                echo "/data/shared/pixelfin/output already exists"
+              fi
+              if [ ! -d "/data/shared/pixelfin/data" ]; then
+                echo "Creating /data/shared/pixelfin/data"
+                mkdir -p /data/shared/pixelfin/data
+              else
+                echo "/data/shared/pixelfin/data already exists"
+              fi
+              echo "Initialization complete"
+          volumeMounts:
+            - name: pixelfin-data
+              mountPath: /data
+      containers:
+        - name: pixelfin
+          image: ghcr.io/nothing2obvi/pixelfin:latest
+          ports:
+            - name: http
+              containerPort: 1280
+              protocol: TCP
+          env:
+            - name: TZ
+              value: "Asia/Almaty"
+          volumeMounts:
+            - name: pixelfin-data
+              mountPath: /app/output
+              subPath: shared/pixelfin/output
+            - name: pixelfin-data
+              mountPath: /app/data
+              subPath: shared/pixelfin/data
+      volumes:
+        - name: pixelfin-data
+          persistentVolumeClaim:
+            claimName: pixelfin-data

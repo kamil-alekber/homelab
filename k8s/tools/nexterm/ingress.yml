@@ -1,0 +1,28 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nexterm
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://nexterm.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Terminal manager"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: https://icons.clusterlab.cc/nexterm
+    gethomepage.dev/name: Nexterm
+    gethomepage.dev/pod-selector: "app=nexterm"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`nexterm.clusterlab.cc`)
+      kind: Rule
+      middlewares:
+        - name: voidauth
+          namespace: tools
+      services:
+        - name: nexterm-service
+          port: 6989
+  tls:
+    secretName: nexterm-tls

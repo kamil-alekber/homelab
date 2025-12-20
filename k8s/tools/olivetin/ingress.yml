@@ -1,0 +1,28 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: olivetin
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://olivetin.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Web UI for running predefined shell commands"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: https://icons.clusterlab.cc/olivetin
+    gethomepage.dev/name: OliveTin
+    gethomepage.dev/pod-selector: "app=olivetin"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`olivetin.clusterlab.cc`)
+      kind: Rule
+      middlewares:
+        - name: voidauth
+          namespace: tools
+      services:
+        - name: olivetin-service
+          port: 80
+  tls:
+    secretName: olivetin-tls

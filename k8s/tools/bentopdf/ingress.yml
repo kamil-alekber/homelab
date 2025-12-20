@@ -9,7 +9,7 @@ metadata:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/description: "PDF generation service"
     gethomepage.dev/group: Tools
-    gethomepage.dev/icon: mdi-file-pdf-box
+    gethomepage.dev/icon: https://icons.clusterlab.cc/bentopdf
     gethomepage.dev/name: BentoPDF
     gethomepage.dev/pod-selector: "app=bentopdf"
 spec:

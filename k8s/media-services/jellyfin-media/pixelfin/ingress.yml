@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: pixelfin
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://pixelfin.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Image to video converter"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: https://icons.clusterlab.cc/pixelfin
+    gethomepage.dev/name: Pixelfin
+    gethomepage.dev/pod-selector: "app=pixelfin"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`pixelfin.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: pixelfin-service
+          port: 1280
+  tls:
+    secretName: pixelfin-tls
