@@ -4,9 +4,10 @@ set -e
 
 # Format: "name|repo_name|repo_url|chart_name|version|namespace|extra_flags"
 CHARTS=(
-  "CSI Driver SMB|csi-driver-smb|https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts|csi-driver-smb/csi-driver-smb|1.19.1|kube-system|"
-  "cert-manager|cert-manager|oci://quay.io/jetstack/charts|oci://quay.io/jetstack/charts/cert-manager|v1.16.1|cert-manager|--create-namespace --set crds.enabled=true"
-  "Prometheus Operator|kube-prometheus-stack|https://prometheus-community.github.io/helm-charts|kube-prometheus-stack/kube-prometheus-stack|67.4.0|monitoring|--create-namespace --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false"
+  # "CSI Driver SMB|csi-driver-smb|https://raw.githubusercontent.com/kubernetes-csi/csi-driver-smb/master/charts|csi-driver-smb/csi-driver-smb|1.19.1|kube-system|"
+  # "cert-manager|cert-manager|oci://quay.io/jetstack/charts|oci://quay.io/jetstack/charts/cert-manager|v1.16.1|cert-manager|--create-namespace --set crds.enabled=true"
+  # "Prometheus Operator|kube-prometheus-stack|https://prometheus-community.github.io/helm-charts|kube-prometheus-stack/kube-prometheus-stack|67.4.0|monitoring|--create-namespace --set prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues=false"
+  "Hajimari|hajimari|https://hajimari.io|hajimari/hajimari||default|"
 )
 
 install_repo_chart() {

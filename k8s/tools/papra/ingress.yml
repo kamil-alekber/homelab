@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: papra
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://papra.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "AI-powered documentation assistant"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: mdi-file-document-multiple
+    gethomepage.dev/name: Papra
+    gethomepage.dev/pod-selector: "app=papra"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`papra.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: papra-service
+          port: http
+  tls:
+    secretName: papra-tls
