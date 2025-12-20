@@ -23,6 +23,6 @@ spec:
           namespace: tools
       services:
         - name: nexterm-service
-          port: 6989
+          port: http
   tls:
     secretName: nexterm-tls

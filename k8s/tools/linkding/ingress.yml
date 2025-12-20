@@ -1,0 +1,28 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: linkding
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://linkding.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Bookmark manager"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: https://icons.clusterlab.cc/linkding
+    gethomepage.dev/name: Linkding
+    gethomepage.dev/pod-selector: "app=linkding"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`linkding.clusterlab.cc`)
+      kind: Rule
+      middlewares:
+        - name: voidauth
+          namespace: tools
+      services:
+        - name: linkding-service
+          port: http
+  tls:
+    secretName: linkding-tls

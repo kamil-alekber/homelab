@@ -1,15 +1,32 @@
+# ---
+# delete this manifest from cluster
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: registry-data
+#   namespace: default
+#   labels:
+#     app: registry
+# spec:
+#   storageClassName: local-path
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 50Gi
+
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: registry-data
+  name: registry-data-samba
   namespace: default
   labels:
     app: registry
 spec:
-  storageClassName: local-path
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
+  storageClassName: samba-storage
   resources:
     requests:
       storage: 50Gi

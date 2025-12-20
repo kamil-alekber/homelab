@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: registry-browser
+  namespace: default
+  labels:
+    app: registry-browser
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: registry-browser
+  template:
+    metadata:
+      labels:
+        app: registry-browser
+    spec:
+      containers:
+        - name: registry-browser
+          image: klausmeyer/docker-registry-browser:latest
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: SECRET_KEY_BASE
+              value: 8e979acdf64b69204868d712d795089b3c4815e44e013e277c069afc596420b5

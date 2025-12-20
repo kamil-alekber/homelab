@@ -10,12 +10,7 @@ resources:
 - service.yml
 - tls.certificate.yml
 - ingress.yml
-
-patches:
-- target:
-    kind: Deployment
-  patch: |-
-    - op: add
-      path: /spec/template/spec/nodeSelector
-      value:
-        kubernetes.io/hostname: k3s-agent-01
+- browser-deployment.yml
+- browser-service.yml
+- browser-tls.certificate.yml
+- browser-ingress.yml

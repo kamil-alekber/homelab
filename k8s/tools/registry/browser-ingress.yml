@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: registry-browser
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://registry-browser.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Docker Registry Browser"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: docker.png
+    gethomepage.dev/name: Registry Browser
+    gethomepage.dev/pod-selector: "app=registry-browser"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`registry-browser.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: registry-browser
+          port: 8080
+  tls:
+    secretName: registry-browser-tls

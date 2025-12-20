@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: registry-browser-tls
+  namespace: default
+spec:
+  secretName: registry-browser-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - registry-browser.clusterlab.cc
