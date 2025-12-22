@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: opengist-data-samba
+  namespace: default
+  labels:
+    app: opengist
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: samba-storage
+  resources:
+    requests:
+      storage: 5Gi

@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: opengist
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://opengist.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "AI-powered documentation assistant"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: mdi-file-document-multiple
+    gethomepage.dev/name: opengist
+    gethomepage.dev/pod-selector: "app=opengist"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`opengist.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: opengist-service
+          port: http
+  tls:
+    secretName: opengist-tls

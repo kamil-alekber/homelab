@@ -18,6 +18,20 @@ spec:
       labels:
         app: registry-browser
     spec:
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+          - 192.168.8.133
+          - 1.1.1.1
+          - 8.8.8.8
+        searches:
+          - tools.svc.cluster.local
+          - svc.cluster.local
+          - cluster.local
+        options:
+          - name: ndots
+            value: "2"
+        
       containers:
         - name: registry-browser
           image: klausmeyer/docker-registry-browser:latest
@@ -28,6 +42,6 @@ spec:
               
           env:
             - name: DOCKER_REGISTRY_URL
-              value: http://registry
+              value: https://registry.clusterlab.cc
             - name: SECRET_KEY_BASE
               value: 8e979acdf64b69204868d712d795089b3c4815e44e013e277c069afc596420b5

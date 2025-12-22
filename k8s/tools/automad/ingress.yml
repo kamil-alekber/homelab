@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: automad
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://automad.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "AI-powered documentation assistant"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: mdi-file-document-multiple
+    gethomepage.dev/name: automad
+    gethomepage.dev/pod-selector: "app=automad"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`automad.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: automad-service
+          port: http
+  tls:
+    secretName: automad-tls
