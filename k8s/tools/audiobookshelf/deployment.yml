@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: audiobookshelf
+  namespace: default
+  labels:
+    app: audiobookshelf
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: audiobookshelf
+  template:
+    metadata:
+      labels:
+        app: audiobookshelf
+    spec:
+      containers:
+        - name: audiobookshelf
+          image: audiobookshelf/audiobookshelf:latest
+          env:
+            - name: TZ
+              value: Asia/Almaty
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+
+          volumeMounts:
+            - name: audiobookshelf-data
+              mountPath: /config
+              subPath: shared/audiobookshelf/config
+            
+            - name: audiobookshelf-data
+              mountPath: /metadata
+              subPath: shared/audiobookshelf/metadata
+            
+            - name: audiobookshelf-data
+              mountPath: /podcasts
+              subPath: media/podcasts
+            
+            - name: audiobookshelf-data
+              mountPath: /audiobooks
+              subPath: media/audiobooks
+            
+      volumes:
+        - name: audiobookshelf-data
+          persistentVolumeClaim:
+            claimName: audiobookshelf-data-samba

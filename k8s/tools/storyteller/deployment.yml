@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storyteller
+  namespace: default
+  labels:
+    app: storyteller
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: storyteller
+  template:
+    metadata:
+      labels:
+        app: storyteller
+    spec:
+      containers:
+        - name: storyteller
+          image: storyteller/storyteller:latest
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: storyteller-data
+              mountPath: /data
+              subPath: shared/storyteller
+            - name: storyteller-data
+              mountPath: /library
+              subPath: media/books
+            - name: storyteller-data
+              mountPath: /media
+              subPath: media
+      volumes:
+        - name: storyteller-data
+          persistentVolumeClaim:
+            claimName: storyteller-data-samba

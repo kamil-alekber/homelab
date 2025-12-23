@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: audiobookshelf
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://audiobookshelf.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "AI-powered documentation assistant"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: mdi-file-document-multiple
+    gethomepage.dev/name: audiobookshelf
+    gethomepage.dev/pod-selector: "app=audiobookshelf"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`audiobookshelf.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: audiobookshelf-service
+          port: http
+  tls:
+    secretName: audiobookshelf-tls

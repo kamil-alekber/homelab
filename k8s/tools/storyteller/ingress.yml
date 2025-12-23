@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: storyteller
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://storyteller.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "AI-powered documentation assistant"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: mdi-file-document-multiple
+    gethomepage.dev/name: storyteller
+    gethomepage.dev/pod-selector: "app=storyteller"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`storyteller.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: storyteller-service
+          port: http
+  tls:
+    secretName: storyteller-tls

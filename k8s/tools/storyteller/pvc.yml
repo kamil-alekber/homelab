@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: storyteller-data-samba
+  namespace: default
+  labels:
+    app: storyteller
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: samba-storage
+  resources:
+    requests:
+      storage: 5Gi
