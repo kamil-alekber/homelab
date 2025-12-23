@@ -20,7 +20,10 @@ spec:
     spec:
       containers:
         - name: storyteller
-          image: storyteller/storyteller:latest
+          image: registry.gitlab.com/storyteller-platform/storyteller:latest
+          env:
+           - name: STORYTELLER_SECRET_KEY
+             value: 687213a0c9d5645936564519495c7adf
           ports:
             - name: http
               containerPort: 80

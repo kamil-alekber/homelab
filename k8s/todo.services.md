@@ -26,7 +26,7 @@ services:
     volumes:
       - ~/Documents/Storyteller:/data:rw
     environment:
-      - STORYTELLER_SECRET_KEY=$STORYTELLER_SECRET_KEY
+      - STORYTELLER_SECRET_KEY=687213a0c9d5645936564519495c7adf
     ports:
       - "8001:8001"
 ```

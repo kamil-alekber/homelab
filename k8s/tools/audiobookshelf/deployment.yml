@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: audiobookshelf
-          image: audiobookshelf/audiobookshelf:latest
+          image: ghcr.io/advplyr/audiobookshelf:latest
           env:
             - name: TZ
               value: Asia/Almaty
