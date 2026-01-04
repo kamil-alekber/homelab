@@ -21,6 +21,25 @@ spec:
       labels:
         app: olivetin
     spec:
+      initContainers:
+        - name: setup-ssh
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              mkdir -p /ssh-temp/.ssh
+              cp /ssh-keys/* /ssh-temp/.ssh/
+              chmod 700 /ssh-temp/.ssh
+              chmod 600 /ssh-temp/.ssh/id_rsa
+              chmod 644 /ssh-temp/.ssh/id_rsa.pub
+              chmod 644 /ssh-temp/.ssh/known_hosts
+          volumeMounts:
+            - name: ssh-keys
+              mountPath: /ssh-keys
+              readOnly: true
+            - name: ssh-keys-writable
+              mountPath: /ssh-temp
       containers:
         - name: olivetin
           image: docker.io/jamesread/olivetin:latest
@@ -28,10 +47,16 @@ spec:
             - name: http
               containerPort: 1337
               protocol: TCP
+          env:
+            - name: HOME
+              value: /home/olivetin
           volumeMounts:
             - name: olivetin-config
               mountPath: "/config"
               readOnly: true
+            - name: ssh-keys-writable
+              mountPath: /home/olivetin/.ssh
+              subPath: .ssh
           livenessProbe:
             httpGet:
               path: /
@@ -48,3 +73,9 @@ spec:
         - name: olivetin-config
           configMap:
             name: olivetin-config
+        - name: ssh-keys
+          secret:
+            secretName: olivetin-ssh-keys
+            defaultMode: 0600
+        - name: ssh-keys-writable
+          emptyDir: {}
