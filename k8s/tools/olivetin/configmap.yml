@@ -17,7 +17,7 @@ data:
         shell: kubectl get nodes
 
       - title: "Add Traefik Route"
-        shell: |-
+        exec: |-
           ssh root@192.168.8.213 "cat > /etc/traefik/confg.d/{{ serviceName }}.yaml" <<'EOF'
           http:
             routers:
