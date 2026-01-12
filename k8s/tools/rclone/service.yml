@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rclone
+  labels:
+    app: rclone
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5572
+      targetPort: rcd
+      protocol: TCP
+      name: rcd
+  selector:
+    app: rclone

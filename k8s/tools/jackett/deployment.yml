@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jackett
+  labels:
+    app: jackett
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jackett
+  template:
+    metadata:
+      labels:
+        app: jackett
+    spec:
+      containers:
+        - name: jackett
+          image: ghcr.io/hotio/jackett
+          ports:
+            - name: http
+              containerPort: 9117
+              protocol: TCP
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: UMASK
+              value: "002"
+            - name: TZ
+              value: "Asia/Almaty"
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              subPath: shared/jackett
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: jackett-config-pvc

@@ -1,0 +1,25 @@
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: rclone
+  namespace: default
+  annotations:
+    gethomepage.dev/href: "https://rclone.clusterlab.cc"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/description: "Rclone remote control daemon"
+    gethomepage.dev/group: Tools
+    gethomepage.dev/icon: rclone
+    gethomepage.dev/name: rclone
+    gethomepage.dev/pod-selector: "app=rclone"
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`rclone.clusterlab.cc`)
+      kind: Rule
+      services:
+        - name: rclone
+          port: rcd
+  tls:
+    secretName: rclone-tls

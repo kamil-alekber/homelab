@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rclone-config-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rclone-data-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+
+curl --location 'https://n8n.kalekber.cc/webhook/novelfire' --header 'Content-Type: application/json' --data '{  "book_name": "Kill the Sun",   "chapters_url": "https://novelfire.net/book/kill-the-sun/chapters?page=2"}'
