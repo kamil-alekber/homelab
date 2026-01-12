@@ -8,3 +8,4 @@ resources:
   - service.yml
   - tls.certificate.yml
   - ingress.yml
+  - ssh-secret.yml
