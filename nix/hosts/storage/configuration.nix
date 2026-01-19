@@ -74,6 +74,12 @@
 
 
   };
+  services.audiobookshelf = {
+    enable = true;
+    dataDir = "/var/lib/audiobookshelf";
+    listenPort = 8000;
+    host = '0.0.0.0';
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

@@ -58,6 +58,20 @@ actions:
         title: Workflow URL
         type: url
         default: 'http://192.168.8.100:5678/webhook/novelfire'
+  - title: Trigger Update Metadata Webhook
+    exec:
+      - /etc/OliveTin/scripts/trigger-update-metadata-webhook.sh
+      - '{{ bookId }}'
+      - '{{ metadataUrl }}'
+    arguments:
+      - name: bookId
+        title: Book ID from audiobookshelf
+        type: ascii_sentence
+        default: 'Kill the Sun'
+      - name: metadataUrl
+        title: Metadata URL
+        type: url
+        default: 'https://novelfire.net/book/kill-the-sun'
   # This is the most simple action, it just runs the command and flashes the
   # button to indicate status.
   #
