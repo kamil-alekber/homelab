@@ -33,11 +33,29 @@ actions:
       - name: chaptersUrl
         title: Chapters URL
         type: url
-        default: 'https://novelfire.net/book/kill-the-sun/chapters?page=2'
+        default: 'https://novelfire.net/book/kill-the-sun/chapters?page=7'
       - name: voice
-        title: Voice
-        type: ascii_identifier
-        default: 'female-en'
+        title: Voice for TTS
+        choices:
+          - title: '[EN] GLaDOS'
+            value: 'glados'
+          - title: '[EN] Unreal Tournament Announcer'
+            value: 'unreal'
+          - title: '[EN] The Demon Queen'
+            value: 'queen'
+          - title: '[EN] Calm, Priyanka'
+            value: 'priyanka'
+          - title: '[EN] Storyteller, Vincent'
+            value: 'vincent'
+          - title: '[EN] Elariel'
+            value: 'elariel'
+          - title: '[EN] Storyteller Oliver'
+            value: 'oliver'
+          - title: '[RU] TTS Voice, Alena'
+            value: 'alena'
+          - title: '[RU] Warm, Arcadays'
+            value: 'arcadays_warm'
+
       - name: exaggeration
         title: Exaggeration
         type: ascii_identifier
@@ -49,7 +67,7 @@ actions:
       - name: creativity
         title: Creativity
         type: ascii_identifier
-        default: 0.8
+        default: 0.1
       - name: outputExt
         title: Output Extension
         type: ascii_identifier
@@ -57,7 +75,7 @@ actions:
       - name: workflowUrl
         title: Workflow URL
         type: url
-        default: 'http://192.168.8.100:5678/webhook/novelfire'
+        default: 'http://192.168.8.100:5678/webhook/novelfire-v2'
   - title: Trigger Update Metadata Webhook
     exec:
       - /etc/OliveTin/scripts/trigger-update-metadata-webhook.sh
